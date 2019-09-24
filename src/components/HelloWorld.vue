@@ -1,58 +1,145 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <v-app id="keep">
+        <v-app-bar
+                app
+                clipped-left
+                color="amber"
+        >
+            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <span class="title ml-3 mr-5">Google&nbsp;<span class="font-weight-light">Keep</span></span>
+            <v-text-field
+                    solo-inverted
+                    flat
+                    hide-details
+                    label="Search"
+                    prepend-inner-icon="search"
+            ></v-text-field>
+            <div class="flex-grow-1"></div>
+        </v-app-bar>
+
+        <v-navigation-drawer
+                v-model="drawer"
+                app
+                clipped
+                color="grey lighten-4"
+        >
+            <v-list
+                    dense
+                    class="grey lighten-4"
+            >
+                <template v-for="(item, i) in items">
+                    <v-row
+                            v-if="item.heading"
+                            :key="i"
+                            align="center"
+                    >
+                        <v-col cols="6">
+                            <v-subheader v-if="item.heading">
+                                {{ item.heading }}
+                            </v-subheader>
+                        </v-col>
+                        <v-col
+                                cols="6"
+                                class="text-right"
+                        >
+                            <v-btn
+                                    small
+                                    text
+                            >edit</v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-divider
+                            v-else-if="item.divider"
+                            :key="i"
+                            dark
+                            class="my-4"
+                    ></v-divider>
+                    <v-list-item
+                            v-else
+                            :key="i"
+                            @click=""
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text">
+                                {{ item.text }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
+            </v-list>
+        </v-navigation-drawer>
+
+        <v-content>
+            <v-container
+                    fluid
+                    class="grey lighten-4 fill-height"
+            >
+                <v-row
+                        justify="center"
+                        align="center"
+                >
+                    <v-col class="shrink">
+                        <v-tooltip right>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                        :href="source"
+                                        icon
+                                        large
+                                        target="_blank"
+                                        v-on="on"
+                                >
+                                    <v-icon large>mdi-code-tags</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Source</span>
+                        </v-tooltip>
+                        <v-tooltip right>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                        icon
+                                        large
+                                        href="https://codepen.io/johnjleider/pen/zgxbYO"
+                                        target="_blank"
+                                        v-on="on"
+                                >
+                                    <v-icon large>mdi-codepen</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Codepen</span>
+                        </v-tooltip>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+    props: {
+        source: String,
+    },
+    data: () => ({
+        drawer: null,
+        items: [
+            { icon: 'lightbulb_outline', text: 'Notes' },
+            { icon: 'touch_app', text: 'Reminders' },
+            { divider: true },
+            { heading: 'Labels' },
+            { icon: 'add', text: 'Create new label' },
+            { divider: true },
+            { icon: 'archive', text: 'Archive' },
+            { icon: 'delete', text: 'Trash' },
+            { divider: true },
+            { icon: 'settings', text: 'Settings' },
+            { icon: 'chat_bubble', text: 'Trash' },
+            { icon: 'help', text: 'Help' },
+            { icon: 'phonelink', text: 'App downloads' },
+            { icon: 'keyboard', text: 'Keyboard shortcuts' },
+        ],
+    }),
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
