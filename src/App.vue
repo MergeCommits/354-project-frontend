@@ -1,11 +1,11 @@
 <template>
-    <v-app id="keep">
+    <v-app id="inspire">
         <v-app-bar
                 app
                 clipped-left
-                color="blue lighten-3">
+                :color="PRIMARY_COLOR">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <span class="title ml-3 mr-2" style="color:#424242">The Stars</span>
+            <span class="title ml-3 mr-2" style="color:white">The Stars</span>
             <v-icon color="orange lighten-1" large style="margin-right: 10px">fas fa-meteor</v-icon>
             <v-text-field
                     solo-inverted
@@ -21,17 +21,16 @@
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-menu bottom
-                    open-on-hover
                     origin="center center"
                     transition="scale-transition">
                 <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab text>
-                        <v-icon color="#424242" large>account_circle</v-icon>
+                        <v-icon color="white" large>account_circle</v-icon>
                     </v-btn>
                 </template>
 
                 <v-list dense class="grey lighten-4" rounded min-width="200">
-                    <v-list-item @click="">
+                    <v-list-item @click="wantsToLogin = true">
                         <v-list-item-action>
                             <v-icon>fas fa-sign-in-alt</v-icon>
                         </v-list-item-action>
@@ -124,7 +123,7 @@
                             </template>
 
                             <v-list dense class="grey lighten-4" rounded min-width="200">
-                                <v-list-item @click="">
+                                <v-list-item>
                                     <v-list-item-action>
                                         <v-icon>fas fa-sign-in-alt</v-icon>
                                     </v-list-item-action>
@@ -134,7 +133,7 @@
                                         </v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item @click="wantsToCreateAccount = true">
+                                <v-list-item>
                                     <v-list-item-action>
                                         <v-icon>far fa-user-circle</v-icon>
                                     </v-list-item-action>
@@ -155,7 +154,6 @@
                 <v-row v-if="categorySelected">
                     <v-layout justify-center>
                 <v-card color="red" height="50em" width="5000px">
-
                 </v-card>
                     </v-layout>
                 </v-row>
@@ -164,12 +162,16 @@
                 <account-creation v-on:goToMain="wantsToCreateAccount = false"
                                   v-if="wantsToCreateAccount"></account-creation>
             </v-dialog>
+            <v-dialog v-model="wantsToLogin" fullscreen>
+                <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"></login>
+            </v-dialog>
         </v-content>
     </v-app>
 </template>
 
 <script>
     import AccountCreation from "./components/AccountCreation"
+    import Login from "./components/Login"
     import Main from "./components/Main.vue"
     import Utilities from "./components/common/Utilities"
 
@@ -177,10 +179,12 @@
         mixins: [Utilities],
         components: {
             'account-creation': AccountCreation,
+            'login': Login,
             'main': Main
         },
         data: () => ({
             wantsToCreateAccount: false,
+            wantsToLogin: false,
             categorySelected: false,
             drawer: false,
             items: [
@@ -199,3 +203,9 @@
         }),
     };
 </script>
+
+<style scoped>
+    #inspire {
+        font-family: 'Roboto', sans-serif;
+    }
+</style>

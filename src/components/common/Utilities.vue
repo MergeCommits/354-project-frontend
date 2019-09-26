@@ -5,7 +5,7 @@
     export default {
         name: "Utilities",
         data: () => ({
-          PRIMARY_COLOR: 'blue lighten-3',
+          PRIMARY_COLOR: 'teal darken-1',
             ACCENT_COLOR: 'orange lighten-1'
         })
     }
