@@ -1,4 +1,5 @@
 # Declare files that will always have LF line endings on checkout.
+# Except .txt files cause Windows notepad.
 *.vue text eol=lf
 *.js text eol=lf
-*.txt text eol=crlf # Except .txt files cause Windows notepad.
+*.txt text eol=crlf
