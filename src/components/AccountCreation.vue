@@ -48,13 +48,13 @@
                         <v-col class="fill-height">
                             <v-row>
                                 <v-layout style="margin-top: 10%" pt-5 justify-center>
-                                    <v-icon style="font-size: 250px" :color="ACCENT_COLOR">blur_on</v-icon>
+                                    <v-icon style="font-size: 250px" :color="ACCENT_COLOR">fas fa-meteor</v-icon>
                                 </v-layout>
                             </v-row>
                             <v-row>
                                 <v-layout pt-4 justify-center>
                                             <span style="font-size: 20px" class="font-weight-light">
-                                                Everything you can imagine.
+                                                Wonders from the stars.
                                             </span>
                                 </v-layout>
                             </v-row>
