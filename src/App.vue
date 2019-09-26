@@ -71,10 +71,11 @@
                             </v-subheader>
                         </v-col>
                     </v-row>
-                    <v-divider
+                    <v-divider v-bind:key="item"
                             v-else-if="item.divider"
                             dark
-                            class="my-4"></v-divider>
+                            class="my-4">
+                    </v-divider>
                     <v-list-item
                             v-else
                             :key="i"
