@@ -1,4 +1,4 @@
-Copyright (c) 2019 Olivier {YOUR LAST NAME HERE}, Mark Jarjour
+Copyright (c) 2019 Olivier Fradette-Roy, Mark Jarjour
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
