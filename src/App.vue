@@ -72,10 +72,11 @@
                             </v-subheader>
                         </v-col>
                     </v-row>
-                    <v-divider
+                    <v-divider v-bind:key="item"
                             v-else-if="item.divider"
                             dark
-                            class="my-4"></v-divider>
+                            class="my-4">
+                    </v-divider>
                     <v-list-item
                             v-else
                             :key="i"
@@ -154,9 +155,9 @@
                 </v-row>
                 <v-row v-if="categorySelected">
                     <v-layout justify-center>
-                <v-card color="red" height="50em" width="5000px">
+                        <v-card color="red" height="50em" width="5000px">
 
-                </v-card>
+                        </v-card>
                     </v-layout>
                 </v-row>
             </v-card>
