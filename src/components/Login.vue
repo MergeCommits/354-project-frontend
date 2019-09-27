@@ -9,11 +9,11 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="92%" width="30%">
+                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%">
                         <v-container>
                             <v-row style="padding-top: 1%;">
                                 <v-layout justify-center pt-1>
-                                    <span style="font-size: 15px !important;" class="headline font-weight-medium">Log in to your Star account</span>
+                                    <span style="font-size: 15px !important;  color:#616161" class="title font-weight-medium">Log in to your Star account</span>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
@@ -39,11 +39,27 @@
                                 </v-col>
                             </v-row>
                             <v-row>
+                                <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
+                                   <span style="font-size: 13px; color: #616161" class="font-weight-medium">
+                                           Or
+                                    </span>
+                                </v-layout>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
+                                    <v-btn block :color="ACCENT_COLOR" dark outlined @click="goToMain()">
+                                        Browser anonymously
+                                    </v-btn>
+                                </v-layout>
+                                </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-layout pt-3 justify-center style="margin-right: 9%; margin-left: 9%">
                                     <span style="font-size: 13px;margin-left: 1%" class="font-weight-light">
                                            Can't login ?
                                     </span>
-                                    <span style="font-size: 13px;margin-left: 4%" class="font-weight-light">
+                                    <span style="font-size: 13px;margin-left: 6%" class="font-weight-light">
                                            Sign up for an account
                                     </span>
                                 </v-layout>

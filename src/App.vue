@@ -185,7 +185,7 @@
         },
         data: () => ({
             wantsToCreateAccount: false,
-            wantsToLogin: false,
+            wantsToLogin: true,
             categorySelected: false,
             drawer: false,
             items: [
