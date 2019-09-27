@@ -12,15 +12,15 @@
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%">
                                 <v-col>
-                                    <v-text-field :color="ACCENT_COLOR" outlined label="First name"></v-text-field>
+                                    <v-text-field v-model="firstName" :color="ACCENT_COLOR" outlined label="First name"></v-text-field>
                                 </v-col>
                                 <v-col>
-                                    <v-text-field :color="ACCENT_COLOR" outlined label="Last name"></v-text-field>
+                                    <v-text-field v-model="lastName" :color="ACCENT_COLOR" outlined label="Last name"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                                 <v-col>
-                                    <v-text-field :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
+                                    <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
@@ -29,10 +29,11 @@
                                                   append-icon="lock"
                                                   type="password"
                                                   :color="ACCENT_COLOR"
+                                                  v-model="password"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
                                     <span style="font-size: 13px;margin-left: 1%" class="font-weight-light">
-                                            You must use height characters with letters, numbers and symbols
+                                            You must use eight characters with letters, numbers and symbols
                                     </span>
                                 </v-col>
                             </v-row>
@@ -40,7 +41,8 @@
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 7%">
                                         <v-btn style="margin-right: 5%" @click="goToMain()">Cancel</v-btn>
-                                        <v-btn color="grey darken-1" dark @click="goToMain()">Create</v-btn>
+                                        <v-btn v-if="!this.isFormValid" color="grey darken-1" dark @click="goToMain()">Create</v-btn>
+                                        <v-btn v-else :color="ACCENT_COLOR" dark @click="goToMain()">Create</v-btn>
                                     </v-layout>
                                 </v-col>
                             </v-row>
@@ -72,11 +74,21 @@
             name: 'AccountCreation',
         },
         mixins: [Utilities],
-        data: () => ({}),
+        data: () => ({
+            firstName: null,
+            lastName: null,
+            email: null,
+            password: null
+        }),
         methods: {
             goToMain(){
                 this.$emit('goToMain', true);
             }
+        },
+        computed: {
+          isFormValid(){
+                return this.firstName && this.lastName && this.email && this.password
+          }
         }
     };
 </script>

@@ -41,7 +41,7 @@
                             <v-row>
                                 <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
                                    <span style="font-size: 13px; color: #616161" class="font-weight-medium">
-                                           Or
+                                           OR
                                     </span>
                                 </v-layout>
                             </v-row>

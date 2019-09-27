@@ -5,17 +5,21 @@
                 clipped-left
                 :color="PRIMARY_COLOR">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <span class="title ml-3 mr-2" style="color:white">The Stars</span>
-            <v-icon color="orange lighten-1" large style="margin-right: 10px">fas fa-meteor</v-icon>
+            <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
+            <span class="title ml-4 mr-3" style="color:white">The Stars</span>
             <v-text-field
                     solo-inverted
                     color="white"
+                    style="margin-left: 20px"
+                    :background-color="searchColor"
                     flat
                     rounded
                     hide-details
                     label="Search"
-                    prepend-inner-icon="search"
-            ></v-text-field>
+                    @focus="isSearchActive = true"
+                    @blur="isSearchActive = false"
+                    prepend-inner-icon="search">
+            </v-text-field>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
@@ -54,32 +58,18 @@
             </v-menu>
         </v-app-bar>
 
-        <v-navigation-drawer
-                v-model="drawer"
-                app
-                clipped
-                color="grey lighten-4">
+        <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
             <v-list dense class="grey lighten-4" shaped>
                 <template v-for="(item, i) in items">
-                    <v-row
-                            v-if="item.heading"
-                            :key="i"
-                            align="center">
+                    <v-row v-if="item.heading" align="center">
                         <v-col cols="6">
                             <v-subheader v-if="item.heading">
                                 {{ item.heading }}
                             </v-subheader>
                         </v-col>
                     </v-row>
-                    <v-divider v-bind:key="item"
-                            v-else-if="item.divider"
-                            dark
-                            class="my-4">
-                    </v-divider>
-                    <v-list-item
-                            v-else
-                            :key="i"
-                            @click="">
+                    <v-divider v-else-if="item.divider" dark class="my-4"></v-divider>
+                    <v-list-item v-else>
                         <v-list-item-action>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-item-action>
@@ -187,6 +177,7 @@
             wantsToCreateAccount: false,
             wantsToLogin: true,
             categorySelected: false,
+            isSearchActive: false,
             drawer: false,
             items: [
                 {icon: 'lightbulb_outline', text: 'Layout'},
@@ -202,6 +193,11 @@
 
             ],
         }),
+        computed: {
+            searchColor(){
+                return this.isSearchActive ? this.ACCENT_COLOR : null
+            }
+        }
     };
 </script>
 
