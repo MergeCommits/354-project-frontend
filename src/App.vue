@@ -152,7 +152,9 @@
                                   v-if="wantsToCreateAccount"></account-creation>
             </v-dialog>
             <v-dialog v-model="wantsToLogin" fullscreen>
-                <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"></login>
+                <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"
+                        v-on:goToFormCreation="wantsToCreateAccount=true; wantsToLogin=false; ">
+                </login>
             </v-dialog>
           </v-container>
         </v-content>

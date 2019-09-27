@@ -56,10 +56,12 @@
                             </v-row>
                             <v-row>
                                 <v-layout pt-3 justify-center style="margin-right: 9%; margin-left: 9%">
-                                    <span style="font-size: 13px;margin-left: 1%" class="font-weight-light">
+                                    <span style="font-size: 13px;margin-left: 1%" class="font-weight-light appLink">
                                            Can't login ?
                                     </span>
-                                    <span style="font-size: 13px;margin-left: 6%" class="font-weight-light">
+                                    <span style="font-size: 13px;margin-left: 6%"
+                                          class="font-weight-light appLink"
+                                            @click="goToFormCreation()">
                                            Sign up for an account
                                     </span>
                                 </v-layout>
@@ -82,6 +84,9 @@
         methods: {
             goToMain() {
                 this.$emit('goToMain', true);
+            },
+            goToFormCreation() {
+                this.$emit('goToFormCreation', true);
             }
         }
 
@@ -89,5 +94,7 @@
 </script>
 
 <style scoped>
-
+        .appLink:hover{
+            color:#FF8F00
+        }
 </style>
