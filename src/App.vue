@@ -89,9 +89,9 @@
                     </v-col>
                     <v-col>
                     <v-layout justify-center>
-                        <v-btn large text @click="categorySelected = !categorySelected">
-                            <span>Recents</span>
-                            <v-icon>mdi-history</v-icon>
+                        <v-btn large :color="ACCENT_COLOR" dark depressed @click="categorySelected = !categorySelected">
+                            <span style="margin-right: 5px">Popular</span>
+                            <v-icon>fab fa-hotjar</v-icon>
                         </v-btn>
 
                         <v-btn text large>
@@ -142,13 +142,11 @@
 
                     </v-col>
                 </v-row>
-                <v-row v-if="categorySelected">
-                    <v-layout justify-center>
-                <v-card color="red" height="50em" width="5000px">
-                </v-card>
-                    </v-layout>
-                </v-row>
             </v-card>
+          <v-container>
+            <v-row>
+                <main-page></main-page>
+            </v-row>
             <v-dialog v-model="wantsToCreateAccount" fullscreen>
                 <account-creation v-on:goToMain="wantsToCreateAccount = false"
                                   v-if="wantsToCreateAccount"></account-creation>
@@ -156,6 +154,7 @@
             <v-dialog v-model="wantsToLogin" fullscreen>
                 <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"></login>
             </v-dialog>
+          </v-container>
         </v-content>
     </v-app>
 </template>
@@ -163,7 +162,7 @@
 <script>
     import AccountCreation from "./components/AccountCreation"
     import Login from "./components/Login"
-    import Main from "./components/Main.vue"
+    import Main from "./components/Main"
     import Utilities from "./components/common/Utilities"
 
     export default {
@@ -171,7 +170,7 @@
         components: {
             'account-creation': AccountCreation,
             'login': Login,
-            'main': Main
+            'main-page': Main
         },
         data: () => ({
             wantsToCreateAccount: false,
