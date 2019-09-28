@@ -4,7 +4,6 @@
             <v-row>
                 <v-layout justify-center pt-3>
                     <v-icon color="white" style="font-size: 60px; margin-right: 10px">fas fa-meteor</v-icon>
-
                 </v-layout>
             </v-row>
             <v-row>
@@ -24,8 +23,9 @@
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                                 <v-col>
                                     <v-text-field outlined label="Password"
-                                                  append-icon="lock"
-                                                  type="password"
+                                                  :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
+                                                  :type="pwVisible ? 'text' : 'password'"
+                                                  @click:append="pwVisible = !pwVisible"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
@@ -47,11 +47,11 @@
                             </v-row>
                             <v-row>
                                 <v-col>
-                                <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
-                                    <v-btn block :color="ACCENT_COLOR" dark outlined @click="goToMain()">
-                                        Browser anonymously
-                                    </v-btn>
-                                </v-layout>
+                                    <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
+                                        <v-btn block :color="ACCENT_COLOR" dark outlined @click="goToMain()">
+                                             {{BROWSE_ANON}}
+                                        </v-btn>
+                                    </v-layout>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -62,7 +62,7 @@
                                     <span style="font-size: 13px;margin-left: 6%"
                                           class="font-weight-light appLink"
                                             @click="goToFormCreation()">
-                                           Sign up for an account
+                                           {{ACC_SIGN_UP}}
                                     </span>
                                 </v-layout>
                             </v-row>
@@ -76,11 +76,14 @@
 
 <script>
     import Utilities from "./common/Utilities.vue"
+    import EN_Local from "./common/English.vue"
 
     export default {
         name: "Login",
-        mixins: [Utilities],
-        data: () => ({}),
+        mixins: [Utilities, EN_Local],
+        data: () => ({
+            pwVisible: false,
+        }),
         methods: {
             goToMain() {
                 this.$emit('goToMain', true);
@@ -94,7 +97,7 @@
 </script>
 
 <style scoped>
-        .appLink:hover{
-            color:#FF8F00
-        }
+.appLink:hover{
+    color:#FF8F00
+}
 </style>
