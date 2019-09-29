@@ -22,18 +22,28 @@
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                             <v-col>
-                                <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
+                                <v-text-field v-model="username" :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                            <v-col>
+                                <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"
+                                              :rules="[emailRules.required, emailRules.validContent]"
+                                                validate-on-blur>
+                                </v-text-field>
                             </v-col>
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                             <v-col>
                                 <v-text-field outlined label="Password"
+                                              validate-on-blur
                                                 :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                 :type="pwVisible ? 'text' : 'password'"
                                                  @click:append="pwVisible = !pwVisible"
                                                 :color="ACCENT_COLOR"
                                                 v-model="password"
-                                                :rules="[pwRules.required, pwRules.min]">
+                                                :rules="[passwordRules.required, passwordRules.min, passwordRules.validContent]"
+                                                style="margin-bottom: -30px">
                                 </v-text-field>
                                 <span style="font-size: 13px; margin-left: 1%" class="font-weight-light">
                                         You must use eight characters with letters, numbers and symbols
@@ -71,6 +81,9 @@
 </template>
 
 <script>
+    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+
     import Utilities from "./common/Utilities.vue"
     export default {
         props: {
@@ -81,13 +94,18 @@
             firstName: null,
             lastName: null,
             email: null,
-
+            username: null,
             password: null,
             pwVisible: false,
-            pwRules: {
-                required: value => !!value || "Required field!",
-                min: v => v.length >= 8 || "A minimum of 8 characters is required.",
+            passwordRules: {
+                required: value => !!value || "A password is required.",
+                min: v => (v && v.length >= 8) || "A minimum of 8 characters is required.",
+                validContent: v => PASSWORD_PATTERN.test(v) || "Password content is not valid.",
             },
+            emailRules: {
+                required: value => !!value || "An email is required.",
+                validContent: v => EMAIL_PATTERN.test(v) || "Email is not valid.",
+            }
         }),
         methods: {
             goToMain() {

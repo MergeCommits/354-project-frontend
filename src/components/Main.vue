@@ -1,6 +1,6 @@
 <template>
     <div>
-    <v-card style="padding: 10px" min-height="fit-content">
+    <v-card style="padding: 10px" flat outlined min-height="fit-content">
         <v-row>
             <v-col>
             </v-col>

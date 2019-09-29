@@ -6,7 +6,7 @@
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: 'teal darken-1',
-            ACCENT_COLOR: 'amber darken-3'
+            ACCENT_COLOR: '#FF8F00'
         })
     }
 </script>
