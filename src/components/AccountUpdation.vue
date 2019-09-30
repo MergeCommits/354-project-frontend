@@ -7,42 +7,46 @@
                         <v-layout style="border-right: solid grey 1px;">
                             <v-list>
                                 <span class="title font-weight-medium" style="color:#616161">Account settings</span>
-                                <v-list-item @click="" style="margin-top: 10px; border-left: solid #FF8F00">
+                                <v-list-item @click="menuPosition = 'editProfile'" style="margin-top: 10px;"
+                                             v-bind:class="{ activeListItem: isMenuComponentActive('editProfile') }">
                                     <v-list-item-action>
-                                        <v-icon>edit</v-icon>
+                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('editProfile') }">edit</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title class="grey--text">
+                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('editProfile') }">
                                             Edit profile
                                         </v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item @click="">
+                                <v-list-item @click="menuPosition = 'managePassword'"
+                                             v-bind:class="{ activeListItem: isMenuComponentActive('managePassword') }">
                                     <v-list-item-action>
-                                        <v-icon>far fa-user-circle</v-icon>
+                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('managePassword') }">far fa-user-circle</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title class="grey--text">
+                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('managePassword') }">
                                             Manage password
                                         </v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item @click="">
+                                <v-list-item @click="menuPosition = 'security'"
+                                             v-bind:class="{ activeListItem: isMenuComponentActive('security') }">
                                     <v-list-item-action>
-                                        <v-icon>security</v-icon>
+                                        <v-icon  v-bind:class="{ activeText: isMenuComponentActive('security') }">security</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title class="grey--text">
+                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('security') }">
                                             Security
                                         </v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item @click="">
+                                <v-list-item @click="menuPosition = 'about'"
+                                             v-bind:class="{ activeListItem: isMenuComponentActive('about') }">
                                     <v-list-item-action>
-                                        <v-icon>info</v-icon>
+                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('about')}">info</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title class="grey--text">
+                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('about')}">
                                             About
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -62,11 +66,27 @@
 </template>
 
 <script>
+    import Utilities from "./common/Utilities"
+
     export default {
-        name: "AccountUpdation"
+        name: "AccountUpdation",
+        mixins:[Utilities],
+        data: () => ({
+            menuPosition: 'editProfile'
+        }),
+        methods: {
+            isMenuComponentActive(position){
+                return this.menuPosition === position;
+            }
+        }
     }
 </script>
 
-<style scoped>
-
+<style>
+    .activeText{
+        color: #FF8F00 !important;
+    }
+    .activeListItem {
+        border-left: solid #FF8F00 !important;
+    }
 </style>
