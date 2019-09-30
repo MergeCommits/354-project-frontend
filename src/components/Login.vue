@@ -49,7 +49,7 @@
                                 <v-col>
                                     <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
                                         <v-btn block :color="ACCENT_COLOR" dark outlined @click="goToMain()">
-                                             {{BROWSE_ANON}}
+                                            Browse anonymously
                                         </v-btn>
                                     </v-layout>
                                 </v-col>
@@ -62,7 +62,7 @@
                                     <span style="font-size: 13px;margin-left: 6%"
                                           class="font-weight-light appLink"
                                             @click="goToFormCreation()">
-                                           {{ACC_SIGN_UP}}
+                                           Sign up for an account
                                     </span>
                                 </v-layout>
                             </v-row>
@@ -76,11 +76,10 @@
 
 <script>
     import Utilities from "./common/Utilities.vue"
-    import EN_Local from "./common/English.vue"
 
     export default {
         name: "Login",
-        mixins: [Utilities, EN_Local],
+        mixins: [Utilities],
         data: () => ({
             pwVisible: false,
         }),

@@ -10,10 +10,10 @@
                                 <v-list-item @click="menuPosition = 'editProfile'" style="margin-top: 10px;"
                                              v-bind:class="{ activeListItem: isMenuComponentActive('editProfile') }">
                                     <v-list-item-action>
-                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('editProfile') }">edit</v-icon>
+                                        <v-icon>edit</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('editProfile') }">
+                                        <v-list-item-title>
                                             Edit profile
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -21,10 +21,10 @@
                                 <v-list-item @click="menuPosition = 'managePassword'"
                                              v-bind:class="{ activeListItem: isMenuComponentActive('managePassword') }">
                                     <v-list-item-action>
-                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('managePassword') }">far fa-user-circle</v-icon>
+                                        <v-icon>far fa-user-circle</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('managePassword') }">
+                                        <v-list-item-title>
                                             Manage password
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -32,10 +32,10 @@
                                 <v-list-item @click="menuPosition = 'security'"
                                              v-bind:class="{ activeListItem: isMenuComponentActive('security') }">
                                     <v-list-item-action>
-                                        <v-icon  v-bind:class="{ activeText: isMenuComponentActive('security') }">security</v-icon>
+                                        <v-icon>security</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('security') }">
+                                        <v-list-item-title>
                                             Security
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -43,10 +43,10 @@
                                 <v-list-item @click="menuPosition = 'about'"
                                              v-bind:class="{ activeListItem: isMenuComponentActive('about') }">
                                     <v-list-item-action>
-                                        <v-icon v-bind:class="{ activeText: isMenuComponentActive('about')}">info</v-icon>
+                                        <v-icon>info</v-icon>
                                     </v-list-item-action>
                                     <v-list-item-content>
-                                        <v-list-item-title v-bind:class="{ activeText: isMenuComponentActive('about')}">
+                                        <v-list-item-title>
                                             About
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -83,10 +83,11 @@
 </script>
 
 <style>
-    .activeText{
-        color: #FF8F00 !important;
-    }
     .activeListItem {
-        border-left: solid #FF8F00 !important;
+        border-left: solid #FF8F00;
+    }
+
+    .activeListItem .v-list-item__title, .activeListItem .v-list-item__action .v-icon {
+        color: #FF8F00;
     }
 </style>
