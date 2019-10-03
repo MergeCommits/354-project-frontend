@@ -6,7 +6,7 @@
                 :color="PRIMARY_COLOR">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
-            <span class="title ml-4 mr-3" style="color:white">The Stars</span>
+            <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
             <v-text-field
                     solo-inverted
                     color="white"
