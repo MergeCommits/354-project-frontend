@@ -96,17 +96,46 @@
                     <v-container>
                         <v-row>
                             <v-col>
-                                <v-layout fill-height justify-start>
+                                <v-layout fill-height justify-start style="margin-top: -46px">
                                     <span>Filters menu</span>
                                 </v-layout>
                             </v-col>
-                            <v-col style="border-left: solid grey 1px; border-right: solid grey 1px; min-width: 70%; min-height: 40em!important;">
-                                <v-layout justify-center>
-                                    Items
+                            <v-col style="min-width: 70%; min-height: 40em!important; margin-top: -56px">
+                                <v-layout justify-center v-for="item in items" >
+                                    <v-card :color="itemCardColor(item)" @mouseover="hoverItem = item " @mouseleave="hoverItem = null"
+                                            outlined width="100%" height="10em" hover
+                                            style="border-bottom: solid #E0E0E0 1px!important;
+                                                   border-left: solid #E0E0E0 1px!important;
+                                                   border-right: solid #E0E0E0 1px!important;">
+                                        <v-row>
+                                            <v-col style="max-width:20% !important;">
+                                                <v-img class="white--text"
+                                                       style="border-radius: 50%; margin-left: 8.5%; margin-top: 4px"
+                                                       height="125px"
+                                                       width="125px"
+                                                       :src="item.imageUrl">
+                                                </v-img>
+                                            </v-col>
+                                            <v-col>
+                                                <v-layout pt-1>
+                                                    <span class="headline" style="font-size: 17px!important;">{{item.title}}</span>
+                                                </v-layout>
+                                                <v-layout pt-2>
+                                                    <span class="headline font-weight-bold" style="font-size: 19px!important; color:#FF8F00">{{item.price}}$</span>
+                                                </v-layout>
+                                                <v-layout v-if="hoverItem && hoverItem.name === item.name" style="margin-left: 72%; margin-top: 5%">
+                                                    <v-btn text small depressed :color="PRIMARY_COLOR">View listing details</v-btn>
+                                                    <v-icon style="margin-left: -10px; font-size: 12px!important;" :color="PRIMARY_COLOR">arrow_forward_ios</v-icon>
+                                                </v-layout>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card>
                                 </v-layout>
                             </v-col>
                             <v-col>
-
+                                <v-layout fill-height justify-end style="margin-top: -46px">
+                                    <span>Publicities</span>
+                                </v-layout>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -124,6 +153,7 @@
         data: () => ({
             categorySelected: false,
             selectedCategory: null,
+            hoverItem: null,
             categories: [
                 {name: 'Cars', imageUrl: 'https://picsum.photos/id/1013/500'},
                 {name: 'Sports', imageUrl: 'https://picsum.photos/id/1016/500'},
@@ -134,9 +164,24 @@
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1033/500'},
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1038/500'},
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1026/500'}
+            ],
+            items: [
+                {price: 325, name: 'Cars', imageUrl: 'https://picsum.photos/id/1013/500', title: 'Tufoil Lubit 8 Lubit-8 with PTFE - "It takes few drops" Oil Lock Pen Stylo'},
+                {price: 3,name: 'Sports', imageUrl: 'https://picsum.photos/id/1016/500', title: 'Few Days Left - Scorpio The Man Myth Legend Gildan Hoodie Sweatshirt'},
+                {price: 435,name: 'Kitchen', imageUrl: 'https://picsum.photos/id/1055/500', title: 'Come Back in a Few Beers Patch Beer Iron to Sew on Patch Badge'},
+                {price: 354,name: 'Drugs1', imageUrl: 'https://picsum.photos/id/1024/500', title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few'},
+                {price: 99,name: 'Drugs2', imageUrl: 'https://picsum.photos/id/1029/500', title: 'Antminer A3 Very few hours used.'},
+                {price: 27,name: 'Drugs3', imageUrl: 'https://picsum.photos/id/103/500', title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW'},
+                {price: 12,name: 'Drugs4', imageUrl: 'https://picsum.photos/id/1033/500', title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD'},
+                {price: 2344,name: 'Drugs5', imageUrl: 'https://picsum.photos/id/1038/500', title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS'},
+                {price: 101,name: 'Drugs6', imageUrl: 'https://picsum.photos/id/1026/500', title: '1951 $1.00 MS-63 FEW TONED'}
             ]
         }),
-        methods: {}
+        methods: {
+            itemCardColor(item){
+                return this.hoverItem && item.name === this.hoverItem.name ? 'grey lighten-3' : 'white';
+            }
+        }
     }
 </script>
 
