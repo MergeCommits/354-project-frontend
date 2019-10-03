@@ -74,6 +74,8 @@
                     </v-layout>
                 </v-col>
                 <v-col>
+                    <v-layout justify-end pr-4>
+                    </v-layout>
                 </v-col>
             </v-row>
         </v-card>
@@ -134,13 +136,20 @@
                             </v-col>
                             <v-col>
                                 <v-layout fill-height justify-end style="margin-top: -46px">
-                                    <span>Publicities</span>
+
                                 </v-layout>
                             </v-col>
                         </v-row>
                     </v-container>
                 </v-layout>
             </v-row>
+            <v-fab-transition>
+                <v-btn :color="PRIMARY_COLOR"
+                       dark fab large
+                       style="position: fixed; bottom: 25px; right: 25px;">
+                    <v-icon large>post_add</v-icon>
+                </v-btn>
+            </v-fab-transition>
         </v-container>
     </div>
 </template>

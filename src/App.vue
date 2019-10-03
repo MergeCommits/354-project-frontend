@@ -58,7 +58,7 @@
             </v-menu>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
+        <v-navigation-drawer v-model="drawer" mini app clipped color="grey lighten-4">
             <v-list dense class="grey lighten-4" shaped>
                 <v-list-item @click="menuPosition='main'">
                     <v-list-item-action>
