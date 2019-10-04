@@ -171,10 +171,10 @@
                                                         </v-layout>
                                                         <v-layout pt-2>
                                                             <span class="headline font-weight-regular" style="font-size: 20px!important;">Status: </span>
-                                                            <span class="headline font-weight-light" style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
+                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
                                                         </v-layout>
-                                                        <v-layout justify-center >
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Description: <span class="headline font-weight-light" style="font-size: 15px!important;margin-left: 5px"> {{hoverItem.title}} </span></span>
+                                                        <v-layout justify-center pt-2>
+                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Description: <span class="headline font-weight-light" style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
                                                         </v-layout>
                                                     </v-col>
                                                 </v-row>
@@ -185,13 +185,18 @@
                                                 </v-row>
                                                 <v-row>
                                                     <v-layout justify-center style="margin-left: 10%; margin-right: 10%" pt-5>
-                                                        <v-btn  :color="ACCENT_COLOR" dark block> Buy now</v-btn>
+                                                        <v-btn  :color="ACCENT_COLOR" dark block>
+                                                            <v-icon color="white" style="margin-right: 5px">play_arrow</v-icon>
+                                                            Buy now
+                                                        </v-btn>
                                                     </v-layout>
                                                 </v-row>
 
                                                 <v-row>
                                                     <v-layout justify-center style="margin-left: 10%; margin-right: 10%" pt-3>
-                                                        <v-btn block  :color="ACCENT_COLOR" dark outlined> Add to cart</v-btn>
+                                                        <v-btn block  :color="ACCENT_COLOR" dark outlined>
+                                                            <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
+                                                            Add to cart</v-btn>
                                                     </v-layout>
                                                 </v-row>
                                             </v-container>
