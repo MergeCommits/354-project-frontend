@@ -70,7 +70,7 @@
                 <v-col>
                     <v-layout justify-center>
                         <v-icon large :color="ACCENT_COLOR">fab fa-hotjar</v-icon>
-                        <span class="headline" style="margin-left: 7px; margin-top: 5px"> Top 10 {{selectedCategory.name}} Items</span>
+                        <span class="headline  font-weight-regular" style="margin-left: 7px; margin-top: 5px; color:#424242"> Top 10 {{selectedCategory.name}} Items</span>
                     </v-layout>
                 </v-col>
                 <v-col>
@@ -89,7 +89,7 @@
                         <v-img class="white--text"
                                height="200px"
                                :src="category.imageUrl">
-                            <v-card-title class="align-end fill-height">Top 10 {{category.name}}</v-card-title>
+                            <v-card-title class="align-end fill-height font-weight-regular">Top 10 {{category.name}}</v-card-title>
                         </v-img>
 
                     </v-card>
@@ -120,7 +120,7 @@
                                             </v-col>
                                             <v-col>
                                                 <v-layout pt-1>
-                                                    <span class="headline" style="font-size: 17px!important;">{{item.title}}</span>
+                                                    <span class="headline font-weight-light" style="font-size: 17px!important;">{{item.title}}</span>
                                                 </v-layout>
                                                 <v-layout pt-2>
                                                     <span class="headline font-weight-bold" style="font-size: 19px!important; color:#FF8F00">{{item.price}}$</span>
