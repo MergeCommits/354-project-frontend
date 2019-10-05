@@ -202,7 +202,8 @@
                                                     <v-layout justify-center style="margin-left: 15%; margin-right: 15%" pt-3 pb-3>
                                                         <v-btn block :color="ACCENT_COLOR" dark outlined>
                                                             <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                            Add to cart</v-btn>
+                                                             Add to cart
+                                                        </v-btn>
                                                     </v-layout>
                                                 </v-row>
                                                 </v-card>
