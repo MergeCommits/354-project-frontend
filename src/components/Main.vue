@@ -102,7 +102,12 @@
                         <v-row>
                             <v-col style="max-width: 10%; margin-left: -5%">
                                 <v-layout fill-height justify-start style="margin-top: -46px">
-                                    <span>Filters menu</span>
+                                    <v-card flat outlined
+                                            style="border-radius:5px; min-height: 38em!important; min-width: 220%; margin-left: -120%; margin-bottom: 11px; padding: 10px">
+                                           <v-layout justify-center>
+                                               <span class="headline font-weight-regular"style="color:#424242">Filters</span>
+                                           </v-layout>
+                                    </v-card>
                                 </v-layout>
                             </v-col>
                             <v-col style="min-width: 58%; min-height: 40em!important; margin-top: -56px">
@@ -144,7 +149,7 @@
                             </v-col>
                             <v-col >
                                 <v-layout style="margin-top: -43px; height: 98%; margin-right: -50%" v-if="hoverItem">
-                                        <v-card style="width: 90%; padding:10px; border-radius: 10px" elevation="3">
+                                        <v-card style="width: 90%; padding:10px; border-radius: 10px" flat outlined>
                                             <v-container>
                                                 <v-row>
                                                     <v-layout justify-center class="ml-2">
@@ -178,13 +183,14 @@
                                                         </v-layout>
                                                     </v-col>
                                                 </v-row>
-                                                <v-row style="min-height: 170px!important;">
-                                                    <v-layout justify-center style="margin-left: 10%; margin-right: 10%" pt-5>
-                                                        <span class="headline font-weight-light" style="font-size: 20px!important;">Information on seller</span>
+                                                <v-card flat outlined rounded style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 20px">
+                                                <v-row>
+                                                    <v-layout justify-center style="margin-left: 25%; margin-right: 25%" pt-3>
+                                                        <v-combobox solo rounded :color="ACCENT_COLOR" outlined dense label="Quantity" ></v-combobox>
                                                     </v-layout>
                                                 </v-row>
                                                 <v-row>
-                                                    <v-layout justify-center style="margin-left: 10%; margin-right: 10%" pt-5>
+                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%">
                                                         <v-btn  :color="ACCENT_COLOR" dark block>
                                                             <v-icon color="white" style="margin-right: 5px">play_arrow</v-icon>
                                                             Buy now
@@ -193,12 +199,13 @@
                                                 </v-row>
 
                                                 <v-row>
-                                                    <v-layout justify-center style="margin-left: 10%; margin-right: 10%" pt-3>
-                                                        <v-btn block  :color="ACCENT_COLOR" dark outlined>
+                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%" pt-3 pb-3>
+                                                        <v-btn block :color="ACCENT_COLOR" dark outlined>
                                                             <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
                                                             Add to cart</v-btn>
                                                     </v-layout>
                                                 </v-row>
+                                                </v-card>
                                             </v-container>
                                         </v-card>
                                 </v-layout>
