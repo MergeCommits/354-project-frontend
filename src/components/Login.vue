@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00897B">
+    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00838F">
         <v-container>
             <v-row>
                 <v-layout justify-center pt-3>

@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00897B">
+    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00838F">
         <v-card style="margin-top: 5%; border-radius: 15px" height="70%" width="70%">
             <!-- TODO: Turn this into a v-form to add validation. -->
             <!-- TODO: Move text to localization file. -->
