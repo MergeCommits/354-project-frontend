@@ -159,7 +159,8 @@
                                     <v-card style="width: 90%; padding:10px; border-radius: 10px" flat outlined>
                                         <v-container>
                                             <v-row>
-                                                <v-layout justify-center class="ml-2">
+                                                <v-layout justify-center class="ml-2"
+                                                          style="min-height: 40px; max-height: 40px">
                                                     <span class="headline font-weight-regular" style="color:#424242">{{hoverItem.title}}</span>
                                                 </v-layout>
                                             </v-row>
@@ -199,13 +200,22 @@
                                                     </v-layout>
                                                 </v-col>
                                             </v-row>
+                                            <v-row>
+                                                <v-layout justify-center pt-1>
+                                                    <span class="headline font-weight-light"
+                                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
+                                                    <v-icon style="margin-top: -5px; margin-left: 5px" large
+                                                            :color="ACCENT_COLOR">fas fa-meteor
+                                                    </v-icon>
+                                                </v-layout>
+                                            </v-row>
                                             <v-card flat outlined rounded
-                                                    style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 20px">
+                                                    style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 10px">
                                                 <v-row>
                                                     <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
                                                               pt-3>
-                                                        <v-combobox solo rounded :color="ACCENT_COLOR" outlined dense
-                                                                    label="Quantity"></v-combobox>
+                                                        <v-select dense :color="ACCENT_COLOR" solo rounded
+                                                                  label="Quantity"></v-select>
                                                     </v-layout>
                                                 </v-row>
                                                 <v-row>
