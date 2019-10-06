@@ -109,6 +109,16 @@
                                             <span class="headline font-weight-regular"
                                                   style="color:#424242">Filters</span>
                                         </v-layout>
+                                        <v-layout justify-center pt-5>
+                                            <v-select
+                                                    style="margin-left: 10%; margin-right: 10%; max-width: 80%!important;"
+                                                    label="Sort by..."
+                                                    filled dense clearable :color="ACCENT_COLOR" solo rounded
+                                                    v-model="filter"
+                                                    :items="filters">
+                                                Sort by
+                                            </v-select>
+                                        </v-layout>
                                     </v-card>
                                 </v-layout>
                             </v-col>
@@ -261,7 +271,9 @@
             selectedCategory: null,
             hoverItem: null,
             page: 1,
+            filter: null,
             paginationLength: 5,
+            filters: [{text: 'Highest to Lowest', value: 'highToLow'}, {text: 'Lowest to Highest', value: 'lowToHigh'}],
             categories: [
                 {name: 'Cars', imageUrl: 'https://picsum.photos/id/1013/500'},
                 {name: 'Sports', imageUrl: 'https://picsum.photos/id/1016/500'},
@@ -273,7 +285,7 @@
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1038/500'},
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1026/500'}
             ],
-            items: [
+            inputItems: [
                 {
                     price: 325,
                     name: 'Cars',
@@ -334,6 +346,22 @@
             itemCardColor(item) {
                 return this.hoverItem && item.name === this.hoverItem.name ? 'grey lighten-3' : 'white';
             }
+        },
+        computed: {
+            items() {
+                if (this.filter === 'lowToHigh') {
+                    return this.inputItems.sort(function (a, b) {
+                        return a.price - b.price
+                    });
+                } else if (this.filter === 'highToLow') {
+                    return this.inputItems.sort(function (a, b) {
+                        return a.price - b.price
+                    }).reverse();
+                } else {
+                    return this.inputItems;
+                }
+            }
+
         }
     }
 </script>
