@@ -92,7 +92,8 @@
                         <v-img class="white--text"
                                height="200px"
                                :src="category.imageUrl">
-                            <v-card-title class="align-end fill-height font-weight-regular">Top 10 {{category.name}}</v-card-title>
+                            <v-card-title class="align-end fill-height font-weight-regular">Top 10 {{category.name}}
+                            </v-card-title>
                         </v-img>
 
                     </v-card>
@@ -104,9 +105,10 @@
                                 <v-layout fill-height justify-start style="margin-top: -46px">
                                     <v-card flat outlined
                                             style="border-radius:5px; min-height: 38em!important; min-width: 220%; margin-left: -120%; margin-bottom: 11px; padding: 10px">
-                                           <v-layout justify-center>
-                                               <span class="headline font-weight-regular"style="color:#424242">Filters</span>
-                                           </v-layout>
+                                        <v-layout justify-center>
+                                            <span class="headline font-weight-regular"
+                                                  style="color:#424242">Filters</span>
+                                        </v-layout>
                                     </v-card>
                                 </v-layout>
                             </v-col>
@@ -126,20 +128,25 @@
                                             </v-col>
                                             <v-col>
                                                 <v-layout pt-1>
-                                                    <span class="headline font-weight-light" style="font-size: 17px!important;">{{item.title}}</span>
+                                                    <span class="headline font-weight-light"
+                                                          style="font-size: 17px!important;">{{item.title}}</span>
                                                 </v-layout>
                                                 <v-layout pt-2>
-                                                    <span class="headline font-weight-bold" style="font-size: 19px!important; color:#FF8F00">${{item.price}}</span>
+                                                    <span class="headline font-weight-bold"
+                                                          style="font-size: 19px!important; color:#FF8F00">${{item.price}}</span>
                                                 </v-layout>
-                                                <v-layout v-if="hoverItem && hoverItem.name === item.name" style="margin-left: 83%; margin-top: 5%">
+                                                <v-layout v-if="hoverItem && hoverItem.name === item.name"
+                                                          style="margin-left: 83%; margin-top: 5%">
                                                     <v-btn text small depressed color="grey darken-2">details</v-btn>
-                                                    <v-icon style="margin-left: -10px; margin-right: 10px; font-size: 12px!important;" :color="ACCENT_COLOR">arrow_forward_ios</v-icon>
+                                                    <v-icon style="margin-left: -10px; margin-right: 10px; font-size: 12px!important;"
+                                                            :color="ACCENT_COLOR">arrow_forward_ios
+                                                    </v-icon>
                                                 </v-layout>
                                             </v-col>
                                         </v-row>
                                     </v-card>
                                 </v-layout>
-                                <v-layout  pt-3>
+                                <v-layout pt-3>
                                     <v-pagination
                                             v-model="page"
                                             :color="PRIMARY_COLOR"
@@ -147,67 +154,83 @@
                                     ></v-pagination>
                                 </v-layout>
                             </v-col>
-                            <v-col >
+                            <v-col>
                                 <v-layout style="margin-top: -43px; height: 98%; margin-right: -50%" v-if="hoverItem">
-                                        <v-card style="width: 90%; padding:10px; border-radius: 10px" flat outlined>
-                                            <v-container>
+                                    <v-card style="width: 90%; padding:10px; border-radius: 10px" flat outlined>
+                                        <v-container>
+                                            <v-row>
+                                                <v-layout justify-center class="ml-2">
+                                                    <span class="headline font-weight-regular" style="color:#424242">{{hoverItem.title}}</span>
+                                                </v-layout>
+                                            </v-row>
+                                            <v-row style="margin-top: 10px">
+                                                <v-col>
+                                                    <v-img class="white--text"
+                                                           style="border-radius: 10%; margin-top: 4px"
+                                                           height="250px"
+                                                           width="250px"
+                                                           :src="hoverItem.imageUrl">
+                                                    </v-img>
+                                                </v-col>
+                                                <v-col>
+                                                    <v-layout justify-left pt-2>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;">Category: </span>
+                                                        <span class="headline font-weight-light"
+                                                              style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.name}}</span>
+                                                    </v-layout>
+                                                    <v-layout pt-2>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;">Price: </span>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
+                                                    </v-layout>
+                                                    <v-layout pt-2>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;">Status: </span>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
+                                                    </v-layout>
+                                                    <v-layout justify-center pt-2>
+                                                        <span class="headline font-weight-regular"
+                                                              style="font-size: 20px!important;">Description: <span
+                                                                class="headline font-weight-light"
+                                                                style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
+                                                    </v-layout>
+                                                </v-col>
+                                            </v-row>
+                                            <v-card flat outlined rounded
+                                                    style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 20px">
                                                 <v-row>
-                                                    <v-layout justify-center class="ml-2">
-                                                        <span class="headline font-weight-regular"style="color:#424242">{{hoverItem.title}}</span>
+                                                    <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
+                                                              pt-3>
+                                                        <v-combobox solo rounded :color="ACCENT_COLOR" outlined dense
+                                                                    label="Quantity"></v-combobox>
                                                     </v-layout>
                                                 </v-row>
-                                                <v-row style="margin-top: 10px">
-                                                    <v-col>
-                                                        <v-img class="white--text"
-                                                               style="border-radius: 10%; margin-top: 4px"
-                                                               height="250px"
-                                                               width="250px"
-                                                               :src="hoverItem.imageUrl">
-                                                        </v-img>
-                                                    </v-col>
-                                                    <v-col>
-                                                        <v-layout justify-left pt-2>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Category: </span>
-                                                            <span class="headline font-weight-light" style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.name}}</span>
-                                                        </v-layout>
-                                                        <v-layout pt-2>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Price: </span>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
-                                                        </v-layout>
-                                                        <v-layout pt-2>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Status: </span>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
-                                                        </v-layout>
-                                                        <v-layout justify-center pt-2>
-                                                            <span class="headline font-weight-regular" style="font-size: 20px!important;">Description: <span class="headline font-weight-light" style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
-                                                        </v-layout>
-                                                    </v-col>
-                                                </v-row>
-                                                <v-card flat outlined rounded style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 20px">
                                                 <v-row>
-                                                    <v-layout justify-center style="margin-left: 25%; margin-right: 25%" pt-3>
-                                                        <v-combobox solo rounded :color="ACCENT_COLOR" outlined dense label="Quantity" ></v-combobox>
-                                                    </v-layout>
-                                                </v-row>
-                                                <v-row>
-                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%">
-                                                        <v-btn  :color="ACCENT_COLOR" dark block>
-                                                            <v-icon color="white" style="margin-right: 5px">play_arrow</v-icon>
+                                                    <v-layout justify-center
+                                                              style="margin-left: 15%; margin-right: 15%">
+                                                        <v-btn :color="ACCENT_COLOR" dark block>
+                                                            <v-icon color="white" style="margin-right: 5px">play_arrow
+                                                            </v-icon>
                                                             Buy now
                                                         </v-btn>
                                                     </v-layout>
                                                 </v-row>
 
                                                 <v-row>
-                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%" pt-3 pb-3>
+                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
+                                                              pt-3 pb-3>
                                                         <v-btn block :color="ACCENT_COLOR" dark outlined>
                                                             <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                            Add to cart</v-btn>
+                                                            Add to cart
+                                                        </v-btn>
                                                     </v-layout>
                                                 </v-row>
-                                                </v-card>
-                                            </v-container>
-                                        </v-card>
+                                            </v-card>
+                                        </v-container>
+                                    </v-card>
                                 </v-layout>
                             </v-col>
                         </v-row>
@@ -241,19 +264,64 @@
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1026/500'}
             ],
             items: [
-                {price: 325, name: 'Cars', imageUrl: 'https://picsum.photos/id/1013/500', title: 'Tufoil Lubit 8 Lubit-8 with PTFE - "It takes few drops" Oil Lock Pen Stylo'},
-                {price: 3,name: 'Sports', imageUrl: 'https://picsum.photos/id/1016/500', title: 'Few Days Left - Scorpio The Man Myth Legend Gildan Hoodie Sweatshirt'},
-                {price: 435,name: 'Kitchen', imageUrl: 'https://picsum.photos/id/1055/500', title: 'Come Back in a Few Beers Patch Beer Iron to Sew on Patch Badge'},
-                {price: 354,name: 'Drugs1', imageUrl: 'https://picsum.photos/id/1024/500', title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few'},
-                {price: 99,name: 'Drugs2', imageUrl: 'https://picsum.photos/id/1029/500', title: 'Antminer A3 Very few hours used.'},
-                {price: 27,name: 'Drugs3', imageUrl: 'https://picsum.photos/id/103/500', title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW'},
-                {price: 12,name: 'Drugs4', imageUrl: 'https://picsum.photos/id/1033/500', title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD'},
-                {price: 2344,name: 'Drugs5', imageUrl: 'https://picsum.photos/id/1038/500', title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS'},
-                {price: 101,name: 'Drugs6', imageUrl: 'https://picsum.photos/id/1026/500', title: '1951 $1.00 MS-63 FEW TONED'}
+                {
+                    price: 325,
+                    name: 'Cars',
+                    imageUrl: 'https://picsum.photos/id/1013/500',
+                    title: 'Tufoil Lubit 8 Lubit-8 with PTFE - "It takes few drops" Oil Lock Pen Stylo'
+                },
+                {
+                    price: 3,
+                    name: 'Sports',
+                    imageUrl: 'https://picsum.photos/id/1016/500',
+                    title: 'Few Days Left - Scorpio The Man Myth Legend Gildan Hoodie Sweatshirt'
+                },
+                {
+                    price: 435,
+                    name: 'Kitchen',
+                    imageUrl: 'https://picsum.photos/id/1055/500',
+                    title: 'Come Back in a Few Beers Patch Beer Iron to Sew on Patch Badge'
+                },
+                {
+                    price: 354,
+                    name: 'Drugs1',
+                    imageUrl: 'https://picsum.photos/id/1024/500',
+                    title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few'
+                },
+                {
+                    price: 99,
+                    name: 'Drugs2',
+                    imageUrl: 'https://picsum.photos/id/1029/500',
+                    title: 'Antminer A3 Very few hours used.'
+                },
+                {
+                    price: 27,
+                    name: 'Drugs3',
+                    imageUrl: 'https://picsum.photos/id/103/500',
+                    title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW'
+                },
+                {
+                    price: 12,
+                    name: 'Drugs4',
+                    imageUrl: 'https://picsum.photos/id/1033/500',
+                    title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD'
+                },
+                {
+                    price: 2344,
+                    name: 'Drugs5',
+                    imageUrl: 'https://picsum.photos/id/1038/500',
+                    title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS'
+                },
+                {
+                    price: 101,
+                    name: 'Drugs6',
+                    imageUrl: 'https://picsum.photos/id/1026/500',
+                    title: '1951 $1.00 MS-63 FEW TONED'
+                }
             ]
         }),
         methods: {
-            itemCardColor(item){
+            itemCardColor(item) {
                 return this.hoverItem && item.name === this.hoverItem.name ? 'grey lighten-3' : 'white';
             }
         }
