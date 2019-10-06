@@ -224,7 +224,7 @@
                                                               pt-3 pb-3>
                                                         <v-btn block :color="ACCENT_COLOR" dark outlined>
                                                             <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                            Add to cart
+                                                             Add to cart
                                                         </v-btn>
                                                     </v-layout>
                                                 </v-row>
