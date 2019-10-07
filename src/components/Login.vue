@@ -20,8 +20,7 @@
                                     <v-text-field :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
                                 </v-layout>
                             </v-row>
-                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
-                                <v-col>
+                            <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field outlined label="Password"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
@@ -29,11 +28,10 @@
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
-                                </v-col>
                             </v-row>
-                            <v-row style=" margin-top: -5%">
+                            <v-row style=" margin-top: -3%">
                                 <v-col>
-                                    <v-layout justify-end style="margin-right: 9%; margin-left: 9%">
+                                    <v-layout justify-end style="margin-right: 9%; margin-left: 9%" pt-5>
                                         <v-btn block :color="ACCENT_COLOR" dark @click="goToMain()">Continue</v-btn>
                                     </v-layout>
                                 </v-col>
