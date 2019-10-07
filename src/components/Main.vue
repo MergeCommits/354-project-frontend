@@ -82,8 +82,8 @@
                 </v-col>
             </v-row>
         </v-card>
-        <v-container style="margin-left:5em">
-            <v-row style="width: 100%" v-if="!selectedCategory">
+        <v-container v-if="!selectedCategory">
+            <v-row style="width: 100%">
                 <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 110%; margin-left: -3%">
                     <v-card v-for="category in categories" height="200px" width="300px" hover flat outlined
@@ -99,11 +99,14 @@
                     </v-card>
                 </v-layout>
             </v-row>
-            <v-row v-else style="min-width: 1500px; max-width: 100%; min-height: 40em!important; margin-top: -1em">
+        </v-container>
+
+        <v-container style="margin-left:5em" v-else>
+            <v-row style="min-width: 1500px; max-width: 100%; min-height: 40em!important; margin-top: -1em">
                 <v-col style="max-width: 17.50%">
                     <v-layout justify-center>
                         <v-card flat outlined width="100%"
-                                style="border-radius:5px; min-height: 38em!important; margin-bottom: 11px; padding: 10px">
+                                style="border-radius:5px; min-height: 42.2em!important; margin-bottom: 11px; padding: 10px">
                             <v-layout justify-center>
                                             <span class="headline font-weight-regular"
                                                   style="color:#424242">Filters</span>
@@ -136,7 +139,7 @@
                                     </v-img>
                                 </v-col>
                                 <v-col>
-                                    <v-layout pt-1>
+                                    <v-layout pt-1 style="min-height: 65px">
                                                     <span class="headline font-weight-light"
                                                           style="font-size: 17px!important;">{{item.title}}</span>
                                     </v-layout>
@@ -165,7 +168,7 @@
                     </v-layout>
                 </v-col>
                 <v-col style="max-width: 37.50em">
-                    <v-layout justify-center style=" height: 98%;" v-if="hoverItem">
+                    <v-layout justify-center style=" height: 42.28em;" v-if="hoverItem">
                         <v-card style="width: 100%; padding:10px; border-radius: 10px" flat outlined>
                             <v-container>
                                 <v-row>
@@ -256,7 +259,6 @@
                         </v-card>
                     </v-layout>
                 </v-col>
-            </v-row>
             </v-row>
         </v-container>
     </div>
