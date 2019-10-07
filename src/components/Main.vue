@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="width: 100%">
         <v-card style="padding: 10px" flat outlined min-height="fit-content">
             <v-row v-if="!selectedCategory" style="max-height: 50px">
                 <v-col></v-col>
@@ -82,9 +82,9 @@
                 </v-col>
             </v-row>
         </v-card>
-        <v-container>
-            <v-row>
-                <v-layout v-if="!selectedCategory" justify-center fill-height pt-5 wrap
+        <v-container style="margin-left:5em">
+            <v-row style="width: 100%" v-if="!selectedCategory">
+                <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 110%; margin-left: -3%">
                     <v-card v-for="category in categories" height="200px" width="300px" hover flat outlined
                             @click="selectedCategory = category; "
@@ -98,164 +98,165 @@
 
                     </v-card>
                 </v-layout>
-                <v-layout v-else justify-center fill-height pt-5 wrap style="min-width: 110%; margin-left: -3%">
-                    <v-container>
-                        <v-row>
-                            <v-col style="max-width: 10%; margin-left: -5%">
-                                <v-layout fill-height justify-start style="margin-top: -46px">
-                                    <v-card flat outlined
-                                            style="border-radius:5px; min-height: 38em!important; min-width: 220%; margin-left: -120%; margin-bottom: 11px; padding: 10px">
-                                        <v-layout justify-center>
+            </v-row>
+            <v-row v-else style="min-width: 1500px; max-width: 100%; min-height: 40em!important; margin-top: -1em">
+                <v-col style="max-width: 17.50%">
+                    <v-layout justify-center>
+                        <v-card flat outlined width="100%"
+                                style="border-radius:5px; min-height: 38em!important; margin-bottom: 11px; padding: 10px">
+                            <v-layout justify-center>
                                             <span class="headline font-weight-regular"
                                                   style="color:#424242">Filters</span>
-                                        </v-layout>
-                                        <v-layout justify-center pt-5>
-                                            <v-select
-                                                    style="margin-left: 10%; margin-right: 10%; max-width: 80%!important;"
-                                                    label="Sort by..."
-                                                    filled dense clearable :color="ACCENT_COLOR" solo rounded
-                                                    v-model="filter"
-                                                    :items="filters">
-                                                Sort by
-                                            </v-select>
-                                        </v-layout>
-                                    </v-card>
-                                </v-layout>
-                            </v-col>
-                            <v-col style="min-width: 58%; min-height: 40em!important; margin-top: -56px">
-                                <v-layout v-for="item in items.slice(0,4)" pt-3>
-                                    <v-card :color="itemCardColor(item)" @mouseover="hoverItem = item"
-                                            outlined width="100%" height="10em"
-                                            style="border: solid #E0E0E0 1px!important; border-radius: 10px">
-                                        <v-row>
-                                            <v-col style="max-width:20% !important;">
-                                                <v-img class="white--text"
-                                                       style="border-radius: 10%; margin-left: 8.5%; margin-top: 4px"
-                                                       height="125px"
-                                                       width="125px"
-                                                       :src="item.imageUrl">
-                                                </v-img>
-                                            </v-col>
-                                            <v-col>
-                                                <v-layout pt-1>
+                            </v-layout>
+                            <v-layout justify-center pt-5>
+                                <v-select
+                                        style="margin-left: 10%; margin-right: 10%; max-width: 80%!important;"
+                                        label="Sort by..."
+                                        filled dense clearable :color="ACCENT_COLOR" solo rounded
+                                        v-model="filter"
+                                        :items="filters">
+                                    Sort by
+                                </v-select>
+                            </v-layout>
+                        </v-card>
+                    </v-layout>
+                </v-col>
+                <v-col style="max-width: 45em">
+                    <v-layout justify-center v-for="item in items.slice(0,4)">
+                        <v-card :color="itemCardColor(item)" @mouseover="hoverItem = item"
+                                outlined width="100%" height="10em" class="mb-3"
+                                style="border: solid #E0E0E0 1px!important; border-radius: 10px">
+                            <v-row>
+                                <v-col style="max-width:26% !important;">
+                                    <v-img class="white--text"
+                                           style="border-radius: 10%; margin-left: 8.5%; margin-top: 4px"
+                                           height="125px"
+                                           width="225px"
+                                           :src="item.imageUrl">
+                                    </v-img>
+                                </v-col>
+                                <v-col>
+                                    <v-layout pt-1>
                                                     <span class="headline font-weight-light"
                                                           style="font-size: 17px!important;">{{item.title}}</span>
-                                                </v-layout>
-                                                <v-layout pt-2>
+                                    </v-layout>
+                                    <v-layout pt-2>
                                                     <span class="headline font-weight-bold"
                                                           style="font-size: 19px!important; color:#FF8F00">${{item.price}}</span>
-                                                </v-layout>
-                                                <v-layout v-if="hoverItem && hoverItem.name === item.name"
-                                                          style="margin-left: 83%; margin-top: 5%">
-                                                    <v-btn text small depressed color="grey darken-2">details</v-btn>
-                                                    <v-icon style="margin-left: -10px; margin-right: 10px; font-size: 12px!important;"
-                                                            :color="ACCENT_COLOR">arrow_forward_ios
-                                                    </v-icon>
-                                                </v-layout>
-                                            </v-col>
-                                        </v-row>
-                                    </v-card>
-                                </v-layout>
-                                <v-layout pt-3>
-                                    <v-pagination
-                                            v-model="page"
-                                            :color="PRIMARY_COLOR"
-                                            :length="paginationLength"
-                                    ></v-pagination>
-                                </v-layout>
-                            </v-col>
-                            <v-col>
-                                <v-layout style="margin-top: -43px; height: 98%; margin-right: -50%" v-if="hoverItem">
-                                    <v-card style="width: 90%; padding:10px; border-radius: 10px" flat outlined>
-                                        <v-container>
-                                            <v-row>
-                                                <v-layout justify-center class="ml-2"
-                                                          style="min-height: 40px; max-height: 40px">
-                                                    <span class="headline font-weight-regular" style="color:#424242">{{hoverItem.title}}</span>
-                                                </v-layout>
-                                            </v-row>
-                                            <v-row style="margin-top: 10px">
-                                                <v-col>
-                                                    <v-img class="white--text"
-                                                           style="border-radius: 10%; margin-top: 4px"
-                                                           height="250px"
-                                                           width="250px"
-                                                           :src="hoverItem.imageUrl">
-                                                    </v-img>
-                                                </v-col>
-                                                <v-col>
-                                                    <v-layout justify-left pt-2>
+                                    </v-layout>
+                                    <v-layout align-end justify-end v-if="hoverItem && hoverItem.name === item.name"
+                                              style="margin-top: 1%">
+                                        <v-btn text small depressed color="grey darken-2">details
+                                            <v-icon style="margin-left: 5px; margin-right: 10px; font-size: 12px!important;"
+                                                    :color="ACCENT_COLOR">arrow_forward_ios
+                                            </v-icon>
+                                        </v-btn>
+                                    </v-layout>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                    </v-layout>
+                    <v-layout pt-3>
+                        <v-pagination
+                                v-model="page"
+                                :color="PRIMARY_COLOR"
+                                :length="paginationLength"
+                        ></v-pagination>
+                    </v-layout>
+                </v-col>
+                <v-col style="max-width: 37.50em">
+                    <v-layout justify-center style=" height: 98%;" v-if="hoverItem">
+                        <v-card style="width: 100%; padding:10px; border-radius: 10px" flat outlined>
+                            <v-container>
+                                <v-row>
+                                    <v-layout justify-center class="ml-2"
+                                              style="min-height: 40px; max-height: 40px">
+                                        <span class="headline font-weight-regular" style="color:#424242">{{hoverItem.title}}</span>
+                                    </v-layout>
+                                </v-row>
+                                <v-row style="margin-top: 10px">
+                                    <v-col style="width: 50%">
+                                        <v-img class="white--text"
+                                               style="border-radius: 10%; margin-top: 4px"
+                                               height="90%"
+                                               width="99%"
+                                               :src="hoverItem.imageUrl">
+                                        </v-img>
+                                    </v-col>
+                                    <v-col style="width: 50%">
+                                        <v-layout justify-left pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Category: </span>
-                                                        <span class="headline font-weight-light"
-                                                              style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.name}}</span>
-                                                    </v-layout>
-                                                    <v-layout pt-2>
+                                            <span class="headline font-weight-light"
+                                                  style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.name}}</span>
+                                        </v-layout>
+                                        <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Price: </span>
-                                                        <span class="headline font-weight-regular"
-                                                              style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
-                                                    </v-layout>
-                                                    <v-layout pt-2>
+                                            <span class="headline font-weight-regular"
+                                                  style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
+                                        </v-layout>
+                                        <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Status: </span>
-                                                        <span class="headline font-weight-regular"
-                                                              style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
-                                                    </v-layout>
-                                                    <v-layout justify-center pt-2>
+                                            <span class="headline font-weight-regular"
+                                                  style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
+                                        </v-layout>
+                                        <v-layout justify-center pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Description: <span
                                                                 class="headline font-weight-light"
                                                                 style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
-                                                    </v-layout>
-                                                </v-col>
-                                            </v-row>
-                                            <v-row>
-                                                <v-layout justify-center pt-1>
+                                        </v-layout>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-layout justify-center pt-1>
                                                     <span class="headline font-weight-light"
                                                           style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
-                                                    <v-icon style="margin-top: -5px; margin-left: 5px" large
-                                                            :color="ACCENT_COLOR">fas fa-meteor
+                                        <v-icon style="margin-top: -5px; margin-left: 5px" large
+                                                :color="ACCENT_COLOR">fas fa-meteor
+                                        </v-icon>
+                                    </v-layout>
+                                </v-row>
+                                <v-layout justify-center>
+                                    <v-card flat outlined rounded
+                                            style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%;
+                                                    margin-top: 10px; min-width: 280px">
+                                        <v-row>
+                                            <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
+                                                      pt-3>
+                                                <v-select dense :color="ACCENT_COLOR" solo rounded
+                                                          label="Quantity"></v-select>
+                                            </v-layout>
+                                        </v-row>
+                                        <v-row>
+                                            <v-layout justify-center
+                                                      style="margin-left: 15%; margin-right: 15%">
+                                                <v-btn :color="ACCENT_COLOR" dark block>
+                                                    <v-icon color="white" style="margin-right: 5px">play_arrow
                                                     </v-icon>
-                                                </v-layout>
-                                            </v-row>
-                                            <v-card flat outlined rounded
-                                                    style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%; margin-top: 10px">
-                                                <v-row>
-                                                    <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
-                                                              pt-3>
-                                                        <v-select dense :color="ACCENT_COLOR" solo rounded
-                                                                  label="Quantity"></v-select>
-                                                    </v-layout>
-                                                </v-row>
-                                                <v-row>
-                                                    <v-layout justify-center
-                                                              style="margin-left: 15%; margin-right: 15%">
-                                                        <v-btn :color="ACCENT_COLOR" dark block>
-                                                            <v-icon color="white" style="margin-right: 5px">play_arrow
-                                                            </v-icon>
-                                                            Buy now
-                                                        </v-btn>
-                                                    </v-layout>
-                                                </v-row>
+                                                    Buy now
+                                                </v-btn>
+                                            </v-layout>
+                                        </v-row>
 
-                                                <v-row>
-                                                    <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
-                                                              pt-3 pb-3>
-                                                        <v-btn block :color="ACCENT_COLOR" dark outlined>
-                                                            <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                             Add to cart
-                                                        </v-btn>
-                                                    </v-layout>
-                                                </v-row>
-                                            </v-card>
-                                        </v-container>
+                                        <v-row>
+                                            <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
+                                                      pt-3 pb-3>
+                                                <v-btn block :color="ACCENT_COLOR" dark outlined>
+                                                    <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
+                                                    Add to cart
+                                                </v-btn>
+                                            </v-layout>
+                                        </v-row>
                                     </v-card>
                                 </v-layout>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-layout>
+                            </v-container>
+                        </v-card>
+                    </v-layout>
+                </v-col>
+            </v-row>
             </v-row>
         </v-container>
     </div>
