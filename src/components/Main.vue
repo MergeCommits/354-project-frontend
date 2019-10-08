@@ -86,8 +86,8 @@
             <v-row style="width: 100%">
                 <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 110%; margin-left: -3%">
-                    <v-card v-for="category in categories" v-bind:key="category" height="200px" width="300px" hover flat outlined
-                            @click="selectedCategory = category"
+                    <v-card v-for="category in categories" height="200px" width="300px" hover flat outlined
+                            @click="selectedCategory = category; "
                             style="margin-right: 3%; margin-top: 2%; border-radius: 10px">
                         <v-img class="white--text"
                                height="200px"
@@ -125,7 +125,7 @@
                     </v-layout>
                 </v-col>
                 <v-col style="max-width: 45em">
-                    <v-layout justify-center v-for="item in items.slice(0,4)" v-bind:key="item">
+                    <v-layout justify-center v-for="item in items.slice(0,4)">
                         <v-card :color="itemCardColor(item)" @mouseover="hoverItem = item"
                                 outlined width="100%" height="10em" class="mb-3"
                                 style="border: solid #E0E0E0 1px!important; border-radius: 10px">
