@@ -114,8 +114,9 @@
                             <v-layout justify-center pt-5>
                                 <v-select
                                         style="margin-left: 10%; margin-right: 10%; max-width: 80%!important;"
-                                        label="Sort by..."
-                                        filled dense clearable :color="ACCENT_COLOR" solo rounded
+                                        label="Sort by price"
+                                        :background-color="isFilterActive"
+                                        filled dense clearable :color="this.PRIMARY_COLOR" rounded
                                         v-model="filter"
                                         :items="filters">
                                     Sort by
@@ -363,6 +364,9 @@
                 } else {
                     return this.inputItems;
                 }
+            },
+            isFilterActive() {
+                return this.filter ? this.ACCENT_COLOR : null
             }
 
         }
