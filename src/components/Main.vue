@@ -113,14 +113,45 @@
                             </v-layout>
                             <v-layout justify-center pt-5>
                                 <v-select
-                                        style="margin-left: 10%; margin-right: 10%; max-width: 80%!important;"
+                                        style="margin-left: 5%; margin-right: 5%; max-width: 80%!important;"
                                         label="Sort by price"
-                                        :background-color="isFilterActive"
-                                        filled dense clearable :color="this.PRIMARY_COLOR" rounded
-                                        v-model="filter"
+                                        :background-color="isFilterActive(priceOrderFilter)"
+                                        outlined filled dense clearable :color="this.PRIMARY_COLOR" rounded
+                                        v-model="priceOrderFilter"
                                         :items="filters">
                                     Sort by
                                 </v-select>
+                            </v-layout>
+                            <v-layout justify-center style="margin-top: -5%">
+                                <v-container>
+                                    <v-row>
+                                        <v-layout justify-center>
+                                            <span class="title font-weight-light">Price range</span>
+                                        </v-layout>
+                                    </v-row>
+                                    <v-row style="margin-left: -20px; margin-right: -20px">
+                                        <v-col style="max-width: 55%!important;">
+                                            <v-text-field
+                                                    style="min-width: 105%!important;"
+                                                    label="From"
+                                                    :background-color="isFilterActive(priceRangeFilter.low)"
+                                                    filled outlined dense clearable :color="this.PRIMARY_COLOR"
+                                                    v-model="priceRangeFilter.low">
+                                                Sort by
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col style="max-width: 55%!important;">
+                                            <v-text-field
+                                                    style="max-width: 105%!important;"
+                                                    label="To"
+                                                    :background-color="isFilterActive(priceRangeFilter.high)"
+                                                    filled outlined dense clearable :color="this.PRIMARY_COLOR"
+                                                    v-model="priceRangeFilter.high">
+                                                Sort by
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
                             </v-layout>
                         </v-card>
                     </v-layout>
@@ -268,14 +299,19 @@
     import Utilities from "./common/Utilities"
 
     export default {
-        name: "Main",
+        name: 'Main',
+        props: ['search'],
         mixins: [Utilities],
         data: () => ({
+            priceRangeFilter: {
+                low: null,
+                high: null
+            },
             categorySelected: false,
             selectedCategory: null,
             hoverItem: null,
             page: 1,
-            filter: null,
+            priceOrderFilter: null,
             paginationLength: 5,
             filters: [{text: 'Highest to Lowest', value: 'highToLow'}, {text: 'Lowest to Highest', value: 'lowToHigh'}],
             categories: [
@@ -349,26 +385,31 @@
         methods: {
             itemCardColor(item) {
                 return this.hoverItem && item.name === this.hoverItem.name ? 'grey lighten-3' : 'white';
+            },
+            isFilterActive(vModel) {
+                return vModel ? this.ACCENT_COLOR : null
             }
         },
         computed: {
             items() {
-                if (this.filter === 'lowToHigh') {
-                    return this.inputItems.sort(function (a, b) {
+                let validItems = this.clone(this.inputItems);
+                if (this.priceOrderFilter === 'lowToHigh') {
+                    validItems = validItems.sort(function (a, b) {
                         return a.price - b.price
                     });
-                } else if (this.filter === 'highToLow') {
-                    return this.inputItems.sort(function (a, b) {
+                } else if (this.priceOrderFilter === 'highToLow') {
+                    validItems = validItems.sort(function (a, b) {
                         return a.price - b.price
                     }).reverse();
-                } else {
-                    return this.inputItems;
                 }
+                if (!this.isEmpty(this.priceRangeFilter.high) && !this.isEmpty(this.priceRangeFilter)) {
+                    validItems = validItems.filter(item => item.price >= this.priceRangeFilter.low && item.price <= this.priceRangeFilter.high)
+                }
+                if (!this.isEmpty(this.search)) {
+                    validItems = validItems.filter(item => item.title.toLowerCase().includes(this.search.toLowerCase()))
+                }
+                return validItems;
             },
-            isFilterActive() {
-                return this.filter ? this.ACCENT_COLOR : null
-            }
-
         }
     }
 </script>
