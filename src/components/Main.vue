@@ -299,7 +299,8 @@
     import Utilities from "./common/Utilities"
 
     export default {
-        name: "Main",
+        name: 'Main',
+        props: ['search'],
         mixins: [Utilities],
         data: () => ({
             priceRangeFilter: {
@@ -403,6 +404,9 @@
                 }
                 if (!this.isEmpty(this.priceRangeFilter.high) && !this.isEmpty(this.priceRangeFilter)) {
                     validItems = validItems.filter(item => item.price >= this.priceRangeFilter.low && item.price <= this.priceRangeFilter.high)
+                }
+                if (!this.isEmpty(this.search)) {
+                    validItems = validItems.filter(item => item.title.toLowerCase().includes(this.search.toLowerCase()))
                 }
                 return validItems;
             },

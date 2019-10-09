@@ -8,11 +8,12 @@
             <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
             <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
             <v-text-field
-                    solo-inverted
-                    color="white"
+                    :solo="isSearchActive"
+                    :solo-inverted="!isSearchActive"
+                    :color="PRIMARY_COLOR"
                     style="margin-left: 20px"
-                    :background-color="searchColor"
-                    flat
+                    :flat="!isSearchActive"
+                    v-model="search"
                     rounded
                     hide-details
                     label="Search"
@@ -95,7 +96,7 @@
         </v-navigation-drawer>
         <v-content>
 
-            <main-page v-if="menuPosition === 'main'"></main-page>
+            <main-page :search="search" v-if="menuPosition === 'main'"></main-page>
 
             <account-updation v-if="menuPosition === 'accountUpdation'"></account-updation>
 
@@ -134,6 +135,7 @@
             menuPosition: 'main',
             isSearchActive: false,
             drawer: false,
+            search: null
         }),
         computed: {
             searchColor(){
