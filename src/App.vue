@@ -7,30 +7,33 @@
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
             <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
             <v-text-field
+                    v-if="menuPosition === 'main'"
                     :solo="isSearchActive"
                     :solo-inverted="!isSearchActive"
                     :color="PRIMARY_COLOR"
-                    style="margin-left: 20px"
+                    style="margin-left: 20px; max-width:20% !important;"
                     :flat="!isSearchActive"
                     v-model="search"
                     rounded
+                    dense
+                    clearable
                     hide-details
                     label="Search"
                     @focus="isSearchActive = true"
                     @blur="isSearchActive = false"
                     prepend-inner-icon="search">
             </v-text-field>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
             <v-menu bottom
                     origin="center center"
                     transition="scale-transition">
                 <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab text>
-                        <v-icon color="white" large>account_circle</v-icon>
+                        <v-icon color="white" style="font-size: 43px!important;">account_circle</v-icon>
                     </v-btn>
                 </template>
 
