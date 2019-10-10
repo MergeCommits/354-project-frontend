@@ -4,7 +4,7 @@
                 app
                 clipped-left
                 :color="PRIMARY_COLOR">
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
             <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
             <v-spacer></v-spacer>
@@ -62,41 +62,8 @@
             </v-menu>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" mini app clipped color="grey lighten-4">
-            <v-list dense class="grey lighten-4" shaped>
-                <v-list-item @click="menuPosition='main'">
-                    <v-list-item-action>
-                        <v-icon>home</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">
-                            Home
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item @click="menuPosition='accountUpdation'">
-                    <v-list-item-action>
-                        <v-icon>person</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">
-                            Manage account
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-divider></v-divider>
-                <v-list-item @click="">
-                    <v-list-item-action>
-                        <v-icon>settings</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">
-                            Settings
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
+        <navbar v-model="drawer" />
+
         <v-content>
 
             <main-page :search="search" v-if="menuPosition === 'main'"></main-page>
@@ -119,14 +86,17 @@
 
 <script>
     import AccountCreation from "./components/AccountCreation"
-    import Login from "./components/Login"
+    import Login from "./views/Login"
     import Main from "./components/Main"
     import Utilities from "./components/common/Utilities"
     import AccountUpdation from "./components/AccountUpdation"
 
+    import Navbar from "./components/Navbar";
+
     export default {
         mixins: [Utilities],
         components: {
+            'navbar': Navbar,
             'account-creation': AccountCreation,
             'login': Login,
             'main-page': Main,

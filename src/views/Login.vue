@@ -8,7 +8,7 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%">
+                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%" min-width="300px">
                         <v-container>
                             <v-row style="padding-top: 1%;">
                                 <v-layout justify-center pt-1>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-    import Utilities from "./common/Utilities.vue"
+    import Utilities from "../components/common/Utilities.vue"
 
     export default {
         name: "Login",
