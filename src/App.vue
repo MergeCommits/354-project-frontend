@@ -1,5 +1,6 @@
 <template>
     <v-app id="inspire">
+        <!-- TODO: Move topbar to its own file. -->
         <v-app-bar
                 app
                 clipped-left
@@ -65,20 +66,22 @@
         <navbar v-model="drawer" />
 
         <v-content>
+            <router-view></router-view>
 
-            <main-page :search="search" v-if="menuPosition === 'main'"></main-page>
 
-            <account-updation v-if="menuPosition === 'accountUpdation'"></account-updation>
+<!--            <main-page :search="search" v-if="menuPosition === 'main'"></main-page>-->
 
-            <v-dialog v-model="wantsToCreateAccount" fullscreen>
-                <account-creation v-on:goToMain="wantsToCreateAccount = false"
-                                  v-if="wantsToCreateAccount"></account-creation>
-            </v-dialog>
-            <v-dialog v-model="wantsToLogin" fullscreen>
-                <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"
-                        v-on:goToFormCreation="wantsToCreateAccount=true; wantsToLogin=false;">
-                </login>
-            </v-dialog>
+<!--            <account-updation v-if="menuPosition === 'accountUpdation'"></account-updation>-->
+
+<!--            <v-dialog v-model="wantsToCreateAccount" fullscreen>-->
+<!--                <account-creation v-on:goToMain="wantsToCreateAccount = false"-->
+<!--                                  v-if="wantsToCreateAccount"></account-creation>-->
+<!--            </v-dialog>-->
+<!--            <v-dialog v-model="wantsToLogin" fullscreen>-->
+<!--                <login v-if="wantsToLogin" v-on:goToMain="wantsToLogin = false"-->
+<!--                        v-on:goToFormCreation="wantsToCreateAccount=true; wantsToLogin=false;">-->
+<!--                </login>-->
+<!--            </v-dialog>-->
 
         </v-content>
     </v-app>

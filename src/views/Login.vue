@@ -46,7 +46,7 @@
                             <v-row>
                                 <v-col>
                                     <v-layout justify-center style="margin-right: 9%; margin-left: 9%">
-                                        <v-btn block :color="ACCENT_COLOR" dark outlined @click="goToMain()">
+                                        <v-btn block :color="ACCENT_COLOR" dark outlined router to="/home">
                                             Browse anonymously
                                         </v-btn>
                                     </v-layout>
@@ -82,9 +82,9 @@
             pwVisible: false,
         }),
         methods: {
-            goToMain() {
-                this.$emit('goToMain', true);
-            },
+            // goToMain() {
+            //     this.$emit('goToMain', true);
+            // },
             goToFormCreation() {
                 this.$emit('goToFormCreation', true);
             }
