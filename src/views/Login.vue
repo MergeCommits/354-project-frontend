@@ -58,9 +58,8 @@
                                            Can't login ?
                                     </span>
                                     <span style="font-size: 13px;margin-left: 6%"
-                                          class="font-weight-light appLink"
-                                            @click="goToFormCreation()">
-                                           Sign up for an account
+                                          class="font-weight-light appLink">
+                                         <router-link to="/register">Sign up for an account</router-link>
                                     </span>
                                 </v-layout>
                             </v-row>
@@ -96,5 +95,10 @@
 <style scoped>
 .appLink:hover{
     color:#FF8F00
+}
+
+.v-application a {
+    color: inherit;
+    text-decoration: inherit;
 }
 </style>

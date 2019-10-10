@@ -39,7 +39,7 @@
                 </template>
 
                 <v-list dense class="grey lighten-4" rounded min-width="200">
-                    <v-list-item @click="wantsToLogin = true">
+                    <v-list-item router to="/login">
                         <v-list-item-action>
                             <v-icon>fas fa-sign-in-alt</v-icon>
                         </v-list-item-action>
@@ -49,7 +49,7 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item @click="wantsToCreateAccount = true">
+                    <v-list-item router to="/register">
                         <v-list-item-action>
                             <v-icon>far fa-user-circle</v-icon>
                         </v-list-item-action>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-    import AccountCreation from "./components/AccountCreation"
+    import AccountCreation from "./views/AccountCreation"
     import Login from "./views/Login"
     import Main from "./components/Main"
     import Utilities from "./components/common/Utilities"
