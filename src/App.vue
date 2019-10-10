@@ -1,7 +1,7 @@
 <template>
     <v-app id="inspire">
         <!-- TODO: Move topbar to its own file. -->
-        <v-app-bar
+        <v-app-bar v-if="!['login', 'register'].includes($route.name)"
                 app
                 clipped-left
                 :color="PRIMARY_COLOR">
