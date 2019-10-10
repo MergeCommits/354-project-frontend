@@ -1,9 +1,7 @@
 <template>
-    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00838F">
-        <v-card style="margin-top: 5%; border-radius: 15px" height="70%" width="70%">
-            <!-- TODO: Turn this into a v-form to add validation. -->
-            <!-- TODO: Move text to localization file. -->
-            <v-container>
+    <v-layout justify-center pt-5 height="100%" v-bind:style="{ backgroundColor: PRIMARY_COLOR}">
+        <v-card style="border-radius: 15px" min-height="600px" fluid>
+            <v-form ref="registerForm" v-model="validRegistration" :lazy-validation="lazyValidation">
                 <v-row style="width: 100%">
                     <v-col>
                         <v-row style="padding-top: 5%; padding-left: 10%">
@@ -14,48 +12,49 @@
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%">
                             <v-col>
-                                <v-text-field v-model="firstName" :color="ACCENT_COLOR" outlined label="First name"></v-text-field>
+                                <v-text-field v-model="firstName" required :rules="nameRules" :color="ACCENT_COLOR" outlined label="First name"></v-text-field>
                             </v-col>
                             <v-col>
-                                <v-text-field v-model="lastName" :color="ACCENT_COLOR" outlined label="Last name"></v-text-field>
+                                <v-text-field v-model="lastName" required :rules="nameRules" :color="ACCENT_COLOR" outlined label="Last name"></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                             <v-col>
-                                <v-text-field v-model="username" :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
+                                <v-text-field v-model="username" required :rules="usernameRules" :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                             <v-col>
                                 <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"
-                                              :rules="[emailRules.required, emailRules.validContent]"
-                                                validate-on-blur>
+                                              :rules="emailRules"
+                                              validate-on-blur
+                                              required>
                                 </v-text-field>
                             </v-col>
                         </v-row>
                         <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                             <v-col>
                                 <v-text-field outlined label="Password"
+                                              required
                                               validate-on-blur
-                                                :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
-                                                :type="pwVisible ? 'text' : 'password'"
-                                                 @click:append="pwVisible = !pwVisible"
-                                                :color="ACCENT_COLOR"
-                                                v-model="password"
-                                                :rules="[passwordRules.required, passwordRules.min, passwordRules.validContent]"
-                                                style="margin-bottom: -30px">
+                                              :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
+                                              :type="pwVisible ? 'text' : 'password'"
+                                              @click:append="pwVisible = !pwVisible"
+                                              :color="ACCENT_COLOR"
+                                              v-model="password"
+                                              :rules="passwordRules"
+                                              style="margin-bottom: -30px">
                                 </v-text-field>
-                                <span style="font-size: 13px; margin-left: 1%" class="font-weight-light">
-                                        You must use eight characters with letters, numbers and symbols
+                                <span style="font-size: 13px; margin-left: 1%;" class="font-weight-light">
+                                        You must use eight characters with letters, numbers and symbols.
                                 </span>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col>
                                 <v-layout justify-end style="margin-right: 7%">
-                                    <v-btn style="margin-right: 5%" @click="goToMain()">Cancel</v-btn>
-                                    <v-btn v-if="!this.isFormValid" color="grey darken-1" dark @click="goToMain()">Create</v-btn>
-                                    <v-btn v-else :color="ACCENT_COLOR" dark @click="goToMain()">Create</v-btn>
+                                    <v-btn style="margin-right: 5%; color: #fff; background-color: #777" @click="goToMain()">Cancel</v-btn>
+                                    <v-btn :color="PRIMARY_COLOR" style="color: #ffffff" @click="validate()">Create</v-btn>
                                 </v-layout>
                             </v-col>
                         </v-row>
@@ -75,7 +74,7 @@
                         </v-row>
                     </v-col>
                 </v-row>
-            </v-container>
+            </v-form>
         </v-card>
     </v-layout>
 </template>
@@ -91,23 +90,36 @@
         },
         mixins: [Utilities],
         data: () => ({
+            validRegistration: true,
+            lazyValidation: true,
             firstName: null,
             lastName: null,
             email: null,
             username: null,
             password: null,
             pwVisible: false,
-            passwordRules: {
-                required: value => !!value || "A password is required.",
-                min: v => (v && v.length >= 8) || "A minimum of 8 characters is required.",
-                validContent: v => PASSWORD_PATTERN.test(v) || "Password content is not valid.",
-            },
-            emailRules: {
-                required: value => !!value || "An email is required.",
-                validContent: v => EMAIL_PATTERN.test(v) || "Email is not valid.",
-            }
+            nameRules: [
+                value => (value != null) || "A name is required.",
+            ],
+            usernameRules: [
+                value => (value != null) || "A username is required.",
+            ],
+            passwordRules: [
+                value => (value != null) || "A password is required.",
+                value => (value != null && value.length >= 8) || "A minimum of 8 characters is required.",
+                value => PASSWORD_PATTERN.test(value) || "Password content is not valid.",
+            ],
+            emailRules: [
+                value => (value != null) || "An email is required.",
+                value => EMAIL_PATTERN.test(value) || "Email is not valid.",
+            ]
         }),
         methods: {
+            validate() {
+                if (this.$refs.registerForm.validate()) {
+                    // this.snackbar = true
+                }
+            },
             goToMain() {
                 this.$emit('goToMain', true);
             }
