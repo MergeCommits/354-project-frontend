@@ -1,5 +1,32 @@
 <template>
     <v-container style="margin-left:5em">
+        <titlebar>
+            <v-row style="max-height: 50px">
+                <v-col>
+                    <v-layout style="margin-top: -5px">
+                        <v-btn text @click="selectedCategory=null">
+                            <v-icon style="margin-right: 10px">
+                                arrow_back
+                            </v-icon>
+                            GO back
+                        </v-btn>
+                    </v-layout>
+                </v-col>
+                <v-col>
+                    <v-layout justify-center style="margin-top: -5px">
+                        <v-icon large :color="ACCENT_COLOR">fab fa-hotjar</v-icon>
+                        <span class="headline  font-weight-regular"
+                              style="margin-left: 7px; margin-top: 5px; color:#424242; font-size: 21px!important;">
+                            Top 10 {{selectedCategory.name}} Items
+                        </span>
+                    </v-layout>
+                </v-col>
+                <v-col>
+                    <v-layout justify-end pr-4>
+                    </v-layout>
+                </v-col>
+            </v-row>
+        </titlebar>
         <v-row style="min-width: 1500px; max-width: 100%; min-height: 40em!important; margin-top: -1em">
             <v-col style="max-width: 17.50%">
                 <v-layout justify-center>
@@ -104,7 +131,8 @@
                             <v-row>
                                 <v-layout justify-center class="ml-2"
                                           style="min-height: 40px; max-height: 40px">
-                                    <span class="headline font-weight-regular" style="color:#424242">{{hoverItem.title}}</span>
+                                    <span class="headline font-weight-regular"
+                                          style="color:#424242">{{hoverItem.title}}</span>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-top: 10px">
@@ -194,8 +222,15 @@
 </template>
 
 <script>
+    import Utilities from "../components/common/Utilities";
+    import TitleBar from "../components/TitleBar";
+
     export default {
-        name: "ProductCategory"
+        name: "ProductCategory",
+        mixins: [Utilities],
+        components: {
+            'titlebar': TitleBar
+        }
     }
 </script>
 

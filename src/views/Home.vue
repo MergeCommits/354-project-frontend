@@ -1,7 +1,7 @@
 <template>
     <div style="width: 100%">
         <titlebar>
-            <v-row v-if="!selectedCategory" style="max-height: 50px">
+            <v-row style="max-height: 50px">
                 <v-col></v-col>
                 <v-col>
                     <v-layout justify-center style="margin-top: -6px">
@@ -46,33 +46,8 @@
                 </v-col>
                 <v-col></v-col>
             </v-row>
-            <v-row v-else style="max-height: 50px">
-                <v-col>
-                    <v-layout style="margin-top: -5px">
-                        <v-btn text @click="selectedCategory=null">
-                            <v-icon style="margin-right: 10px">
-                                arrow_back
-                            </v-icon>
-                            GO back
-                        </v-btn>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-layout justify-center style="margin-top: -5px">
-                        <v-icon large :color="ACCENT_COLOR">fab fa-hotjar</v-icon>
-                        <span class="headline  font-weight-regular"
-                              style="margin-left: 7px; margin-top: 5px; color:#424242; font-size: 21px!important;">
-                            Top 10 {{selectedCategory.name}} Items
-                        </span>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-layout justify-end pr-4>
-                    </v-layout>
-                </v-col>
-            </v-row>
         </titlebar>
-        <v-container v-if="!selectedCategory">
+        <v-container>
             <v-row style="width: 100%">
                 <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 110%; margin-left: -3%">
