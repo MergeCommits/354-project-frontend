@@ -59,7 +59,7 @@
                         <v-row>
                             <v-col>
                                 <v-layout justify-end style="margin-right: 7%">
-                                    <v-btn style="margin-right: 5%; color: #fff; background-color: #777" router to="/login">Cancel</v-btn>
+                                    <v-btn style="margin-right: 5%; color: #fff; background-color: #777" @click="goBack()">Cancel</v-btn>
                                     <v-btn :color="PRIMARY_COLOR" style="color: #ffffff" @click="validate()">Create</v-btn>
                                 </v-layout>
                             </v-col>
@@ -87,7 +87,7 @@
 
 <script>
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     import Utilities from "../components/common/Utilities.vue"
     export default {
@@ -105,18 +105,18 @@
             password: null,
             pwVisible: false,
             nameRules: [
-                value => (value != null && value !== "") || "A name is required.",
+                value => !Utilities.isEmpty(value) || "A name is required.",
             ],
             usernameRules: [
-                value => (value != null && value !== "") || "A username is required.",
+                value => !Utilities.isEmpty(value) || "A username is required.",
             ],
             passwordRules: [
-                value => (value != null) || "A password is required.",
-                value => (value != null && value.length >= 8) || "A minimum of 8 characters is required.",
+                value => !Utilities.isEmpty(value) || "A password is required.",
+                value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid.",
             ],
             emailRules: [
-                value => (value != null && value !== "") || "An email is required.",
+                value => !Utilities.isEmpty(value) || "An email is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid.",
             ]
         }),

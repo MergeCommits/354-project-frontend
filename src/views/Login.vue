@@ -86,15 +86,15 @@
             lazyValidation: true,
             pwVisible: false,
             emailRules: [
-                value => (value != null && value !== "") || "An e-mail is required.",
+                value => !Utilities.isEmpty(value) || "An e-mail is required.",
             ],
             passwordRules: [
-                value => (value != null && value !== "") || "A password is required.",
+                value => !Utilities.isEmpty(value) || "A password is required.",
             ]
         }),
         methods: {
             validate() {
-                // Are they fields filled in?
+                // Are the fields filled in?
                 if (this.$refs.form.validate()) {
                     // TODO: Check the database for validity.
                     this.$router.push('/home');
