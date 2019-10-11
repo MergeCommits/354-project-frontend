@@ -3,7 +3,7 @@
         <v-container>
             <v-row>
                 <v-layout justify-center pt-3>
-                    <v-icon color="white" style="font-size: 60px; margin-right: 10px">fas fa-meteor</v-icon>
+                    <v-icon color="white" style="font-size: 60px;">fas fa-meteor</v-icon>
                 </v-layout>
             </v-row>
             <v-row>
@@ -86,10 +86,10 @@
             lazyValidation: true,
             pwVisible: false,
             emailRules: [
-                value => (value != null) || "An e-mail is required.",
+                value => (value != null && value !== "") || "An e-mail is required.",
             ],
             passwordRules: [
-                value => (value != null) || "A password is required.",
+                value => (value != null && value !== "") || "A password is required.",
             ]
         }),
         methods: {

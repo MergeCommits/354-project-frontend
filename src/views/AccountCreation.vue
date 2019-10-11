@@ -105,10 +105,10 @@
             password: null,
             pwVisible: false,
             nameRules: [
-                value => (value != null) || "A name is required.",
+                value => (value != null && value !== "") || "A name is required.",
             ],
             usernameRules: [
-                value => (value != null) || "A username is required.",
+                value => (value != null && value !== "") || "A username is required.",
             ],
             passwordRules: [
                 value => (value != null) || "A password is required.",
@@ -116,7 +116,7 @@
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid.",
             ],
             emailRules: [
-                value => (value != null) || "An email is required.",
+                value => (value != null && value !== "") || "An email is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid.",
             ]
         }),

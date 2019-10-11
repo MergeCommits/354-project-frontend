@@ -4,7 +4,7 @@
             <v-row style="max-height: 50px">
                 <v-col>
                     <v-layout style="margin-top: -5px">
-                        <v-btn text @click="selectedCategory=null">
+                        <v-btn text @click="goBack()">
                             <v-icon style="margin-right: 10px">
                                 arrow_back
                             </v-icon>
@@ -230,6 +230,12 @@
         mixins: [Utilities],
         components: {
             'titlebar': TitleBar
+        },
+        methods: {
+            // Return to the previous page if one existed.
+            goBack() {
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+            }
         }
     }
 </script>
