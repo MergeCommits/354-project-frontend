@@ -8,27 +8,30 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%" min-width="300px">
+                    <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%"
+                            min-width="300px">
                         <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
                             <v-row style="padding-top: 1%;">
                                 <v-layout justify-center pt-1>
-                                    <span style="font-size: 15px !important;  color:#616161" class="title font-weight-medium">Log in to your Star account</span>
+                                    <span style="font-size: 15px !important;  color:#616161"
+                                          class="title font-weight-medium">Log in to your Star account</span>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                 <v-layout justify-center pt-3>
-                                    <v-text-field required :rules="emailRules" :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
+                                    <v-text-field required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                                  label="Email"></v-text-field>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field required outlined label="Password"
-                                                  :rules="passwordRules"
-                                                  :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
-                                                  :type="pwVisible ? 'text' : 'password'"
-                                                  @click:append="pwVisible = !pwVisible"
-                                                  :color="ACCENT_COLOR"
-                                                  style="margin-bottom: -5%">
-                                    </v-text-field>
+                                <v-text-field required outlined label="Password"
+                                              :rules="passwordRules"
+                                              :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
+                                              :type="pwVisible ? 'text' : 'password'"
+                                              @click:append="pwVisible = !pwVisible"
+                                              :color="ACCENT_COLOR"
+                                              style="margin-bottom: -5%">
+                                </v-text-field>
                             </v-row>
                             <v-row style=" margin-top: -3%">
                                 <v-col>
@@ -103,16 +106,16 @@
 </script>
 
 <style scoped>
-.appLink:hover{
-    color: #FF8F00;
-}
+    .appLink:hover {
+        color: #FF8F00;
+    }
 
-.v-application a {
-    color: inherit;
-    text-decoration: inherit;
-}
+    .v-application a {
+        color: inherit;
+        text-decoration: inherit;
+    }
 
- .login {
-     height: 100%;
- }
+    .login {
+        height: 100%;
+    }
 </style>

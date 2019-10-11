@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Login from './views/Login'
 import Register from './views/AccountCreation'
 import Home from './components/Main'
+import Settings from "./views/AccountUpdation"
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
             path: '/home',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: Settings
         }
 
     ]

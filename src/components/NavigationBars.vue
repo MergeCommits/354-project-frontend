@@ -70,37 +70,6 @@
                     <v-list-item-title class="grey--text">{{link.text}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <!--        <v-list-item @click="">-->
-            <!--            <v-list-item-action>-->
-            <!--                <v-icon>home</v-icon>-->
-            <!--            </v-list-item-action>-->
-            <!--            <v-list-item-content>-->
-            <!--                <v-list-item-title class="grey&#45;&#45;text">-->
-            <!--                    Home-->
-            <!--                </v-list-item-title>-->
-            <!--            </v-list-item-content>-->
-            <!--        </v-list-item>-->
-            <!--        <v-list-item @click="">-->
-            <!--            <v-list-item-action>-->
-            <!--                <v-icon>person</v-icon>-->
-            <!--            </v-list-item-action>-->
-            <!--            <v-list-item-content>-->
-            <!--                <v-list-item-title class="grey&#45;&#45;text">-->
-            <!--                    Manage account-->
-            <!--                </v-list-item-title>-->
-            <!--            </v-list-item-content>-->
-            <!--        </v-list-item>-->
-            <!--        <v-divider></v-divider>-->
-            <!--        <v-list-item @click="">-->
-            <!--            <v-list-item-action>-->
-            <!--                <v-icon>settings</v-icon>-->
-            <!--            </v-list-item-action>-->
-            <!--            <v-list-item-content>-->
-            <!--                <v-list-item-title class="grey&#45;&#45;text">-->
-            <!--                    Settings-->
-            <!--                </v-list-item-title>-->
-            <!--            </v-list-item-content>-->
-            <!--        </v-list-item>-->
         </v-list>
     </v-navigation-drawer>
     </div>
@@ -118,7 +87,7 @@
             links: [
                 { icon: 'home', text: 'Dashboard', route: '/home' },
                 // TODO: Figure out wtf is the difference between these two.
-                { icon: 'person', text: 'Manage account', route: '/account' },
+                { icon: 'person', text: 'Manage account', route: '/settings' },
                 { icon: 'settings', text: 'Settings', route: '/settings' },
             ]
         })

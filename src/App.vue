@@ -16,7 +16,7 @@
     import Login from "./views/Login"
     import Main from "./components/Main"
     import Utilities from "./components/common/Utilities"
-    import AccountUpdation from "./components/AccountUpdation"
+    import AccountUpdation from "./views/AccountUpdation"
 
     import NavigationBars from "./components/NavigationBars";
 
