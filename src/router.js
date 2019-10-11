@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Login from './views/Login'
 import Register from './views/AccountCreation'
-import Home from './components/Main'
+import Home from './views/Home'
 import Settings from "./views/AccountUpdation"
 
 Vue.use(Router)
