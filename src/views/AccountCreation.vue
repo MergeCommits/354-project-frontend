@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center pt-5 class="register" v-bind:style="{ backgroundColor: PRIMARY_COLOR}">
+    <v-layout justify-center pt-5 class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-card style="border-radius: 15px" min-height="650px" height="80%">
             <v-form ref="form" v-model="validRegistration" :lazy-validation="lazyValidation">
                 <v-row style="width: 100%">

@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center pt-5 class="" style="height: 100%!important; background-color: #00838F">
+    <v-layout justify-center pt-5 class="login" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-container>
             <v-row>
                 <v-layout justify-center pt-3>
@@ -9,7 +9,7 @@
             <v-row>
                 <v-layout justify-center>
                     <v-card hover style="margin-top: 3%; border-radius: 15px" height="96%" width="30%" min-width="300px">
-                        <v-container>
+                        <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
                             <v-row style="padding-top: 1%;">
                                 <v-layout justify-center pt-1>
                                     <span style="font-size: 15px !important;  color:#616161" class="title font-weight-medium">Log in to your Star account</span>
@@ -17,11 +17,12 @@
                             </v-row>
                             <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                 <v-layout justify-center pt-3>
-                                    <v-text-field :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
+                                    <v-text-field required :rules="emailRules" :color="ACCENT_COLOR" outlined label="Email"></v-text-field>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field outlined label="Password"
+                                    <v-text-field required outlined label="Password"
+                                                  :rules="passwordRules"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -32,7 +33,7 @@
                             <v-row style=" margin-top: -3%">
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 9%; margin-left: 9%" pt-5>
-                                        <v-btn block :color="ACCENT_COLOR" dark @click="goToMain()">Continue</v-btn>
+                                        <v-btn block :color="ACCENT_COLOR" dark @click="validate()">Continue</v-btn>
                                     </v-layout>
                                 </v-col>
                             </v-row>
@@ -63,7 +64,7 @@
                                     </span>
                                 </v-layout>
                             </v-row>
-                        </v-container>
+                        </v-form>
                     </v-card>
                 </v-layout>
             </v-row>
@@ -78,14 +79,23 @@
         name: "Login",
         mixins: [Utilities],
         data: () => ({
+            validLogin: true,
+            lazyValidation: true,
             pwVisible: false,
+            emailRules: [
+                value => (value != null) || "An e-mail is required.",
+            ],
+            passwordRules: [
+                value => (value != null) || "A password is required.",
+            ]
         }),
         methods: {
-            // goToMain() {
-            //     this.$emit('goToMain', true);
-            // },
-            goToFormCreation() {
-                this.$emit('goToFormCreation', true);
+            validate() {
+                // Are they fields filled in?
+                if (this.$refs.form.validate()) {
+                    // TODO: Check the database for validity.
+                    this.$router.push('/home');
+                }
             }
         }
 
@@ -94,11 +104,15 @@
 
 <style scoped>
 .appLink:hover{
-    color:#FF8F00
+    color: #FF8F00;
 }
 
 .v-application a {
     color: inherit;
     text-decoration: inherit;
 }
+
+ .login {
+     height: 100%;
+ }
 </style>
