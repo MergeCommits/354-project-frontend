@@ -33,8 +33,8 @@
                     <v-card flat outlined width="100%"
                             style="border-radius:5px; min-height: 42.2em!important; margin-bottom: 11px; padding: 10px">
                         <v-layout justify-center>
-                                            <span class="headline font-weight-regular"
-                                                  style="color:#424242">Filters</span>
+                            <span class="headline font-weight-regular"
+                                  style="color:#424242">Filters</span>
                         </v-layout>
                         <v-layout justify-center pt-5>
                             <v-select
@@ -160,21 +160,21 @@
                                     <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Status: </span>
-                                        <span class="headline font-weight-regular"
+                                        <span class="headliner font-weight-regular"
                                               style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
                                     </v-layout>
                                     <v-layout justify-center pt-2>
-                                                        <span class="headline font-weight-regular"
-                                                              style="font-size: 20px!important;">Description: <span
-                                                                class="headline font-weight-light"
-                                                                style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
+                                        <span class="headline font-weight-regular"
+                                              style="font-size: 20px!important;">Description: <span
+                                                class="headline font-weight-light"
+                                                style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
                                     </v-layout>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-layout justify-center pt-1>
-                                                    <span class="headline font-weight-light"
-                                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
+                                    <span class="headline font-weight-light"
+                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
                                     <v-icon style="margin-top: -5px; margin-left: 5px" large
                                             :color="ACCENT_COLOR">fas fa-meteor
                                     </v-icon>
