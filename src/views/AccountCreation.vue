@@ -4,7 +4,7 @@
             <v-container>
                 <v-row>
                     <v-col cols="8">
-                        <v-form ref="form" v-model="validRegistration" :lazy-validation="lazyValidation">
+                        <v-form ref="form" v-model="validRegistration" :lazy-validation="true">
                             <v-row style="padding-top: 5%; padding-left: 10%">
                                 <span style="font-size: 30px" class="font-weight-regular">The Stars</span>
                             </v-row>
@@ -30,7 +30,6 @@
                                 <v-col>
                                     <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"
                                                   :rules="emailRules"
-                                                  validate-on-blur
                                                   required>
                                     </v-text-field>
                                 </v-col>
@@ -39,7 +38,6 @@
                                 <v-col>
                                     <v-text-field outlined label="Password"
                                                   required
-                                                  validate-on-blur
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -56,7 +54,7 @@
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 7%">
                                         <v-btn style="margin-right: 5%; color: #fff; background-color: #777" @click="goBack()">Cancel</v-btn>
-                                        <v-btn :color="PRIMARY_COLOR" style="color: #ffffff" @click="validate()">Create</v-btn>
+                                        <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR" style="color: #ffffff" @click="validate()">Create</v-btn>
                                     </v-layout>
                                 </v-col>
                             </v-row>
@@ -92,7 +90,6 @@
         mixins: [Utilities],
         data: () => ({
             validRegistration: true,
-            lazyValidation: true,
             firstName: null,
             lastName: null,
             email: null,
