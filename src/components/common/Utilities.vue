@@ -4,7 +4,9 @@
         data: () => ({
             PRIMARY_COLOR: '#00838F',
             ACCENT_COLOR: '#FF8F00',
-            BASIC_GREY: '#9E9E9E'
+            BASIC_GREY: '#9E9E9E',
+
+            API_URL: 'http://dev.354thestars.com:8080'
         }),
         methods: {
             // Return to the previous page if one existed.

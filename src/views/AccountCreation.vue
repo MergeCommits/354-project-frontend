@@ -83,6 +83,7 @@
     const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     import Utilities from "../components/common/Utilities.vue"
+    const axios = require('axios').default;
     export default {
         props: {
             name: 'AccountCreation',
@@ -115,7 +116,21 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
-                    this.$router.push('/home');
+                    axios.post(this.API_URL + '/users', {
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        username: this.username,
+                        password: this.password
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                    // this.$router.push('/home');
                 }
             }
         }
