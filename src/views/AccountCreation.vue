@@ -10,20 +10,24 @@
                             </v-row>
                             <v-row style="padding-top: 1%; padding-left: 10%">
                                 <v-layout pt-1>
-                                    <span style="font-size: 20px;" class="font-weight-light">Create your Star account</span>
+                                    <span style="font-size: 20px;"
+                                          class="font-weight-light">Create your Star account</span>
                                 </v-layout>
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%">
                                 <v-col>
-                                    <v-text-field v-model="firstName" required :rules="nameRules" :color="ACCENT_COLOR" outlined label="First name"></v-text-field>
+                                    <v-text-field v-model="firstName" required :rules="nameRules" :color="ACCENT_COLOR"
+                                                  outlined label="First name"></v-text-field>
                                 </v-col>
                                 <v-col>
-                                    <v-text-field v-model="lastName" required :rules="nameRules" :color="ACCENT_COLOR" outlined label="Last name"></v-text-field>
+                                    <v-text-field v-model="lastName" required :rules="nameRules" :color="ACCENT_COLOR"
+                                                  outlined label="Last name"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
                                 <v-col>
-                                    <v-text-field v-model="username" required :rules="usernameRules" :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
+                                    <v-text-field v-model="username" required :rules="usernameRules"
+                                                  :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
@@ -53,8 +57,12 @@
                             <v-row>
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 7%">
-                                        <v-btn style="margin-right: 5%; color: #fff; background-color: #777" @click="goBack()">Cancel</v-btn>
-                                        <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR" style="color: #ffffff" @click="validate()">Create</v-btn>
+                                        <v-btn style="margin-right: 5%; color: #fff; background-color: #777"
+                                               @click="goBack()">Cancel
+                                        </v-btn>
+                                        <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR"
+                                               style="color: #ffffff" @click="validate()">Create
+                                        </v-btn>
                                     </v-layout>
                                 </v-col>
                             </v-row>
@@ -83,7 +91,35 @@
     const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     import Utilities from "../components/common/Utilities.vue"
-    const axios = require('axios').default;
+    import API from "../components/common/API";
+
+    export function usernameOrEmailExists(name) {
+        let jsonData = {
+            username: name
+        };
+
+        API.headRequest("users", jsonData)
+            .then(function (response) {
+                if (response.status === 200) {
+                    // User is registered.
+                    return true;
+                } else if (response.status === 400) {
+                    // User does not exist.
+                    return false;
+                }
+
+                console.error("Unexpected Response Code: " + response.status
+                    + "\nResponse Data: " + JSON.stringify(response.data));
+                return true;
+            })
+            .catch(function (error) {
+                console.error(error);
+                return true;
+            });
+
+        return true;
+    }
+
     export default {
         props: {
             name: 'AccountCreation',
@@ -98,10 +134,11 @@
             password: null,
             pwVisible: false,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => !Utilities.isEmpty(value) || "A name is required."
             ],
             usernameRules: [
                 value => !Utilities.isEmpty(value) || "A username is required.",
+                value => !Utilities.isEmpty(value) && !usernameOrEmailExists(value) || "This username has been taken."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
@@ -116,21 +153,33 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
-                    axios.post(this.API_URL + '/users', {
+                    let jsonData = {
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,
                         username: this.username,
                         password: this.password
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    };
 
-                    // this.$router.push('/home');
+                    API.headRequest("users", jsonData)
+                        .then(function (response) {
+                            if (response.status === 200) {
+                                // Succesfully registered.
+                                alert(response.data);
+                                // this.$router.push('/home');
+                            } else if (response.status === 400) {
+                                // TODO: Forward error message to user.
+                                console.error("Oof.\nResponse Data: " + result.errorObject);
+                            }
+
+                            console.error("Unexpected Response Code: " + response.status
+                                + "\nResponse Data: " + JSON.stringify(response.data));
+                            return true;
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            return true;
+                        });
                 }
             }
         }
