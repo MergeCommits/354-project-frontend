@@ -1,6 +1,6 @@
 <template>
-    <v-layout justify-center pt-5 class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content">
+    <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1%; min-width: 50%; margin-top: 5%">
             <v-container>
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
@@ -24,13 +24,13 @@
                                                   outlined label="Last name"></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field v-model="username" required :rules="usernameRules"
                                                   :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"
                                                   :rules="emailRules"
@@ -38,10 +38,10 @@
                                     </v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
-                                    <v-text-field outlined label="Password"
-                                                  required
+                                    <v-text-field outlined label="Password" required
+                                                  hint="You must use eight characters with letters, numbers and symbols."
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -49,12 +49,9 @@
                                                   v-model="password"
                                                   :rules="passwordRules">
                                     </v-text-field>
-                                    <span style="font-size: 13px; margin-left: 1%;" class="font-weight-light">
-                                            You must use eight characters with letters, numbers and symbols.
-                                    </span>
                                 </v-col>
                             </v-row>
-                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field outlined label="Password Confirmation"
                                                   required
@@ -83,11 +80,11 @@
                     <v-col cols="5" align-self="center">
                         <v-row>
                             <v-layout justify-center>
-                                <v-icon style="font-size: 100px" :color="ACCENT_COLOR">fas fa-meteor</v-icon>
+                                <v-icon style="font-size: 130px" :color="ACCENT_COLOR">fas fa-meteor</v-icon>
                             </v-layout>
                         </v-row>
                         <v-row>
-                            <v-layout pt-4 pl-8>
+                            <v-layout pt-4 justify-center>
                                 <span style="font-size: 20px" class="font-weight-light">
                                     Wonders from the stars.
                                 </span>
