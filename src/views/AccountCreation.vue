@@ -194,14 +194,12 @@
                                 // Succesfully registered.
                                 alert(response.data);
                                 // this.$router.push('/home');
-                            } else if (response.status === 400) {
+                            } else { // 400 or other.
                                 // TODO: Forward error message to user
-                                console.error("Oof.\nResponse Data: " + JSON.stringify(response.data));
+                                console.error("Oof.\nResponse Code: " + response.status
+                                    + "\nResponse Data: " + JSON.stringify(response.data));
+                                this.awaitingValidation = true;
                             }
-
-                            console.error("Unexpected Response Code: " + response.status
-                                + "\nResponse Data: " + JSON.stringify(response.data));
-                            return true;
                         })
                         .catch(function (error) {
                             console.error(error);
