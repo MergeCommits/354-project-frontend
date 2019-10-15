@@ -3,7 +3,7 @@
         <v-card style="border-radius: 15px; height: fit-content">
             <v-container>
                 <v-row>
-                    <v-col cols="8">
+                    <v-col cols="7" style="padding: 6px">
                         <v-form ref="form" v-model="validRegistration" :lazy-validation="true">
                             <v-row style="padding-top: 5%; padding-left: 10%">
                                 <span style="font-size: 30px" class="font-weight-regular">The Stars</span>
@@ -54,6 +54,18 @@
                                     </span>
                                 </v-col>
                             </v-row>
+                            <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -5%">
+                                <v-col>
+                                    <v-text-field outlined label="Password Confirmation"
+                                                  required
+                                                  v-bind:banana="password"
+                                                  :type="pwVisible ? 'text' : 'password'"
+                                                  :color="ACCENT_COLOR"
+                                                  v-model="passwordConfirm"
+                                                  :rules="passwordMatchRules">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
                             <v-row>
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 7%">
@@ -68,13 +80,13 @@
                             </v-row>
                         </v-form>
                     </v-col>
-                    <v-col cols="4" class="fill-height">
+                    <v-col cols="5" align-self="center" style="padding-right: 30px">
                         <v-row>
                             <v-layout justify-center>
                                 <v-icon style="font-size: 100px" :color="ACCENT_COLOR">fas fa-meteor</v-icon>
                             </v-layout>
-                            <v-layout pt-4 justify-center>
-                                <span style="font-size: 20px" class="font-weight-light">
+                            <v-layout pt-4>
+                                <span style="font-size: 20px; text-align: center" class="font-weight-light">
                                     Wonders from the stars.
                                 </span>
                             </v-layout>
@@ -90,14 +102,10 @@
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
-    import Utilities from "../components/common/Utilities.vue"
+    import Utilities from "../components/common/Utilities.vue";
     import API from "../components/common/API";
 
-    export function usernameOrEmailExists(name) {
-        let jsonData = {
-            username: name
-        };
-
+    function verifyUserExistence(jsonData) {
         API.headRequest("users", jsonData)
             .then(function (response) {
                 if (response.status === 200) {
@@ -120,6 +128,22 @@
         return true;
     }
 
+    export function usernameExists(value) {
+        let jsonData = {
+            username: value
+        };
+
+        return verifyUserExistence(jsonData);
+    }
+
+    export function emailExists(value) {
+        let jsonData = {
+            email: value
+        };
+
+        return verifyUserExistence(jsonData);
+    }
+
     export default {
         props: {
             name: 'AccountCreation',
@@ -132,13 +156,14 @@
             email: null,
             username: null,
             password: null,
+            passwordConfirm: null,
             pwVisible: false,
             nameRules: [
                 value => !Utilities.isEmpty(value) || "A name is required."
             ],
             usernameRules: [
                 value => !Utilities.isEmpty(value) || "A username is required.",
-                value => !Utilities.isEmpty(value) && !usernameOrEmailExists(value) || "This username has been taken."
+                value => !Utilities.isEmpty(value) && !usernameExists(value) || "This username has been taken."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
@@ -147,7 +172,7 @@
             ],
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An email is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid.",
+                value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ]
         }),
         methods: {
@@ -161,15 +186,15 @@
                         password: this.password
                     };
 
-                    API.headRequest("users", jsonData)
+                    API.postRequest("users", jsonData)
                         .then(function (response) {
                             if (response.status === 200) {
                                 // Succesfully registered.
                                 alert(response.data);
                                 // this.$router.push('/home');
                             } else if (response.status === 400) {
-                                // TODO: Forward error message to user.
-                                console.error("Oof.\nResponse Data: " + result.errorObject);
+                                // TODO: Forward error message to user
+                                console.error("Oof.\nResponse Data: " + JSON.stringify(response.data));
                             }
 
                             console.error("Unexpected Response Code: " + response.status
@@ -181,6 +206,13 @@
                             return true;
                         });
                 }
+            }
+        },
+        computed: {
+            passwordMatchRules() {
+                return [
+                    () => (this.password === this.passwordConfirm) || 'Passwords must match'
+                ];
             }
         }
     };

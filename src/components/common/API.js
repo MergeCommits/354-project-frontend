@@ -1,3 +1,7 @@
+// IMPORTANT NOTE: The object returned by Axios calls is a Promise, so any code after an API call
+// will be executed asynchronously. Make sure any code that you definitely want executed after
+// the request is complete is inside an attached 'then' statement.
+
 const axios = require('axios').default;
 
 const API_URL = "http://dev.354thestars.com:8080/";
