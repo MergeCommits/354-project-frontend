@@ -174,7 +174,8 @@
             ],
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An email is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid."
+                value => EMAIL_PATTERN.test(value) || "Email is not valid.",
+                value => !Utilities.isEmpty(value) && !emailExists(value) || "This email has been taken."
             ]
         }),
         methods: {
