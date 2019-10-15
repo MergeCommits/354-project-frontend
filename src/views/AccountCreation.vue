@@ -80,13 +80,15 @@
                             </v-row>
                         </v-form>
                     </v-col>
-                    <v-col cols="5" align-self="center" style="padding-right: 30px">
+                    <v-col cols="5" align-self="center">
                         <v-row>
                             <v-layout justify-center>
                                 <v-icon style="font-size: 100px" :color="ACCENT_COLOR">fas fa-meteor</v-icon>
                             </v-layout>
-                            <v-layout pt-4>
-                                <span style="font-size: 20px; text-align: center" class="font-weight-light">
+                        </v-row>
+                        <v-row>
+                            <v-layout pt-4 pl-8>
+                                <span style="font-size: 20px" class="font-weight-light">
                                     Wonders from the stars.
                                 </span>
                             </v-layout>
