@@ -6,6 +6,7 @@ import Register from './views/AccountCreation'
 import Home from './views/Home'
 import Search from './views/Search'
 import Settings from "./views/AccountUpdation"
+import Cart from "./views/Cart"
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
             path: '/settings',
             name: 'settings',
             component: Settings
+        },
+        {
+            path: '/cart',
+            name: 'cart',
+            component: Cart
         }
 
     ]

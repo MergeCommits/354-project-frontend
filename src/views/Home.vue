@@ -2,7 +2,8 @@
     <div style="width: 100%">
         <titlebar>
             <v-row style="max-height: 50px">
-                <v-col></v-col>
+                <v-col>
+                </v-col>
                 <v-col>
                     <v-layout justify-center style="margin-top: -6px">
                         <v-btn :color="ACCENT_COLOR" dark depressed @click="categorySelected = !categorySelected">
