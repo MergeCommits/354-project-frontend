@@ -31,12 +31,13 @@ export default new Router({
         {
             path: '/home',
             name: 'home',
-            component: Home
+            component: Home,
         },
         {
             path: '/search',
             name: 'search',
-            component: Search
+            component: Search,
+            props: true
         },
         {
             path: '/settings',
