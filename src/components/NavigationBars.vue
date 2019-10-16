@@ -1,7 +1,7 @@
 <template>
     <div>
     <!-- Top bar. -->
-    <v-app-bar app clipped-left :color="PRIMARY_COLOR">
+        <v-app-bar app clipped-left :color="PRIMARY_COLOR" class="animated fadeInRight">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
         <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
@@ -10,7 +10,7 @@
                  overlap
                  :color="ACCENT_COLOR">
             <template v-slot:badge>
-                <span>6</span>
+                <span>3</span>
             </template>
             <v-btn outlined color="white" @click="$router.push({ name: 'cart'})">
                 <v-icon style="font-size: 20px">fas fa-shopping-cart</v-icon>
@@ -82,7 +82,7 @@
                 <v-list-item-action v-else>
                     <v-badge :color="ACCENT_COLOR">
                         <template v-slot:badge style="max-height: 10px!important;">
-                            <span>6</span>
+                            <span>3</span>
                         </template>
                         <v-icon>shopping_cart</v-icon>
                     </v-badge>
