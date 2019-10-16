@@ -1,6 +1,6 @@
 <template>
     <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1%; min-width: 50%; margin-top: 5%">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 50%; margin-top: 5vh">
             <v-container>
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
