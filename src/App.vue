@@ -3,7 +3,7 @@
         <navbars v-if="!['login', 'register'].includes(this.$route.name)" />
 
         <v-content>
-            <router-view :selectedItems="selectedItems"></router-view>
+            <router-view></router-view>
         </v-content>
     </v-app>
 </template>
@@ -20,7 +20,6 @@
         },
         data: () => ({
             menuPosition: 'main',
-            selectedItems: null
         }),
         computed: {
             searchColor(){
