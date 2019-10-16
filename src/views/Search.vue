@@ -4,8 +4,8 @@
             <v-row style="max-height: 50px">
                 <v-col>
                     <v-layout style="margin-top: -5px">
-                        <v-btn text @click="goBack()">
-                            <v-icon style="margin-right: 10px">
+                        <v-btn color="grey darken-2" text @click="goBack()">
+                            <v-icon color="grey darken-2" style="margin-right: 10px">
                                 arrow_back
                             </v-icon>
                             GO back

@@ -2,7 +2,8 @@
     <div style="width: 100%">
         <titlebar>
             <v-row style="max-height: 50px">
-                <v-col></v-col>
+                <v-col>
+                </v-col>
                 <v-col>
                     <v-layout justify-center style="margin-top: -6px">
                         <v-btn :color="ACCENT_COLOR" dark depressed @click="categorySelected = !categorySelected">
@@ -54,7 +55,8 @@
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
                     <v-card v-for="(category, index) in categories" v-bind:key="index" height="200px" width="300px" hover flat outlined
                             @click="selectedCategory = category; $router.push({ name: 'search'})"
-                            style="margin-right: 3%; margin-top: 2%; border-radius: 10px">
+                            style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
+                            class="animated fadeIn">
                         <v-img class="white--text"
                                height="200px"
                                :src="category.imageUrl">
