@@ -63,15 +63,9 @@ export default new Vuex.Store({
         ]
     },
 
-    getters: {
-        // Here we will create a getter
-    },
+    getters: {},
 
-    mutations: {
-        // Here we will create Jenny
-    },
+    mutations: {},
 
-    actions: {
-        // Here we will create Larry
-    }
+    actions: {}
 });
