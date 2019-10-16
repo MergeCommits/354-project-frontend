@@ -1,5 +1,5 @@
 <template>
-    <v-card style="padding: 10px" flat outlined min-height="fit-content">
+    <v-card style="padding: 10px; min-width: 100em" flat outlined min-height="fit-content">
         <slot/>
     </v-card>
 </template>
