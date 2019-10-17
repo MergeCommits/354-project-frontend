@@ -1,5 +1,13 @@
 <template>
     <v-container fluid style="margin-left: 10%">
+        <v-row style="max-height: 1em; margin-left: -10%; margin-top: 10px">
+            <v-btn color="grey darken-2" text @click="goBack()">
+                <v-icon color="grey darken-2" style="margin-right: 10px">
+                    arrow_back
+                </v-icon>
+                GO back
+            </v-btn>
+        </v-row>
         <v-row>
             <v-col style="min-width:50%">
                 <v-container fluid>

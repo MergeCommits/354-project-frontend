@@ -1,32 +1,6 @@
 <template>
     <div>
-        <titlebar>
-            <v-row style="max-height: 50px">
-                <v-col>
-                    <v-layout style="margin-top: -5px">
-                        <v-btn color="grey darken-2" text @click="goBack()">
-                            <v-icon color="grey darken-2" style="margin-right: 10px">
-                                arrow_back
-                            </v-icon>
-                            GO back
-                        </v-btn>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-layout justify-center style="margin-top: -5px">
-                        <v-icon large :color="ACCENT_COLOR">fab fa-hotjar</v-icon>
-                        <span class="headline  font-weight-regular"
-                              style="margin-left: 7px; margin-top: 5px; color:#424242; font-size: 21px!important;">
-                            Top 10 CATEGORY_NAME Items
-                        </span>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-layout justify-end pr-4>
-                    </v-layout>
-                </v-col>
-            </v-row>
-        </titlebar>
+        <titlebar></titlebar>
         <v-container fluid style="margin-left: 2%; margin-right: 2%">
             <v-row style="min-height: 40em!important; margin-top: -1em">
                 <v-col style="max-width: 17.50%; margin-right: -2%">
