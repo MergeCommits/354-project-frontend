@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        categorySelected: null,
         inputItems: [
             {
                 price: 325,
@@ -26,37 +27,37 @@ export default new Vuex.Store({
             },
             {
                 price: 354,
-                name: 'Drugs1',
+                name: 'Drugs',
                 imageUrl: 'https://picsum.photos/id/1024/500',
                 title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few'
             },
             {
                 price: 99,
-                name: 'Drugs2',
+                name: 'House',
                 imageUrl: 'https://picsum.photos/id/1029/500',
                 title: 'Antminer A3 Very few hours used.'
             },
             {
                 price: 27,
-                name: 'Drugs3',
+                name: 'Footwear',
                 imageUrl: 'https://picsum.photos/id/103/500',
                 title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW'
             },
             {
                 price: 12,
-                name: 'Drugs4',
+                name: 'Food',
                 imageUrl: 'https://picsum.photos/id/1033/500',
                 title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD'
             },
             {
                 price: 2344,
-                name: 'Drugs5',
+                name: 'Electronics',
                 imageUrl: 'https://picsum.photos/id/1038/500',
                 title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS'
             },
             {
                 price: 101,
-                name: 'Drugs6',
+                name: 'Clothing',
                 imageUrl: 'https://picsum.photos/id/1026/500',
                 title: '1951 $1.00 MS-63 FEW TONED'
             }
