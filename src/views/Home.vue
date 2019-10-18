@@ -1,12 +1,10 @@
 <template>
     <div style="width: 100%">
-        <titlebar>
-
-        </titlebar>
-        <v-container>
+        <titlebar />
+        <v-container fluid>
             <v-row style="width: 100%">
                 <v-layout justify-center fill-height pt-5 wrap
-                          style="min-width: 110%; margin-left: -3%">
+                          style="min-width: 100%">
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
                     <v-card v-for="(category, index) in this.$store.state.inputItems" v-bind:key="index" height="200px"
                             width="300px" hover flat outlined

@@ -1,5 +1,5 @@
 <template>
-    <v-card style="padding: 10px; min-width: 100em" flat outlined min-height="fit-content">
+    <v-card style="padding: 10px; overflow: auto" flat outlined min-height="fit-content">
         <v-row style="max-height: 50px">
             <v-col>
                 <v-layout justify-start style="margin-top: -6px;">
