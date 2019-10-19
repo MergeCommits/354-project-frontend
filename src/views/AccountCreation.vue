@@ -110,7 +110,7 @@
                 if (response.status === 200) {
                     // User is registered.
                     return true;
-                } else if (response.status === 400) {
+                } else if (response.status === 404) {
                     // User does not exist.
                     return false;
                 }

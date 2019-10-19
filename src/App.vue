@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <navbars v-if="!['login', 'register'].includes(this.$route.name)" />
+        <navbars v-if="!this.$route.meta.hideNavigation" />
 
         <v-content>
             <router-view></router-view>

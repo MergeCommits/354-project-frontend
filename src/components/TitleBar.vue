@@ -10,13 +10,13 @@
                         GO back
                     </v-btn>
 
-                    <v-btn @click="$router.push({ name: 'home'}).catch(err => {}); $store.state.categorySelected = null; fab = false"
+                    <v-btn router to="/home" @click="this.$store.state.categorySelected = null; fab = false"
                            :color="buttonColor" dark depressed
                            style="margin-right: 10px">
                         <span style="margin-right: 5px">Popular</span>
                         <v-icon small>fab fa-hotjar</v-icon>
                     </v-btn>
-                    <v-btn class="animated fadeIn" v-if="$store.state.categorySelected !== null" dark
+                    <v-btn class="animated fadeIn" v-if="this.$store.state.categorySelected !== null" dark
                            :color="ACCENT_COLOR" depressed
                            style="margin-right: 1%; margin-left: 1%">
                         <span style="margin-right: 5px">{{$store.state.categorySelected}}</span>
@@ -36,8 +36,8 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="$store.state.categorySelected = item.name" color="grey darken-2" small
-                               v-for="item in $store.state.inputItems" text
+                        <v-btn @click="this.$store.state.categorySelected = item.name" color="grey darken-2" small
+                               v-for="item in this.$store.state.inputItems" v-bind:key="item.name" text
                                style="margin-right: 1%">
                             <span style="margin-right: 5px">{{item.name}}</span>
                             <v-icon small>fab fa-hotjar</v-icon>

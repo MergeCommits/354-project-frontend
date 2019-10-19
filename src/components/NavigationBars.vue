@@ -12,7 +12,7 @@
             <template v-slot:badge>
                 <span>3</span>
             </template>
-            <v-btn outlined color="white" @click="$router.push({ name: 'cart'})">
+            <v-btn outlined color="white" router to="/cart">
                 <v-icon style="font-size: 20px">fas fa-shopping-cart</v-icon>
                 <span class="title font-weight-light"
                       style="font-size: 17px !important; margin-left: 5px; text-transform: none">Cart</span>
@@ -48,26 +48,51 @@
             </template>
 
             <v-list dense class="grey lighten-4" rounded min-width="200">
-                <v-list-item router to="/login">
-                    <v-list-item-action>
-                        <v-icon>fas fa-sign-in-alt</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">
-                            Login
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item router to="/register">
-                    <v-list-item-action>
-                        <v-icon>far fa-user-circle</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">
-                            Create an account
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
+                <template v-if="!isLoggedIn()">
+                    <v-list-item router to="/login">
+                        <v-list-item-action>
+                            <v-icon>fas fa-sign-in-alt</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text">
+                                Login
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item router to="/register">
+                        <v-list-item-action>
+                            <v-icon>far fa-user-circle</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text">
+                                Create an account
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
+                <template v-else>
+                    <!-- TODO: -->
+                    <v-list-item>
+                        <v-list-item-action>
+                            <v-icon>fas fa-sign-in-alt</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text">
+                                I STUBBED MY TOE
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item router :to="getLogoutRouter()">
+                        <v-list-item-action>
+                            <v-icon>fas fa-sign-in-alt</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text">
+                                Logout
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
             </v-list>
         </v-menu>
     </v-app-bar>
