@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
@@ -60,6 +60,89 @@ export default new Vuex.Store({
                 name: 'Clothing',
                 imageUrl: 'https://picsum.photos/id/1026/500',
                 title: '1951 $1.00 MS-63 FEW TONED'
+            }
+        ],
+        productCategories0: [
+            {
+                name: 'Cars',
+                imageUrl: 'https://picsum.photos/id/1013/500',
+                productCategories1: [
+                    'test1',
+                    'test2'
+                ]
+            },
+            {
+                name: 'Sports',
+                imageUrl: 'https://picsum.photos/id/1016/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'Kitchen',
+                imageUrl: 'https://picsum.photos/id/1055/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'Drugs',
+                imageUrl: 'https://picsum.photos/id/1024/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'House',
+                imageUrl: 'https://picsum.photos/id/1029/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'Footwear',
+                imageUrl: 'https://picsum.photos/id/103/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'Food',
+                imageUrl: 'https://picsum.photos/id/1033/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+
+            },
+            {
+                name: 'Electronics',
+                imageUrl: 'https://picsum.photos/id/1038/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
+            },
+            {
+                name: 'Clothing',
+                imageUrl: 'https://picsum.photos/id/1026/500',
+                productCategories1: [
+                    'test1',
+                    'test2',
+                    'test3'
+                ]
             }
         ]
     },

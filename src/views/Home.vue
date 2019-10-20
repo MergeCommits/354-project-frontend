@@ -23,6 +23,23 @@
                         </v-img>
                         </v-card>
                     </v-container>
+                    <v-container fluid v-if="this.$store.state.categorySelected != null">
+                        <v-card @click="selectedCategory = category; $router.push({ name: 'search'});"
+                                class="animated fadeIn"
+                                flat
+                                height="200px" hover outlined
+                                style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
+                                v-bind:key="index"
+                                v-for="(category, index) in this.$store.state.productCategories0"
+                                width="300px">
+                            <v-img :src="category.imageUrl"
+                                   class="white--text"
+                                   height="200px">
+                                <v-card-title class="align-end fill-height font-weight-regular">Top 10 {{category.name}}
+                                </v-card-title>
+                            </v-img>
+                        </v-card>
+                    </v-container>
                 </v-layout>
             </v-row>
         </v-container>
