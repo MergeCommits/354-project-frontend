@@ -108,6 +108,7 @@
         API.headRequest("users", jsonData)
             .then(function (response) {
                 if (response.status === 200) {
+                    alert("IRAN");
                     // User is registered.
                     return true;
                 } else if (response.status === 404) {
@@ -177,33 +178,38 @@
         }),
         methods: {
             validate() {
-                if (this.$refs.form.validate()) {
-                    let jsonData = {
-                        firstName: this.firstName,
-                        lastName: this.lastName,
-                        email: this.email,
-                        username: this.username,
-                        password: this.password
-                    };
-
-                    API.postRequest("users", jsonData)
-                        .then(function (response) {
-                            if (response.status === 200) {
-                                // Succesfully registered.
-                                alert(response.data);
-                                // this.$router.push('/home');
-                            } else { // 400 or other.
-                                // TODO: Forward error message to user
-                                console.error("Oof.\nResponse Code: " + response.status
-                                    + "\nResponse Data: " + JSON.stringify(response.data));
-                                this.awaitingValidation = true;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.error(error);
-                            return true;
-                        });
+                let jsonData = {
+                    email: "what",
+                    username: "skywlker",
                 }
+                verifyUserExistence(jsonData);
+                // if (this.$refs.form.validate()) {
+                //     let jsonData = {
+                //         firstName: this.firstName,
+                //         lastName: this.lastName,
+                //         email: this.email,
+                //         username: this.username,
+                //         password: this.password
+                //     };
+                //
+                //     API.postRequest("users", jsonData)
+                //         .then(function (response) {
+                //             if (response.status === 200) {
+                //                 // Succesfully registered.
+                //                 alert(response.data);
+                //                 // this.$router.push('/home');
+                //             } else { // 400 or other.
+                //                 // TODO: Forward error message to user
+                //                 console.error("Oof.\nResponse Code: " + response.status
+                //                     + "\nResponse Data: " + JSON.stringify(response.data));
+                //                 this.awaitingValidation = true;
+                //             }
+                //         })
+                //         .catch(function (error) {
+                //             console.error(error);
+                //             return true;
+                //         });
+                // }
             }
         },
         computed: {

@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
+    <v-layout justify-center class="fill-height" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         Logging you out...
     </v-layout>
 </template>

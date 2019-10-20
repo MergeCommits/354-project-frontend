@@ -27,6 +27,7 @@
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field required outlined label="Password"
                                                   :rules="passwordRules"
+                                                  :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -79,6 +80,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
+    import API from "../components/common/API";
 
     export default {
         name: "Login",
@@ -87,6 +89,7 @@
             validLogin: true,
             lazyValidation: true,
             pwVisible: false,
+            pwError: "",
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
             ],
@@ -99,7 +102,27 @@
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
                     // TODO: Check the database for validity.
-                    this.$router.push('/home');
+                    let jsonData = {
+                        email: this.email,
+                        password: this.password
+                    };
+                    API.postRequest("auth/login", jsonData)
+                        .then(function (response) {
+                            if (response.status === 200) {
+                                // Succesfully logged in.
+                                this.$router.push('/home');
+                            } else if (response.status === 500) {
+                                // Already logged in. Proceed anyway.
+                                this.$router.push('/home');
+                            } else if (response.status === 400) {
+                                // Invalid info?
+                                this.pwError = response.message;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            return true;
+                        });
                 }
             }
         }
