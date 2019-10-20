@@ -36,7 +36,8 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="$store.state.categorySelected = item.name" color="grey darken-2" small
+                        <v-btn @click="$store.state.categorySelected = item.name;
+                        $router.push({ name: 'home'}).catch(err => {});" color="grey darken-2" small
                                v-for="item in $store.state.inputItems" text
                                style="margin-right: 1%">
                             <span style="margin-right: 5px">{{item.name}}</span>

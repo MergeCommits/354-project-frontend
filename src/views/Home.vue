@@ -1,23 +1,28 @@
 <template>
     <div style="width: 100%">
-        <titlebar />
+        <titlebar/>
         <v-container fluid>
             <v-row style="width: 100%">
                 <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 100%">
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
-                    <v-card v-for="(category, index) in this.$store.state.inputItems" v-bind:key="index" height="200px"
-                            width="300px" hover flat outlined
-                            @click="selectedCategory = category; $router.push({ name: 'search'})"
-                            style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
-                            class="animated fadeIn">
+                    <v-container fluid v-if="this.$store.state.categorySelected == null">
+                        <v-card @click="selectedCategory = category; $router.push({ name: 'search'});"
+                                class="animated fadeIn"
+                                flat
+                                height="200px" hover outlined
+                                style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
+                                v-bind:key="index"
+                                v-for="(category, index) in this.$store.state.inputItems"
+                                width="300px">
                         <v-img class="white--text"
                                height="200px"
                                :src="category.imageUrl">
                             <v-card-title class="align-end fill-height font-weight-regular">Top 10 {{category.name}}
                             </v-card-title>
                         </v-img>
-                    </v-card>
+                        </v-card>
+                    </v-container>
                 </v-layout>
             </v-row>
         </v-container>
