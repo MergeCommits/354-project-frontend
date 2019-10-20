@@ -7,6 +7,7 @@ import Home from './views/Home'
 import Search from './views/Search'
 import Settings from "./views/AccountUpdation"
 import Cart from "./views/Cart"
+import Product from "./views/Product";
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
             path: '/home',
             name: 'home',
             component: Home,
+        },
+        {
+            path: '/product/:id',
+            name: 'product',
+            component: Product,
         },
         {
             path: '/search',
