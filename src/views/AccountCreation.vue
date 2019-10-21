@@ -27,6 +27,7 @@
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field v-model="username" required :rules="usernameRules"
+                                                  :error-messages="usernameErrors"
                                                   :color="ACCENT_COLOR" outlined label="Username"></v-text-field>
                                 </v-col>
                             </v-row>
@@ -34,6 +35,7 @@
                                 <v-col>
                                     <v-text-field v-model="email" :color="ACCENT_COLOR" outlined label="Email"
                                                   :rules="emailRules"
+                                                  :error-messages="emailErrors"
                                                   required>
                                     </v-text-field>
                                 </v-col>
@@ -104,38 +106,6 @@
     import Utilities from "../components/common/Utilities.vue";
     import API from "../components/common/API";
 
-    function verifyUserExistence(jsonData) {
-        API.headRequest("users", jsonData)
-            .then(function (response) {
-                if (response.status === 200) {
-                    alert("IRAN");
-                    // User is registered.
-                    return true;
-                } else if (response.status === 404) {
-                    // User does not exist.
-                    return false;
-                }
-
-                console.error("Unexpected Response Code: " + response.status
-                    + "\nResponse Data: " + JSON.stringify(response.data));
-                return true;
-            })
-            .catch(function (error) {
-                console.error(error);
-                return true;
-            });
-
-        return true;
-    }
-
-    export function usernameExists(value) {
-        let jsonData = {
-            username: value
-        };
-
-        return verifyUserExistence(jsonData);
-    }
-
     export function emailExists(value) {
         let jsonData = {
             email: value
@@ -145,16 +115,16 @@
     }
 
     export default {
-        props: {
-            name: 'AccountCreation',
-        },
+        name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
             validRegistration: true,
             firstName: null,
             lastName: null,
             email: null,
+            emailErrors: [],
             username: null,
+            usernameErrors: [],
             password: null,
             passwordConfirm: null,
             pwVisible: false,
@@ -162,54 +132,112 @@
                 value => !Utilities.isEmpty(value) || "A name is required."
             ],
             usernameRules: [
-                value => !Utilities.isEmpty(value) || "A username is required.",
-                value => !Utilities.isEmpty(value) && !usernameExists(value) || "This username has been taken."
+                value => !Utilities.isEmpty(value) || "A username is required."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
                 value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
-                value => PASSWORD_PATTERN.test(value) || "Password content is not valid.",
+                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An email is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid.",
-                value => !Utilities.isEmpty(value) && !emailExists(value) || "This email has been taken."
+                value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ]
         }),
+        watch: {
+            username (val) {
+                if (Utilities.isEmpty(val)) {
+                    return;
+                }
+
+                let jsonData = {
+                    username: val
+                };
+
+                API.headRequest("users", jsonData)
+                    .then(response => {
+                        console.log(JSON.stringify(response));
+                        if (response.status === 200) {
+                            // User does exist.
+                            this.usernameErrors = ["This username is taken."];
+                            return;
+                        }
+
+                        console.error("Unexpected Response Code: " + response.status
+                            + "\nResponse Data: " + JSON.stringify(response.data));
+                        this.usernameErrors = ["Something went wrong. Please reset the web page and try again."];
+                    })
+                    .catch(error => {
+                        if (error.response.status === 404) {
+                            // User does not exist.
+                            this.usernameErrors = [];
+                            return;
+                        }
+
+                        console.error(error);
+                        this.usernameErrors = ["Something went wrong. Please reset the web page and try again."];
+                    });
+            },
+            email (val) {
+                if (Utilities.isEmpty(val)) {
+                    return;
+                }
+
+                let jsonData = {
+                    email: val
+                };
+
+                API.headRequest("users", jsonData)
+                    .then(response => {
+                        if (response.status === 200) {
+                            // User does exist.
+                            this.emailErrors = ["This email is taken."];
+                            return;
+                        }
+
+                        console.error("Unexpected Response Code: " + response.status
+                            + "\nResponse Data: " + JSON.stringify(response.data));
+                        this.emailErrors = ["Something went wrong. Please reset the web page and try again."];
+                    })
+                    .catch(error => {
+                        if (error.response.status === 404) {
+                            // User does not exist.
+                            this.emailErrors = [];
+                            return;
+                        }
+
+                        console.error(error);
+                        this.emailErrors = ["Something went wrong. Please reset the web page and try again."];
+                    });
+            }
+        },
         methods: {
             validate() {
-                let jsonData = {
-                    email: "what",
-                    username: "skywlker",
+                if (this.$refs.form.validate()) {
+                    let jsonData = {
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        username: this.username,
+                        password: this.password
+                    };
+
+                    API.postRequest("users", jsonData)
+                        .then(response => {
+                            if (response.status === 200) {
+                                // Succesfully registered.
+                                alert(response.data);
+                                // this.$router.push('/home');
+                            } else { // 400 or other.
+                                console.error("Oof.\nResponse Code: " + response.status
+                                    + "\nResponse Data: " + JSON.stringify(response.data));
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            return true;
+                        });
                 }
-                verifyUserExistence(jsonData);
-                // if (this.$refs.form.validate()) {
-                //     let jsonData = {
-                //         firstName: this.firstName,
-                //         lastName: this.lastName,
-                //         email: this.email,
-                //         username: this.username,
-                //         password: this.password
-                //     };
-                //
-                //     API.postRequest("users", jsonData)
-                //         .then(function (response) {
-                //             if (response.status === 200) {
-                //                 // Succesfully registered.
-                //                 alert(response.data);
-                //                 // this.$router.push('/home');
-                //             } else { // 400 or other.
-                //                 // TODO: Forward error message to user
-                //                 console.error("Oof.\nResponse Code: " + response.status
-                //                     + "\nResponse Data: " + JSON.stringify(response.data));
-                //                 this.awaitingValidation = true;
-                //             }
-                //         })
-                //         .catch(function (error) {
-                //             console.error(error);
-                //             return true;
-                //         });
-                // }
             }
         },
         computed: {

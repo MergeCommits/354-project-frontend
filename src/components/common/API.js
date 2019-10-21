@@ -10,12 +10,19 @@ const APICaller = axios.create({
     baseURL: API_URL
 });
 
-function axiosRequest(requestType, urlPath, jsonData) {
+function axiosRequest(requestType, urlPath, jsonData = "") {
     return APICaller({
         method: requestType,
         url: urlPath,
         data: jsonData
     })
+}
+
+// Map a JSON object to a URL query.
+function jsonToUrl(jsonData) {
+    return "?" + Object.keys(jsonData).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(jsonData[k])
+    }).join('&').toString();
 }
 
 export default {
@@ -24,6 +31,7 @@ export default {
     },
 
     headRequest(urlPath, jsonData) {
-        return axiosRequest("head", urlPath, jsonData);
+        let urlQueries = jsonToUrl(jsonData);
+        return axiosRequest("head", urlPath + urlQueries);
     }
 }
