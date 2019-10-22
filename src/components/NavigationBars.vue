@@ -48,7 +48,7 @@
             </template>
 
             <v-list dense class="grey lighten-4" rounded min-width="200">
-                <template v-if="!isLoggedIn()">
+                <template v-if="!this.$store.state.isLoggedIn">
                     <v-list-item router to="/login">
                         <v-list-item-action>
                             <v-icon>fas fa-sign-in-alt</v-icon>

@@ -107,21 +107,23 @@
                         password: this.password
                     };
                     API.postRequest("auth/login", jsonData)
-                        .then(function (response) {
+                        .then(response => {
                             if (response.status === 200) {
                                 // Succesfully logged in.
                                 this.$router.push('/home');
-                            } else if (response.status === 500) {
-                                // Already logged in. Proceed anyway.
-                                this.$router.push('/home');
-                            } else if (response.status === 400) {
-                                // Invalid info?
-                                this.pwError = response.message;
                             }
                         })
-                        .catch(function (error) {
+                        .catch(error => {
+                            if (error.response.status === 401) {
+                                // Already logged in. Proceed anyway.
+                                this.$router.push('/home');
+                            } else if (error.response.status === 400) {
+                                // Invalid info or other.
+                                this.pwError = [error.response.message];
+                                return;
+                            }
+
                             console.error(error);
-                            return true;
                         });
                 }
             }

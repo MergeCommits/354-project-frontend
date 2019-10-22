@@ -12,18 +12,30 @@
     import Utilities from "./components/common/Utilities"
 
     import NavigationBars from "./components/NavigationBars";
+    import API from "./components/common/API";
 
     export default {
         mixins: [Utilities],
         components: {
             'navbars': NavigationBars
         },
-        data: () => ({
-            menuPosition: 'main',
-        }),
+        created: function () {
+            // Update our login status.
+            API.getRequest("self")
+                .then(response => {
+                    if (response.status === 200) {
+                        // Logged in.
+                        // TODO: Add data.
+                        this.$store.commit("login");
+                    }
+                })
+                .catch(() => {
+                    // console.error(error);
+                });
+        },
         computed: {
-            searchColor(){
-                return this.isSearchActive ? this.ACCENT_COLOR : null
+            searchColor() {
+                return this.isSearchActive ? this.ACCENT_COLOR : null;
             }
         }
     };

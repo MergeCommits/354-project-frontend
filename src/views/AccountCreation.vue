@@ -106,14 +106,6 @@
     import Utilities from "../components/common/Utilities.vue";
     import API from "../components/common/API";
 
-    export function emailExists(value) {
-        let jsonData = {
-            email: value
-        };
-
-        return verifyUserExistence(jsonData);
-    }
-
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
@@ -227,13 +219,11 @@
                             if (response.status === 200) {
                                 // Succesfully registered.
                                 alert(response.data);
-                                // this.$router.push('/home');
-                            } else { // 400 or other.
-                                console.error("Oof.\nResponse Code: " + response.status
-                                    + "\nResponse Data: " + JSON.stringify(response.data));
+                                this.$router.push('/home');
                             }
                         })
                         .catch(error => {
+                            // TODO: Prompt user of the error.
                             console.error(error);
                             return true;
                         });

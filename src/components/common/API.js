@@ -10,7 +10,7 @@ const APICaller = axios.create({
     baseURL: API_URL
 });
 
-function axiosRequest(requestType, urlPath, jsonData = "") {
+function axiosRequest(requestType, urlPath, jsonData = {}) {
     return APICaller({
         method: requestType,
         url: urlPath,
@@ -20,6 +20,7 @@ function axiosRequest(requestType, urlPath, jsonData = "") {
 
 // Map a JSON object to a URL query.
 function jsonToUrl(jsonData) {
+    // TODO: Check for empty JSON object.
     return "?" + Object.keys(jsonData).map(function(k) {
         return encodeURIComponent(k) + '=' + encodeURIComponent(jsonData[k])
     }).join('&').toString();
@@ -28,6 +29,11 @@ function jsonToUrl(jsonData) {
 export default {
     postRequest(urlPath, jsonData) {
         return axiosRequest("post", urlPath, jsonData);
+    },
+
+    getRequest(urlPath, jsonData = {}) {
+        let urlQueries = jsonToUrl(jsonData);
+        return axiosRequest("get", urlPath + urlQueries);
     },
 
     headRequest(urlPath, jsonData) {
