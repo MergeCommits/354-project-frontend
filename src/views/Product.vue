@@ -19,18 +19,25 @@
                         <v-card class="animated fadeIn" min-width="250px"
                                 tile elevation="14" width="35%" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
                             <v-card-title>test{{this.$route.params.id}}</v-card-title>
+                            <v-card-subtitle style="width: 100%">$599.99</v-card-subtitle>
 
                             <v-card-actions>
-                                <v-btn width="100%" text>OH MY GOD</v-btn>
-                            </v-card-actions>
-                            <v-card-actions>
-                                <v-btn width="100%" text>I STUBBED MY TOW</v-btn>
+                                <v-btn text width="100%">CHECKOUT</v-btn>
                             </v-card-actions>
                         </v-card>
 
+                        <!-- Product description. -->
                         <v-layout wrap>
-                        <h2>Description:</h2>
-                        You sit at the restaurant with your young son, he says he is hungry. You agree to get him dinner. You open up to the kids menu, your child is far to young for adult food. Chicken nugger stares at you from the page. You don’t understand. Your palms get sweaty and your son complains. He says he is hungry. Your mind strains, searching for an answer in a world of sweer potato and French fried. You try to order the chicken nugger, but you cannot. The words cannot escape your lips. Your son is hungry, he complains. The waitress stares at you, her head a spinning chicken nugger, her arms swinging French fried. Your son cries the tears of a chicken nugger-less child. In your mind you scream. It is raining sweer potato now, you have French fried engraved on your left temple and you do not understand. Your son weeps in the corner, he is starving. Starving for the chicken nugger.
+                            <v-container>
+                                <h2>Description:</h2>
+                                You sit at the restaurant with your young son, he says he is hungry. You agree to get him dinner. You open up to the kids menu, your child is far to young for adult food. Chicken nugger stares at you from the page. You don’t understand. Your palms get sweaty and your son complains. He says he is hungry. Your mind strains, searching for an answer in a world of sweer potato and French fried. You try to order the chicken nugger, but you cannot. The words cannot escape your lips. Your son is hungry, he complains. The waitress stares at you, her head a spinning chicken nugger, her arms swinging French fried. Your son cries the tears of a chicken nugger-less child. In your mind you scream. It is raining sweer potato now, you have French fried engraved on your left temple and you do not understand. Your son weeps in the corner, he is starving. Starving for the chicken nugger.
+                                </v-container>
+                            <v-divider />
+
+                            <v-container>
+                                <h2>Specification:</h2>
+                                I stubbed my toe and this is a new line sad..
+                            </v-container>
                         </v-layout>
                     </v-layout>
                 </v-card>
