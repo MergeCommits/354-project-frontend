@@ -36,11 +36,11 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="$store.state.categorySelected = item.name;
-                        $router.push({ name: 'home'}).catch(err => {});" color="grey darken-2" small
-                               v-for="item in $store.state.inputItems" text
+                        <v-btn @click="$store.state.categorySelected = item;$router.push({ name: 'home'}).catch(err => {});"
+                               color="grey darken-2" small
+                               text v-for="(none, item) in $store.state.productCategories0"
                                style="margin-right: 1%">
-                            <span style="margin-right: 5px">{{item.name}}</span>
+                            <span style="margin-right: 5px">{{item}}</span>
                             <v-icon small>fab fa-hotjar</v-icon>
                         </v-btn>
                     </v-speed-dial>

@@ -62,92 +62,20 @@ export default new Vuex.Store({
                 title: '1951 $1.00 MS-63 FEW TONED'
             }
         ],
-        productCategories0: [
-            {
-                name: 'Cars',
+        productCategories0: {
+            Cars: {
                 imageUrl: 'https://picsum.photos/id/1013/500',
                 productCategories1: [
                     'test1',
                     'test2'
                 ]
-            },
-            {
-                name: 'Sports',
-                imageUrl: 'https://picsum.photos/id/1016/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'Kitchen',
-                imageUrl: 'https://picsum.photos/id/1055/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'Drugs',
-                imageUrl: 'https://picsum.photos/id/1024/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'House',
-                imageUrl: 'https://picsum.photos/id/1029/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'Footwear',
-                imageUrl: 'https://picsum.photos/id/103/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'Food',
-                imageUrl: 'https://picsum.photos/id/1033/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-
-            },
-            {
-                name: 'Electronics',
-                imageUrl: 'https://picsum.photos/id/1038/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
-            },
-            {
-                name: 'Clothing',
-                imageUrl: 'https://picsum.photos/id/1026/500',
-                productCategories1: [
-                    'test1',
-                    'test2',
-                    'test3'
-                ]
             }
-        ]
+        }            
     },
 
-    getters: {},
+    getters: {
+        // categorySet :
+    },
 
     mutations: {},
 
