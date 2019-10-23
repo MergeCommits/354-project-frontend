@@ -10,7 +10,7 @@
                  overlap
                  :color="ACCENT_COLOR">
             <template v-slot:badge>
-                <span>3</span>
+                <span>{{cartItemCount}}</span>
             </template>
             <v-btn outlined color="white" @click="$router.push({ name: 'cart'})">
                 <v-icon style="font-size: 20px">fas fa-shopping-cart</v-icon>
@@ -82,7 +82,7 @@
                 <v-list-item-action v-else>
                     <v-badge :color="ACCENT_COLOR">
                         <template v-slot:badge style="max-height: 10px!important;">
-                            <span>3</span>
+                            <span>{{cartItemCount}}</span>
                         </template>
                         <v-icon>shopping_cart</v-icon>
                     </v-badge>
@@ -112,7 +112,18 @@
                 { icon: 'person', text: 'Manage account', route: '/settings' },
                 { icon: 'settings', text: 'Settings', route: '/settings' },
             ]
-        })
+        }),
+        computed: {
+            cartItemCount() {
+                this.$root.$on('cartItemCount', (count) => {
+                    alert("d")
+                    this.cartItemCount = count;
+                    alert(this.cartItemCount)
+                    alert("here")
+                });
+                return this.$store.state.cartItemCount;
+            }
+        }
     }
 </script>
 

@@ -30,7 +30,7 @@
                                         <v-layout justify-end pt-5 style="max-width: 30%">
                                             <v-select dense label="Quantity" solo flat filled
                                                       style="max-width: 120px; margin-right: 10px; max-height: 80px!important;"></v-select>
-                                            <v-btn fab depressed>
+                                            <v-btn fab depressed @click="removeItemFromCart(item)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                         </v-layout>
@@ -90,12 +90,28 @@
     export default {
         name: "Cart",
         mixins: [Utilities],
-        data: () => ({}),
-        computed: {
-            cartItems() {
-                return this.$store.state.inputItems.slice(0, 3);
+        data: () => ({
+            render: true,
+            cartItems: []
+        }),
+        created: function () {
+            this.render = !this.render;
+        },
+        methods: {
+            removeItemFromCart(item) {
+                let cart = JSON.parse(localStorage.getItem("cart"));
+                cart = cart.filter(cartItem => cartItem.id !== item.id);
+                localStorage.setItem("cart", JSON.stringify(cart.filter(cartItem => cartItem.id !== item.id)));
+                this.$root.$emit('cartItemCount', this.$store.state.cartItemCount--);
+                this.render = !this.render;
             }
-        }
+        },
+        watch: {
+            render: function () {
+                this.cartItems = JSON.parse(localStorage.getItem("cart"));
+            }
+        },
+        computed: {}
     }
 </script>
 
