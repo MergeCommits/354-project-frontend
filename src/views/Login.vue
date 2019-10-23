@@ -20,12 +20,12 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR" outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field required outlined label="Password"
+                                    <v-text-field v-model="password" required outlined label="Password"
                                                   :rules="passwordRules"
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
@@ -88,6 +88,8 @@
         data: () => ({
             validLogin: true,
             lazyValidation: true,
+            email: null,
+            password: null,
             pwVisible: false,
             pwError: "",
             emailRules: [
@@ -119,7 +121,7 @@
                                 this.$router.push('/home');
                             } else if (error.response.status === 400) {
                                 // Invalid info or other.
-                                this.pwError = [error.response.message];
+                                this.pwError = [error.response.data.message];
                                 return;
                             }
 

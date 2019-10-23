@@ -4,13 +4,14 @@
 
 const axios = require('axios').default;
 
-const API_URL = "http://dev.354thestars.com:8080/";
+// const API_URL = "http://dev.354thestars.com:8080/";
+const API_URL = "http://127.0.0.1:5000/";
 
 const APICaller = axios.create({
     baseURL: API_URL
 });
 
-function axiosRequest(requestType, urlPath, jsonData = {}) {
+function axiosRequest(requestType, urlPath, jsonData) {
     return APICaller({
         method: requestType,
         url: urlPath,
@@ -20,7 +21,6 @@ function axiosRequest(requestType, urlPath, jsonData = {}) {
 
 // Map a JSON object to a URL query.
 function jsonToUrl(jsonData) {
-    // TODO: Check for empty JSON object.
     return "?" + Object.keys(jsonData).map(function(k) {
         return encodeURIComponent(k) + '=' + encodeURIComponent(jsonData[k])
     }).join('&').toString();
@@ -31,9 +31,12 @@ export default {
         return axiosRequest("post", urlPath, jsonData);
     },
 
-    getRequest(urlPath, jsonData = {}) {
+    getRequest(urlPath, jsonData) {
         let urlQueries = jsonToUrl(jsonData);
         return axiosRequest("get", urlPath + urlQueries);
+    },
+    getRequestNoData(urlPath) {
+        return axiosRequest("get", urlPath);
     },
 
     headRequest(urlPath, jsonData) {

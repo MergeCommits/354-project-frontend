@@ -21,7 +21,7 @@
         },
         created: function () {
             // Update our login status.
-            API.getRequest("self")
+            API.getRequestNoData("users/self")
                 .then(response => {
                     if (response.status === 200) {
                         // Logged in.

@@ -57,7 +57,6 @@
                                 <v-col>
                                     <v-text-field outlined label="Password Confirmation"
                                                   required
-                                                  v-bind:banana="password"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   :color="ACCENT_COLOR"
                                                   v-model="passwordConfirm"
