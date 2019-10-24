@@ -12,7 +12,7 @@
     import Utilities from "./components/common/Utilities"
 
     import NavigationBars from "./components/NavigationBars";
-    import API from "./components/common/API";
+    import {RequestType, APICall} from "./components/common/API";
 
     export default {
         mixins: [Utilities],
@@ -21,16 +21,22 @@
         },
         created: function () {
             // Update our login status.
-            API.getRequestNoData("users/self")
+            const LOGGED_IN = 200;
+            const NO_AUTH = 400;
+
+            let call = new APICall(RequestType.GET, "users/self", null, [LOGGED_IN, NO_AUTH]);
+            call.performRequest()
                 .then(response => {
-                    if (response.status === 200) {
-                        // Logged in.
-                        // TODO: Add data.
-                        this.$store.commit("login");
+                    switch (response.status) {
+                        case LOGGED_IN: {
+                            // TODO: Add data.
+                            this.$store.commit("login");
+                        } break;
+
+                        case NO_AUTH: {
+                            this.$store.commit("logout");
+                        } break;
                     }
-                })
-                .catch(() => {
-                    // console.error(error);
                 });
         },
         computed: {

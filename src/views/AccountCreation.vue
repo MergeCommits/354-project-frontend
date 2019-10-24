@@ -103,7 +103,7 @@
     const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     import Utilities from "../components/common/Utilities.vue";
-    import API from "../components/common/API";
+    import API, {APICall, RequestType} from "../components/common/API";
 
     export default {
         name: 'AccountCreation',
@@ -145,28 +145,21 @@
                     username: val
                 };
 
-                API.headRequest("users", jsonData)
+                const FOUND = 200;
+                const NOT_FOUND = 404;
+
+                let call = new APICall(RequestType.HEAD, "users", jsonData, [FOUND, NOT_FOUND]);
+                call.performRequest()
                     .then(response => {
-                        console.log(JSON.stringify(response));
-                        if (response.status === 200) {
-                            // User does exist.
-                            this.usernameErrors = ["This username is taken."];
-                            return;
-                        }
+                        switch (response.status) {
+                            case FOUND: {
+                                this.usernameErrors = ["This username is taken."];
+                            } break;
 
-                        console.error("Unexpected Response Code: " + response.status
-                            + "\nResponse Data: " + JSON.stringify(response.data));
-                        this.usernameErrors = ["Something went wrong. Please reset the web page and try again."];
-                    })
-                    .catch(error => {
-                        if (error.response.status === 404) {
-                            // User does not exist.
-                            this.usernameErrors = [];
-                            return;
+                            case NOT_FOUND: {
+                                this.usernameErrors = [];
+                            } break;
                         }
-
-                        console.error(error);
-                        this.usernameErrors = ["Something went wrong. Please reset the web page and try again."];
                     });
             },
             email (val) {
@@ -178,27 +171,21 @@
                     email: val
                 };
 
-                API.headRequest("users", jsonData)
+                const FOUND = 200;
+                const NOT_FOUND = 404;
+
+                let call = new APICall(RequestType.HEAD, "users", jsonData, [FOUND, NOT_FOUND]);
+                call.performRequest()
                     .then(response => {
-                        if (response.status === 200) {
-                            // User does exist.
-                            this.emailErrors = ["This email is taken."];
-                            return;
-                        }
+                        switch (response.status) {
+                            case FOUND: {
+                                this.emailErrors = ["This username is taken."];
+                            } break;
 
-                        console.error("Unexpected Response Code: " + response.status
-                            + "\nResponse Data: " + JSON.stringify(response.data));
-                        this.emailErrors = ["Something went wrong. Please reset the web page and try again."];
-                    })
-                    .catch(error => {
-                        if (error.response.status === 404) {
-                            // User does not exist.
-                            this.emailErrors = [];
-                            return;
+                            case NOT_FOUND: {
+                                this.emailErrors = [];
+                            } break;
                         }
-
-                        console.error(error);
-                        this.emailErrors = ["Something went wrong. Please reset the web page and try again."];
                     });
             }
         },
@@ -213,18 +200,18 @@
                         password: this.password
                     };
 
-                    API.postRequest("users", jsonData)
+                    const SUCCESS = 200;
+
+                    // TODO: Add some sort of prompt if the server errors out.
+                    let call = new APICall(RequestType.POST, "users", jsonData, [SUCCESS]);
+                    call.performRequest()
                         .then(response => {
-                            if (response.status === 200) {
-                                // Succesfully registered.
-                                alert(response.data);
-                                this.$router.push('/home');
+                            switch (response.status) {
+                                case SUCCESS: {
+                                    alert(response.data);
+                                    this.$router.push('/home');
+                                } break;
                             }
-                        })
-                        .catch(error => {
-                            // TODO: Prompt user of the error.
-                            console.error(error);
-                            return true;
                         });
                 }
             }

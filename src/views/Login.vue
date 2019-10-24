@@ -80,7 +80,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
-    import API from "../components/common/API";
+    import API, {APICall, RequestType} from "../components/common/API";
 
     export default {
         name: "Login",
@@ -108,24 +108,28 @@
                         email: this.email,
                         password: this.password
                     };
-                    API.postRequest("auth/login", jsonData)
-                        .then(response => {
-                            if (response.status === 200) {
-                                // Succesfully logged in.
-                                this.$router.push('/home');
-                            }
-                        })
-                        .catch(error => {
-                            if (error.response.status === 401) {
-                                // Already logged in. Proceed anyway.
-                                this.$router.push('/home');
-                            } else if (error.response.status === 400) {
-                                // Invalid info or other.
-                                this.pwError = [error.response.data.message];
-                                return;
-                            }
 
-                            console.error(error);
+                    const LOGIN = 200;
+                    const ALREADY_LOGIN = 401;
+                    const INVALID_INFO = 400;
+
+                    let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
+                    call.performRequest()
+                        .then(response => {
+                            switch (response.status) {
+                                case LOGIN: {
+                                    this.$router.push('/home');
+                                } break;
+
+                                case ALREADY_LOGIN: {
+                                    // Proceed anyway.
+                                    this.$router.push('/home');
+                                } break;
+
+                                case INVALID_INFO: {
+                                    this.pwError = [response.data.message];
+                                } break;
+                            }
                         });
                 }
             }
