@@ -179,7 +179,7 @@
                     .then(response => {
                         switch (response.status) {
                             case FOUND: {
-                                this.emailErrors = ["This username is taken."];
+                                this.emailErrors = ["This email is taken."];
                             } break;
 
                             case NOT_FOUND: {
