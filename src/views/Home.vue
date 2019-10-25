@@ -6,36 +6,39 @@
                 <v-layout justify-center fill-height pt-5 wrap
                           style="min-width: 100%">
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
-                    <v-card @click="selectedCategory = label; $router.push({ name: 'search'})"
-                            class="animated fadeIn" flat height="200px"
-                            hover outlined style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
-                            v-bind:key="categoryAttr"
-                            v-for="(categoryAttr, label) in this.$store.state.productCategories0"
-                            v-if="$store.state.categorySelected == null"
-                            width="300px">
-                        <v-img class="white--text"
-                               height="200px"
-                               :src="categoryAttr.imageUrl">
-                            <v-card-title class="align-end fill-height font-weight-regular"> Top 10 {{label}}
-                            </v-card-title>
-                        </v-img>
-                    </v-card>
+                    <div class="wrapper" v-if="this.$store.state.categorySelected == null">
+                        <v-card @click="selectedCategory = categoryAttr.mainCatLabel; $router.push({ name: 'search'})"
+                                class="animated fadeIn" flat height="200px"
+                                hover outlined style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
+                                v-bind:key="categoryAttr.mainCatLabel"
+                                v-for="categoryAttr in this.$store.state.productCategories0"
+                                width="300px">
+                            <v-img :src="categoryAttr.imageUrl"
+                                   class="white--text"
+                                   height="200px">
+                                <v-card-title class="align-end fill-height font-weight-regular"> Top 10
+                                    {{categoryAttr.mainCatLabel}}
+                                </v-card-title>
+                            </v-img>
+                        </v-card>
+                    </div>
 
-                    <!--                            v-for="(categoryAttr, label) in this.$store.state.productCategories0" v-bind:key="categoryAttr" height="200px"-->
-                    <!--                    <v-card v-if="$store.state.categorySelected != null v-bing:key = categorySelected"-->
-                    <!--                            v-for="subcatLabel in this.$store.state.productCategories0.{{$store.state.categorySelected}}.productCategories1"-->
-                    <!--                            height="200px"-->
-                    <!--                            width="300px" hover flat outlined-->
-                    <!--                            @click="selectedCategory = label; $router.push({ name: 'search'})"-->
-                    <!--                            style="margin-right: 3%; margin-top: 2%; border-radius: 10px"-->
-                    <!--                            class="animated fadeIn">-->
-                    <!--                        <v-img class="white&#45;&#45;text"-->
-                    <!--                               height="200px"-->
-                    <!--                               :src="categoryAttr.imageUrl">-->
-                    <!--                            <v-card-title class="align-end fill-height font-weight-regular"> Top 10 {{label}}-->
-                    <!--                            </v-card-title>-->
-                    <!--                        </v-img>-->
-                    <!--                    </v-card>-->
+                    <div class="wrapper" v-if="this.$store.state.categorySelected != null">
+                        <v-card @click="selectedCategory = subCatLabel; $router.push({ name: 'search'})"
+                                class="animated fadeIn"
+                                flat height="200px" hover outlined
+                                style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
+                                v-bind:key="subCatLabel"
+                                v-for="subCatLabel in this.$store.getters.getProductCategories1()"
+                                width="300px">
+                            <!--                                            <v-img class="white&#45;&#45;text"-->
+                            <!--                                                   height="200px"-->
+                            <!--                                                   :src="'https://picsum.photos/id/1013/500'">-->
+                            <v-card-title class="align-end fill-height font-weight-regular"> {{subCatLabel}}
+                            </v-card-title>
+                            <!--                                            </v-img>-->
+                        </v-card>
+                    </div>
                 </v-layout>
             </v-row>
         </v-container>

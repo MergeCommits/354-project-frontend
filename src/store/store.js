@@ -62,19 +62,20 @@ export default new Vuex.Store({
                 title: '1951 $1.00 MS-63 FEW TONED'
             }
         ],
-        productCategories0: {
-            Cars: {
+        productCategories0: [
+            {
+                mainCatLabel: 'Cars',
                 imageUrl: 'https://picsum.photos/id/1013/500',
-                productCategories1: [
-                    'test1',
-                    'test2'
-                ]
+                productCategories1: ['test1', 'test2']
             }
-        }            
+        ]
     },
 
     getters: {
         // categorySet :
+        getProductCategories1: () => {
+            return this.state.productCategories0.filter(obj => obj.mainCatLabel === 'Cars').productCategories1;
+        }
     },
 
     mutations: {},
