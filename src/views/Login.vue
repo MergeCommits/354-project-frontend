@@ -80,7 +80,10 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
-    import API, {APICall, RequestType} from "../components/common/API";
+    import {APICall, RequestType} from "../components/common/API";
+
+    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     export default {
         name: "Login",
@@ -94,9 +97,11 @@
             pwError: "",
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
+                value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
+                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ]
         }),
         methods: {
@@ -118,11 +123,13 @@
                         .then(response => {
                             switch (response.status) {
                                 case LOGIN: {
+                                    console.log("Login successful.");
                                     this.$router.push('/home');
                                 } break;
 
                                 case ALREADY_LOGIN: {
                                     // Proceed anyway.
+                                    console.log("Already logged in.");
                                     this.$router.push('/home');
                                 } break;
 

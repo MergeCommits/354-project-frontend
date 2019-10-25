@@ -99,11 +99,11 @@
 </template>
 
 <script>
+    import Utilities from "../components/common/Utilities.vue";
+    import {APICall, RequestType} from "../components/common/API";
+
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-    import Utilities from "../components/common/Utilities.vue";
-    import API, {APICall, RequestType} from "../components/common/API";
 
     export default {
         name: 'AccountCreation',

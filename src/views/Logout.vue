@@ -6,7 +6,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities";
-    import API, {APICall, RequestType} from "../components/common/API";
+    import {APICall, RequestType} from "../components/common/API";
 
     export default {
         name: "Logout",
