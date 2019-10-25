@@ -11,7 +11,7 @@
                  overlap
                  class="animated bounceIn"
                  :color="ACCENT_COLOR">
-            <template v-slot:badge>
+            <template v-slot:badge v-if="render && count > 0">
                 <span>{{count}}</span>
             </template>
             <v-btn outlined color="white" @click="$router.push({ name: 'cart'})">
@@ -76,6 +76,7 @@
                 </v-list-item>
                 <v-list-item router to="/register">
                     <v-list-item-action>
+                        <span style="font-size: 1px; color: transparent">{{cartItemCount}}</span>
                         <v-icon>far fa-user-circle</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
@@ -97,8 +98,8 @@
                 </v-list-item-action>
                 <v-list-item-action v-else>
                     <v-badge :color="ACCENT_COLOR">
-                        <template v-slot:badge style="max-height: 10px!important;">
-                            <span>{{cartItemCount}}</span>
+                        <template v-slot:badge style="max-height: 10px!important;" v-if="count > 0">
+                            <span>{{count}}</span>
                         </template>
                         <v-icon>shopping_cart</v-icon>
                     </v-badge>

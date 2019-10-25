@@ -52,10 +52,10 @@
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
-                                    <v-col><span>Items(3)</span></v-col>
+                                    <v-col><span>Items({{cartItems.length}})</span></v-col>
                                     <v-col></v-col>
                                     <v-col>
-                                        <v-layout justify-end>$1000</v-layout>
+                                        <v-layout justify-end>${{totalPrice}}</v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -71,7 +71,7 @@
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>
-                                            <span class="title font-weight-regular">$1000</span>
+                                            <span class="title font-weight-regular">${{totalPrice}}</span>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -111,7 +111,13 @@
                 this.cartItems = JSON.parse(localStorage.getItem("cart"));
             }
         },
-        computed: {}
+        computed: {
+            totalPrice() {
+                let totalPrice = 0;
+                this.cartItems.forEach(item => totalPrice += item.price);
+                return totalPrice
+            }
+        }
     }
 </script>
 
