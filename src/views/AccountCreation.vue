@@ -208,7 +208,7 @@
                         .then(response => {
                             switch (response.status) {
                                 case SUCCESS: {
-                                    alert(response.data);
+                                    this.$store.commit("login", response.data);
                                     this.$router.push('/home');
                                 } break;
                             }
