@@ -113,7 +113,7 @@
             loginState(newState) {
                 if (newState) { this.return(); }
             },
-            // Wipe server response errors/
+            // Wipe server response errors.
             email() {
                 this.pwError = [];
             },
