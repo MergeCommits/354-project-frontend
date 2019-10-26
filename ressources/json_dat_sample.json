@@ -102,19 +102,20 @@
             }
           },
           {
-            "label": "2016 Rolls-Royce Wraith Provenance",
-            "price": 299900,
+            "label": "2020 LINCOLN AVIATOR",
+            "price": 93451,
             "imageUrls": [
-              "https://tdrvehicles.azureedge.net/photos/import/201907/2213/3112/50fcffcc-f0cf-4081-959d-1cac1ae018ad.jpg-1024x786",
-              "https://tdrvehicles.azureedge.net/photos/import/201907/2213/3112/0d55a147-a4eb-47d8-86a1-796c3b511e1e.jpg-1024x786",
-              "https://tdrvehicles.azureedge.net/photos/import/201906/0716/2742/0cdd7b4d-d0cf-4249-a12e-30f6ec63a685.jpg-1024x786"
+              "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/19_LNC_AVT_phevdrivehero.tif?croppathe=1_15x16&wid=720",
+              "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/19_LNC_AVT_intcraft.tif?croppathe=1_15x16&wid=720",
+              "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/20_LNC_AVT_sig_white_grillhero.tif?croppathe=1_16x7&wid=1440"
             ],
-            "description": "The Wraith Package;\n\n - 21inch five spoke part polished wheels - lambswool footmats - \nRolls-Royce bespoke audio - fixed glass roof - active cruise control \nw/stop&go\n\n \n\n RR Monogram to all Headrests\n\n\n\n Piano Black Veneer\n\n\n\n Seat Piping\n\n\n\n Polished Stainless Steel Package\n\n\n\n Drivers Assistance 3\n\nI DON'T OFFER INSURANCE; I OFFER LUXURY",
+            "description": "The 2020 Lincoln Aviator is a fantastic luxury SUV -- and today I'm \nselling you the Lincoln Aviator to show you why.When you buy the new Aviator you can enjoy its quirks and features, and then you will be\n driving the 2020 Lincoln Aviator ...",
             "_references": [
-              "https://www.rollsroycemontreal.com/vehicles/2016/rolls-royce/wraith/montreal/qc/44464108/?sale_class=used"
+              "https://www.youtube.com/watch?v=FDjWBrK6lo0",
+              "https://www.lincolncanada.com/luxury-suvs/aviator/"
             ],
             "sellerInfo": {
-              "name": "Charles Montgomery Burns",
+              "name": "Doug DeMuro",
               "_system_Mail": "\"\""
             }
           }
