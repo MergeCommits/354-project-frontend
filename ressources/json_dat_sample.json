@@ -120,6 +120,64 @@
             }
           }
         ]
+      },
+      {
+        "label": "Motorcycles",
+        "imageUrl": "https://cdn.hiconsumption.com/wp-content/uploads/2018/09/Best-New-Motorcycles-Under-10000-0-Hero-1087x725.jpg",
+        "listings": [
+          {
+            "label": "Triumph Street Twin",
+            "price": 9300,
+            "imageUrls": [
+              "https://www.cycleworld.com/resizer/wqgNbBjRVkXKHddWi16TVXdv-00=/1199x899/filters:focal(500x375:501x376)/arc-anglerfish-arc2-prod-bonnier.s3.amazonaws.com/public/EYGLUSQWGIXD2ZISTB74OTTV6U.jpg",
+              "https://images.triumphmotorcycles.co.uk/media-library/images/to%206%20october%202019/dp3_2019_b3%20-%20675%20x%20886.jpg",
+              "http://cdnmedia.endeavorsuite.com/images/organizations/19e089d2-5c6e-48ff-be1f-e586704b5e9a/inventory/2634873/2019%20Triumph%20Street%20Twin%201.JPG"
+            ],
+            "description": "Did we mention that throwback bikes are hot? But it might not be just the looks that hook you with Triumph's most modern iteration of its Modern Classics line; for 2019, the already well-regarded Street Twin was bestowed with a fairly comprehensive set of tweaks and updates.",
+            "_references": [
+              "https://www.cycleworld.com/10-motorcycles-under-10k-for-2019/"
+            ],
+            "sellerInfo": {
+              "name": "Road Kill",
+              "_system_Mail": "\"\""
+            }
+          },
+          {
+            "label": "2019 TMAX DX",
+            "price": 4099,
+            "imageUrls": [
+              "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Action-004-03.jpg",
+              "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Static-001-03.jpg",
+              "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Static-004-03.jpg"
+            ],
+            "description": "Though the reputation of scooters is often devalued by the motorcycle \nriders who deem them as supposedly not sexy enough, these vehicles \nremain among the bestselling urban commuters in the world\nWho Dares Wins.\nBuy This scooter TODAY!\nNot sold elswhere in Canada\nUNIQUE DEALERSHIP :::!!!:::",
+            "_references": [
+              "http://gtcarlot.com/colors/car/26125667-4.html",
+              "https://www.youtube.com/watch?v=4Sb56IG0RY4"
+            ],
+            "sellerInfo": {
+              "name": "Yamaha LTD",
+              "_system_Mail": "\"\""
+            }
+          },
+          {
+            "label": "Ducati XDiavel S",
+            "price": 23795,
+            "imageUrls": [
+              "https://images.ctfassets.net/x7j9qwvpvr5s/1JeJUs31EQsYeUw0q4oioG/05edb4b18ea5257dc5bc06662de02ada/XDiavel-Matt-Grey-MY19-Carousel-Design-01-677x740.jpg",
+              "https://images.ctfassets.net/x7j9qwvpvr5s/5OsZ0v9GiAgCYgsEyqSkYw/6957f1847d4122403275dd2e1348517a/XDiavel-Matt-Liquid-Concrete-Grey-MY19-02-Gallery-906x510.jpg",
+              "https://images.ctfassets.net/x7j9qwvpvr5s/3R9a8g2lyEaeqaYGSO0oQS/cc34a643d1f985e27538feb185d93d39/XDiavel-Matt-Liquid-Concrete-Grey-MY19-06-Gallery-1920x1080.jpg"
+            ],
+            "description": "Born To Be The Hero\n Powerful. Muscular. But also agile and effective \nbetween the curves for maximum riding enjoyment. The new Diavel 1260 \ncombines the performance of a maxi-naked with the ergonomics of a muscle\n cruiser.\n                ",
+            "_references": [
+              "https://www.ducati.com/ca/en/home"
+            ],
+            "sellerInfo": {
+              "name": "Fast & Furious",
+              "_system_Mail": "\"\""
+            }
+          }
+        ]
       }
     ]
   }
