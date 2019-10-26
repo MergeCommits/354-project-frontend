@@ -133,7 +133,10 @@
             ]
         }),
         created: function () {
-            this.count = JSON.parse(localStorage.getItem("cart")).length;
+            let cart = localStorage.getItem("cart");
+            if (!Utilities.isEmpty(cart)) {
+                this.count = JSON.parse(cart).length;
+            }
         },
         computed: {
             cartItemCount() {
@@ -141,7 +144,12 @@
                     this.count = JSON.parse(localStorage.getItem("cart")).length;
                     this.render = !this.render;
                 });
-                return JSON.parse(localStorage.getItem("cart")).length
+                let cart = localStorage.getItem("cart");
+                if (!Utilities.isEmpty(cart)) {
+                    return JSON.parse(cart).length
+                } else {
+                    return 0;
+                }
             }
         }
     }
