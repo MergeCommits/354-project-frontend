@@ -1,0 +1,23 @@
+[
+  {
+    "label": "Cars",
+    "imageUrl": "https://i1.wp.com/www.autohold.net/wp-content/uploads/2017/01/otomobil_fiyat_performans_1.jpg?zoom=1.5&resize=785%2C426&ssl=1",
+    "subCategories": [
+      {
+        "label": "Sedans",
+        "imageUrl": "https://www.driving.co.uk/s3/st-driving-prod/uploads/2019/02/2018-Ford-Focus.jpg",
+        "listings": [
+          {
+            "label": "Ford Focus 2020",
+            "imageUrls": [
+              "https://cdn.vox-cdn.com/thumbor/nJpMIsNkrxPc_u7shWsXXRfsi5U=/0x0:2900x1589/1520x1013/filters:focal(1218x563:1682x1027):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/59353671/global_Asia_Focus_FourDoor.0.jpg",
+              "https://cdn.vox-cdn.com/thumbor/TbvB_nSTOJ2BdzOWczMKG8t4Amw=/0x0:2900x2167/1320x0/filters:focal(0x0:2900x2167):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/10632145/1546253_FORD_2018_FOCUS_ACTIVE__11.jpg",
+              "https://cdn.vox-cdn.com/thumbor/qItn7RP9VzzmgrYnYR1OJBU7SiI=/0x0:2900x2176/1320x0/filters:focal(0x0:2900x2176):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/10632147/1546248_FORD_2018_FOCUS_ACTIVE_STUDIO_11.jpg"
+            ],
+            "description": "bla bla"
+          }
+        ]
+      }
+    ]
+  }
+]
