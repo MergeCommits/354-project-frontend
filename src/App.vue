@@ -19,6 +19,9 @@
         components: {
             'navbars': NavigationBars
         },
+        data: () => ({
+            menuPosition: 'main',
+        }),
         methods: {
             // Update our login status.
             updateSelf() {
@@ -43,6 +46,7 @@
         },
         created: function () {
             this.updateSelf();
+            this.cartItemCount = JSON.parse(localStorage.getItem("cart")).length;
         },
         computed: {
             searchColor() {

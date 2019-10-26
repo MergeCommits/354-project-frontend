@@ -30,7 +30,7 @@
                                         <v-layout justify-end pt-5 style="max-width: 30%">
                                             <v-select dense label="Quantity" solo flat filled
                                                       style="max-width: 120px; margin-right: 10px; max-height: 80px!important;"></v-select>
-                                            <v-btn fab depressed>
+                                            <v-btn fab depressed @click="removeItemFromCart(item)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                         </v-layout>
@@ -52,10 +52,10 @@
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
-                                    <v-col><span>Items(3)</span></v-col>
+                                    <v-col><span>Items({{cartItems.length}})</span></v-col>
                                     <v-col></v-col>
                                     <v-col>
-                                        <v-layout justify-end>$1000</v-layout>
+                                        <v-layout justify-end>${{totalPrice}}</v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -71,7 +71,7 @@
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>
-                                            <span class="title font-weight-regular">$1000</span>
+                                            <span class="title font-weight-regular">${{totalPrice}}</span>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -90,10 +90,32 @@
     export default {
         name: "Cart",
         mixins: [Utilities],
-        data: () => ({}),
+        data: () => ({
+            render: true,
+            cartItems: []
+        }),
+        created: function () {
+            this.render = !this.render;
+        },
+        methods: {
+            removeItemFromCart(item) {
+                let cart = JSON.parse(localStorage.getItem("cart"));
+                cart = cart.filter(cartItem => cartItem.id !== item.id);
+                localStorage.setItem("cart", JSON.stringify(cart.filter(cartItem => cartItem.id !== item.id)));
+                this.$root.$emit('cartItemCount', this.$store.state.cartItemCount--);
+                this.render = !this.render;
+            }
+        },
+        watch: {
+            render: function () {
+                this.cartItems = JSON.parse(localStorage.getItem("cart"));
+            }
+        },
         computed: {
-            cartItems() {
-                return this.$store.state.inputItems.slice(0, 3);
+            totalPrice() {
+                let totalPrice = 0;
+                this.cartItems.forEach(item => totalPrice += item.price);
+                return totalPrice
             }
         }
     }

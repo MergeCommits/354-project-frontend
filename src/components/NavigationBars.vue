@@ -7,10 +7,12 @@
         <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
         <v-divider color="white" style="max-width: 3%"></v-divider>
         <v-badge style="margin-top: 3px; margin-left: 15px"
+                 v-if="render"
                  overlap
+                 class="animated bounceIn"
                  :color="ACCENT_COLOR">
-            <template v-slot:badge>
-                <span>3</span>
+            <template v-slot:badge v-if="render && count > 0">
+                <span>{{count}}</span>
             </template>
             <v-btn outlined color="white" router to="/cart">
                 <v-icon style="font-size: 20px">fas fa-shopping-cart</v-icon>
@@ -18,6 +20,20 @@
                       style="font-size: 17px !important; margin-left: 5px; text-transform: none">Cart</span>
             </v-btn>
         </v-badge>
+            <v-badge style="margin-top: 3px; margin-left: 15px"
+                     v-if="!render"
+                     overlap
+                     class="animated bounceIn"
+                     :color="ACCENT_COLOR">
+                <template v-slot:badge>
+                    <span>{{count}}</span>
+                </template>
+                <v-btn outlined color="white" @click="$router.push({ name: 'cart'})">
+                    <v-icon style="font-size: 20px">fas fa-shopping-cart</v-icon>
+                    <span class="title font-weight-light"
+                          style="font-size: 17px !important; margin-left: 5px; text-transform: none">Cart</span>
+                </v-btn>
+            </v-badge>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
@@ -62,6 +78,7 @@
                     </v-list-item>
                     <v-list-item router to="/register">
                         <v-list-item-action>
+                            <span style="font-size: 1px; color: transparent">{{cartItemCount}}</span>
                             <v-icon>far fa-user-circle</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
@@ -107,8 +124,8 @@
                 </v-list-item-action>
                 <v-list-item-action v-else>
                     <v-badge :color="ACCENT_COLOR">
-                        <template v-slot:badge style="max-height: 10px!important;">
-                            <span>3</span>
+                        <template v-slot:badge style="max-height: 10px!important;" v-if="count > 0">
+                            <span>{{count}}</span>
                         </template>
                         <v-icon>shopping_cart</v-icon>
                     </v-badge>
@@ -129,8 +146,10 @@
         mixins: [Utilities],
         data: () => ({
             drawer: false,
+            render: true,
             isSearchActive: false,
             search: null,
+            count: null,
             links: [
                 { icon: 'home', text: 'Dashboard', route: '/home' },
                 {icon: 'shopping_cart', text: 'Shopping Cart', route: '/cart'},
@@ -138,7 +157,19 @@
                 { icon: 'person', text: 'Manage account', route: '/settings' },
                 { icon: 'settings', text: 'Settings', route: '/settings' },
             ]
-        })
+        }),
+        created: function () {
+            this.count = JSON.parse(localStorage.getItem("cart")).length;
+        },
+        computed: {
+            cartItemCount() {
+                this.$root.$on('cartItemCount', (count) => {
+                    this.count = JSON.parse(localStorage.getItem("cart")).length;
+                    this.render = !this.render;
+                });
+                return JSON.parse(localStorage.getItem("cart")).length
+            }
+        }
     }
 </script>
 
