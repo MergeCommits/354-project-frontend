@@ -36,12 +36,12 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="this.$store.state.categorySelected = item.mainCatLabel;$router.push({ name: 'home'}).catch(err => {});"
+                        <v-btn @click="this.$store.state.categorySelected = item.categoryLabel;$router.push({ name: 'home'}).catch(err => {});"
                                color="grey darken-2" small text
-                               v-bind:key="item.mainCatLabel"
+                               v-bind:key="item.categoryLabel"
                                v-for=" item in this.$store.state.productCategories0"
                                style="margin-right: 1%">
-                            <span style="margin-right: 5px">{{item.mainCatLabel}}</span>
+                            <span style="margin-right: 5px">{{item.categoryLabel}}</span>
                             <v-icon small>fab fa-hotjar</v-icon>
                         </v-btn>
                     </v-speed-dial>

@@ -7,17 +7,17 @@
                           style="min-width: 100%">
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
                     <div class="wrapper" v-if="this.$store.state.categorySelected == null">
-                        <v-card @click="selectedCategory = categoryAttr.mainCatLabel; $router.push({ name: 'search'})"
+                        <v-card @click="selectedCategory = categoryAttr.categoryLabel; $router.push({ name: 'search'})"
                                 class="animated fadeIn" flat height="200px"
                                 hover outlined style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
-                                v-bind:key="categoryAttr.mainCatLabel"
+                                v-bind:key="categoryAttr.categoryLabel"
                                 v-for="categoryAttr in this.$store.state.productCategories0"
                                 width="300px">
                             <v-img :src="categoryAttr.imageUrl"
                                    class="white--text"
                                    height="200px">
                                 <v-card-title class="align-end fill-height font-weight-regular"> Top 10
-                                    {{categoryAttr.mainCatLabel}}
+                                    {{categoryAttr.categoryLabel}}
                                 </v-card-title>
                             </v-img>
                         </v-card>
