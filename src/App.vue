@@ -21,6 +21,9 @@
         data: () => ({
             menuPosition: 'main',
         }),
+        created: function () {
+            this.cartItemCount = JSON.parse(localStorage.getItem("cart")).length;
+        },
         computed: {
             searchColor(){
                 return this.isSearchActive ? this.ACCENT_COLOR : null

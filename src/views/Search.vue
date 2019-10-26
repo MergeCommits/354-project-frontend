@@ -185,7 +185,9 @@
                                         <v-row>
                                             <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
                                                       pt-3 pb-3>
-                                                <v-btn block :color="ACCENT_COLOR" dark outlined>
+                                                <v-btn :color="ACCENT_COLOR" @click="addItemToCart(hoverItem)" block
+                                                       dark
+                                                       outlined>
                                                     <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
                                                     Add to cart
                                                 </v-btn>
@@ -230,6 +232,17 @@
             },
             isFilterActive(vModel) {
                 return vModel ? this.ACCENT_COLOR : null
+            },
+            addItemToCart(item) {
+                let cart = JSON.parse(localStorage.getItem("cart"));
+                if (Utilities.isEmpty(cart)) {
+                    localStorage.setItem("cart", JSON.stringify(new Array(item)));
+                    this.$root.$emit('cartItemCount', this.$store.state.cartItemCount++);
+                } else if (!(cart.filter(cartItem => cartItem.id === item.id).length > 0)) {
+                    cart.push(item);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    this.$root.$emit('cartItemCount', this.$store.state.cartItemCount++);
+                }
             }
         },
         computed: {
