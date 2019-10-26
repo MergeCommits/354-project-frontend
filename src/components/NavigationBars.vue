@@ -1,6 +1,6 @@
 <template>
     <div>
-    <!-- Top bar. -->
+        <!-- Top bar. -->
         <v-app-bar app clipped-left :color="PRIMARY_COLOR" class="animated fadeInRight">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
@@ -43,8 +43,8 @@
                 offset-y
                 transition="scale-transition">
             <template v-slot:activator="{ on }">
-                <v-btn v-on="on" fab text>
-                    <v-icon color="white" style="font-size: 43px!important;">account_circle</v-icon>
+                <v-btn class="no-highlight" fab text v-on="on">
+                    <v-icon color="white" style="font-size: 43px">account_circle</v-icon>
                 </v-btn>
             </template>
 
@@ -143,5 +143,7 @@
 </script>
 
 <style scoped>
-
+    .v-btn.no-highlight:focus::before {
+        opacity: 0;
+    }
 </style>
