@@ -11,6 +11,7 @@ const API_URL = "http://dev.354thestars.com:8080/";
 
 const APICaller = axios.create({
     baseURL: API_URL,
+    withCredentials: true,
     validateStatus: function (status) {
         return status >= 200 && status < 500;
     }

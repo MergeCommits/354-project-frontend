@@ -26,7 +26,7 @@
                 :solo="isSearchActive"
                 :solo-inverted="!isSearchActive"
                 :color="PRIMARY_COLOR"
-                style="margin-left: 20px; max-width:20% !important;"
+                style="margin-left: 20px; max-width: 30%;"
                 :flat="!isSearchActive"
                 v-model="search"
                 rounded
@@ -40,6 +40,7 @@
         </v-text-field>
         <v-menu bottom
                 origin="center center"
+                offset-y
                 transition="scale-transition">
             <template v-slot:activator="{ on }">
                 <v-btn v-on="on" fab text>
@@ -71,14 +72,14 @@
                     </v-list-item>
                 </template>
                 <template v-else>
-                    <!-- TODO: -->
+                    <!-- TODO: Link to user's profile. -->
                     <v-list-item>
                         <v-list-item-action>
-                            <v-icon>fas fa-sign-in-alt</v-icon>
+                            <v-icon>fas fa-male</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
                             <v-list-item-title class="grey--text">
-                                I STUBBED MY TOE
+                                {{getUserData("username")}}
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>

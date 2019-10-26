@@ -14,6 +14,9 @@
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
                 return "/logout?redirect=" + this.$router.currentRoute.name;
+            },
+            getUserData(key) {
+                return this.$store.state.currUser[key];
             }
         },
 

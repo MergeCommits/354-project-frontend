@@ -30,8 +30,7 @@
                     .then(response => {
                         switch (response.status) {
                             case LOGGED_IN: {
-                                // TODO: Add data.
-                                this.$store.commit("login");
+                                this.$store.commit("login", response.data);
                             } break;
 
                             case NO_AUTH: {
@@ -45,6 +44,7 @@
             this.updateSelf();
         },
         watch: {
+            // TODO: Check if this is redundant.
             $route() {
                 this.updateSelf();
             }

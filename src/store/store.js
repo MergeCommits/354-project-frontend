@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         isLoggedIn: false,
+        currUser: null,
         categorySelected: null,
         inputItems: [
             {
@@ -69,11 +70,13 @@ export default new Vuex.Store({
     getters: { },
 
     mutations: {
-        login(state) {
+        login(state, userData) {
             state.isLoggedIn = true;
+            state.currUser = userData;
         },
         logout(state) {
             state.isLoggedIn = false;
+            state.currUser = null;
         }
     }
 });
