@@ -68,5 +68,7 @@
 </script>
 
 <style scoped>
-
+    .v-btn.no-highlight:focus::before {
+        opacity: 0;
+    }
 </style>

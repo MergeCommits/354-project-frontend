@@ -104,11 +104,36 @@
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ]
         }),
+        computed: {
+            loginState() {
+                return this.$store.state.isLoggedIn;
+            }
+        },
+        watch: {
+            loginState(newState) {
+                if (newState) { this.return(); }
+            },
+            // Wipe server response errors/
+            email() {
+                this.pwError = [];
+            },
+            password() {
+                this.pwError = [];
+            }
+        },
         methods: {
+            // Return to requested redirect, otherwise homepage.
+            return() {
+                let retPath = this.$route.query.redirect;
+                if (!Utilities.isEmpty(retPath)) {
+                    this.$router.push("/" + retPath);
+                } else {
+                    this.$router.push("/home");
+                }
+            },
             validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
-                    // TODO: Check the database for validity.
                     let jsonData = {
                         email: this.email,
                         password: this.password
@@ -122,15 +147,10 @@
                     call.performRequest()
                         .then(response => {
                             switch (response.status) {
-                                case LOGIN: {
-                                    console.log("Login successful.");
-                                    this.$router.push('/home');
-                                } break;
-
+                                case LOGIN:
                                 case ALREADY_LOGIN: {
-                                    // Proceed anyway.
-                                    console.log("Already logged in.");
-                                    this.$router.push('/home');
+                                    this.$store.commit("login", response.data);
+                                    this.return();
                                 } break;
 
                                 case INVALID_INFO: {

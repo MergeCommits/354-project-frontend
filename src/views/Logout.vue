@@ -23,8 +23,6 @@
             }
         },
         created: function () {
-            // if (!this.$store.state.isLoggedIn) { this.return(); }
-
             const SUCCESS = 200;
             const NO_AUTH = 400;
 
@@ -32,7 +30,8 @@
             call.performRequest()
                 .then(response => {
                     switch (response.status) {
-                        case SUCCESS, NO_AUTH: {
+                        case SUCCESS:
+                        case NO_AUTH: {
                             this.$store.commit("logout");
                             this.return();
                         } break;

@@ -44,12 +44,6 @@
         created: function () {
             this.updateSelf();
         },
-        watch: {
-            // TODO: Check if this is redundant.
-            $route() {
-                this.updateSelf();
-            }
-        },
         computed: {
             searchColor() {
                 return this.isSearchActive ? this.ACCENT_COLOR : null;
@@ -58,11 +52,8 @@
     };
 </script>
 
-<style>
+<style scoped>
     #inspire {
         font-family: 'Roboto', sans-serif;
-    }
-    .v-btn.no-highlight:focus::before {
-        opacity: 0;
     }
 </style>

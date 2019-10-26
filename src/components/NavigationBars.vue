@@ -50,7 +50,7 @@
 
             <v-list dense class="grey lighten-4" rounded min-width="200">
                 <template v-if="!this.$store.state.isLoggedIn">
-                    <v-list-item router to="/login">
+                    <v-list-item router :to="getLoginRouter()">
                         <v-list-item-action>
                             <v-icon>fas fa-sign-in-alt</v-icon>
                         </v-list-item-action>
@@ -143,5 +143,7 @@
 </script>
 
 <style scoped>
-
+    .v-btn.no-highlight:focus::before {
+        opacity: 0;
+    }
 </style>

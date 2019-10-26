@@ -9,11 +9,15 @@
         methods: {
             // Return to the previous page if one existed.
             goBack() {
-                window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/")
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
             },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
                 return "/logout?redirect=" + this.$router.currentRoute.name;
+            },
+            // Returns the route a given page should go to in order to login and return to the same page.
+            getLoginRouter() {
+                return "/login?redirect=" + this.$router.currentRoute.name;
             },
             getUserData(key) {
                 return this.$store.state.currUser[key];
