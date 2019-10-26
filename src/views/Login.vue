@@ -147,9 +147,12 @@
                     call.performRequest()
                         .then(response => {
                             switch (response.status) {
-                                case LOGIN:
-                                case ALREADY_LOGIN: {
+                                case LOGIN: {
                                     this.$store.commit("login", response.data);
+                                    this.return();
+                                } break;
+                                
+                                case ALREADY_LOGIN: {
                                     this.return();
                                 } break;
 
