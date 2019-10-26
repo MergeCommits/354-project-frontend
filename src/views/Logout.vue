@@ -11,23 +11,30 @@
     export default {
         name: "Logout",
         mixins: [Utilities],
+        methods: {
+            // Return to requested redirect, otherwise homepage.
+            return() {
+                let retPath = this.$route.query.redirect;
+                if (!Utilities.isEmpty(retPath)) {
+                    this.$router.push("/" + retPath);
+                } else {
+                    this.$router.push("/");
+                }
+            }
+        },
         created: function () {
-            const SUCCESS = 200;
+            // if (!this.$store.state.isLoggedIn) { this.return(); }
 
-            let call = new APICall(RequestType.GET, "auth/logout", null, [SUCCESS]);
+            const SUCCESS = 200;
+            const NO_AUTH = 400;
+
+            let call = new APICall(RequestType.GET, "auth/logout", null, [SUCCESS, NO_AUTH]);
             call.performRequest()
                 .then(response => {
                     switch (response.status) {
-                        case SUCCESS: {
+                        case SUCCESS, NO_AUTH: {
                             this.$store.commit("logout");
-
-                            // Return to requested redirect, otherwise homepage.
-                            let retPath = this.$route.query.redirect;
-                            if (!Utilities.isEmpty(retPath)) {
-                                this.$router.push("/" + retPath);
-                            } else {
-                                this.$router.push("/");
-                            }
+                            this.return();
                         } break;
                     }
                 });

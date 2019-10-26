@@ -20,8 +20,8 @@
             'navbars': NavigationBars
         },
         methods: {
+            // Update our login status.
             updateSelf() {
-                // Update our login status.
                 const LOGGED_IN = 200;
                 const NO_AUTH = 400;
 
@@ -30,6 +30,7 @@
                     .then(response => {
                         switch (response.status) {
                             case LOGGED_IN: {
+                                // Send the user data to the store.
                                 this.$store.commit("login", response.data);
                             } break;
 
@@ -57,8 +58,11 @@
     };
 </script>
 
-<style scoped>
+<style>
     #inspire {
         font-family: 'Roboto', sans-serif;
+    }
+    .v-btn.no-highlight:focus::before {
+        opacity: 0;
     }
 </style>

@@ -8,7 +8,7 @@
                     <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
                     <v-card v-for="(category, index) in this.$store.state.inputItems" v-bind:key="index" height="200px"
                             width="300px" hover flat outlined
-                            @click="what()"
+                            @click="selectedCategory = category; $router.push({ name: 'search'})"
                             style="margin-right: 3%; margin-top: 2%; border-radius: 10px"
                             class="animated fadeIn">
                         <v-img class="white--text"
@@ -45,12 +45,7 @@
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1038/500'},
                 {name: 'Drugs', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/PM5544_with_non-PAL_signals.png'}
             ],
-        }),
-        methods: {
-            what() {
-                this.$store.commit("login");
-            }
-        }
+        })
     }
 </script>
 
