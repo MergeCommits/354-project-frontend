@@ -60,7 +60,7 @@
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   :color="ACCENT_COLOR"
                                                   v-model="passwordConfirm"
-                                                  :rules="passwordMatchRules">
+                                                  :error-messages="passwordConfirmErrors">
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -118,6 +118,7 @@
             usernameErrors: [],
             password: null,
             passwordConfirm: null,
+            passwordConfirmErrors: [],
             pwVisible: false,
             nameRules: [
                 value => !Utilities.isEmpty(value) || "A name is required."
@@ -136,91 +137,97 @@
             ]
         }),
         watch: {
-            username (val) {
-                if (Utilities.isEmpty(val)) {
-                    return;
-                }
-
-                let jsonData = {
-                    username: val
-                };
-
-                const FOUND = 200;
-                const NOT_FOUND = 404;
-
-                let call = new APICall(RequestType.HEAD, "users", jsonData, [FOUND, NOT_FOUND]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case FOUND: {
-                                this.usernameErrors = ["This username is taken."];
-                            } break;
-
-                            case NOT_FOUND: {
-                                this.usernameErrors = [];
-                            } break;
-                        }
-                    });
+            // Wipe server response errors.
+            username() {
+                this.usernameErrors = [];
             },
-            email (val) {
-                if (Utilities.isEmpty(val)) {
-                    return;
-                }
+            email() {
+                this.emailErrors = [];
+            },
 
-                let jsonData = {
-                    email: val
-                };
-
-                const FOUND = 200;
-                const NOT_FOUND = 404;
-
-                let call = new APICall(RequestType.HEAD, "users", jsonData, [FOUND, NOT_FOUND]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case FOUND: {
-                                this.emailErrors = ["This email is taken."];
-                            } break;
-
-                            case NOT_FOUND: {
-                                this.emailErrors = [];
-                            } break;
-                        }
-                    });
+            // Check if passwords are equal on either text field change.
+            password() {
+                this.passwordMatchRules();
+            },
+            passwordConfirm() {
+                this.passwordMatchRules();
             }
         },
         methods: {
+            passwordMatchRules() {
+                if (this.password !== this.passwordConfirm) {
+                    this.passwordConfirmErrors = ["Passwords must match"];
+                } else {
+                    this.passwordConfirmErrors = [];
+                }
+            },
+
             validate() {
                 if (this.$refs.form.validate()) {
-                    let jsonData = {
-                        firstName: this.firstName,
-                        lastName: this.lastName,
-                        email: this.email,
-                        username: this.username,
-                        password: this.password
+                    // Check if the username is already in use.
+                    let usernameData = {
+                        username: this.username
                     };
 
-                    const SUCCESS = 200;
+                    const FOUND = 200;
+                    const NOT_FOUND = 404;
 
-                    // TODO: Add some sort of prompt if the server errors out.
-                    let call = new APICall(RequestType.POST, "users", jsonData, [SUCCESS]);
-                    call.performRequest()
-                        .then(response => {
-                            switch (response.status) {
-                                case SUCCESS: {
-                                    this.$store.commit("login", response.data);
-                                    this.$router.push('/home');
+                    let usernameCall = new APICall(RequestType.HEAD, "users", usernameData, [FOUND, NOT_FOUND]);
+                    usernameCall.performRequest()
+                        .then(userResponse => {
+                            switch (userResponse.status) {
+                                case FOUND: {
+                                    this.usernameErrors = ["This username is taken."];
+                                } break;
+
+                                case NOT_FOUND: {
+                                    this.usernameErrors = [];
+
+                                    // Check email.
+                                    let emailData = {
+                                        email: this.email
+                                    };
+
+                                    let emailCall = new APICall(RequestType.HEAD, "users", emailData, [FOUND, NOT_FOUND]);
+                                    emailCall.performRequest()
+                                        .then(emailResponse => {
+                                            switch (emailResponse.status) {
+                                                case FOUND: {
+                                                    this.emailErrors = ["This email is taken."];
+                                                } break;
+
+                                                case NOT_FOUND: {
+                                                    this.emailErrors = [];
+
+                                                    // Submit form for registration.
+                                                    let registerData = {
+                                                        firstName: this.firstName,
+                                                        lastName: this.lastName,
+                                                        email: this.email,
+                                                        username: this.username,
+                                                        password: this.password
+                                                    };
+
+                                                    const SUCCESS = 200;
+
+                                                    // TODO: Add some sort of prompt if the server errors out.
+                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS]);
+                                                    registerCall.performRequest()
+                                                        .then(registerResponse => {
+                                                            switch (registerResponse.status) {
+                                                                case SUCCESS: {
+                                                                    this.$store.commit("login", registerResponse.data);
+                                                                    this.$router.push('/home');
+                                                                } break;
+                                                            }
+                                                        });
+                                                } break;
+                                            }
+                                        });
                                 } break;
                             }
                         });
                 }
-            }
-        },
-        computed: {
-            passwordMatchRules() {
-                return [
-                    () => (this.password === this.passwordConfirm) || 'Passwords must match'
-                ];
             }
         }
     };
