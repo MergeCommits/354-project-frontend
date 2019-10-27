@@ -107,8 +107,11 @@
             }
         },
         watch: {
-            render: function () {
-                this.cartItems = JSON.parse(localStorage.getItem("cart"));
+            render: function() {
+                let cart = localStorage.getItem("cart");
+                if (!Utilities.isEmpty(cart)) {
+                    this.cartItems = JSON.parse(cart);
+                }
             }
         },
         computed: {
