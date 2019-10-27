@@ -35,7 +35,7 @@
                                             </v-btn>
                                         </v-layout>
                                     </v-list-item>
-                                    <v-divider v-if="index!==cartItems.length-1"></v-divider>
+                                    <v-divider v-bind:key="index" v-if="index!==cartItems.length-1"></v-divider>
                                 </template>
                             </v-list>
                         </v-card>

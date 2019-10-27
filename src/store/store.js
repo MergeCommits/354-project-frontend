@@ -1,10 +1,13 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import API from "../components/common/API";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        isLoggedIn: false,
+        currUser: null,
         categorySelected: null,
         inputItems: [
             {
@@ -73,9 +76,16 @@ export default new Vuex.Store({
         ]
     },
 
-    getters: {},
+    getters: { },
 
-    mutations: {},
-
-    actions: {}
+    mutations: {
+        login(state, userData) {
+            state.isLoggedIn = true;
+            state.currUser = userData;
+        },
+        logout(state) {
+            state.isLoggedIn = false;
+            state.currUser = null;
+        }
+    }
 });

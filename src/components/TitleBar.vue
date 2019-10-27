@@ -10,7 +10,7 @@
                         GO back
                     </v-btn>
 
-                    <v-btn @click="$router.push({ name: 'home'}).catch(err => {}); $store.state.categorySelected = null; fab = false"
+                    <v-btn router to="/home" @click="$store.state.categorySelected = null; fab = false"
                            :color="buttonColor" dark depressed
                            style="margin-right: 10px">
                         <span style="margin-right: 5px">Popular</span>
@@ -26,18 +26,18 @@
                             v-model="fab"
                             direction="right">
                         <template v-slot:activator>
-                            <v-btn
-                                    v-model="fab"
-                                    color="grey darken-1"
-                                    text
-                                    dark>
+                            <v-btn class="no-highlight"
+                                   v-model="fab"
+                                   color="grey darken-1"
+                                   text
+                                   dark>
                                 <span>Categories</span>
                                 <v-icon v-if="fab" style="margin-left: 5px">mdi-close</v-icon>
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
                         <v-btn @click="$store.state.categorySelected = item.name" color="grey darken-2" small
-                               v-for="item in $store.state.inputItems" text
+                               v-for="item in $store.state.inputItems" v-bind:key="item.name" text
                                style="margin-right: 1%">
                             <span style="margin-right: 5px">{{item.name}}</span>
                             <v-icon small>fab fa-hotjar</v-icon>
@@ -68,5 +68,7 @@
 </script>
 
 <style scoped>
-
+    .v-btn.no-highlight:focus::before {
+        opacity: 0;
+    }
 </style>

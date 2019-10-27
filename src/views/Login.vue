@@ -20,13 +20,14 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR" outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field required outlined label="Password"
+                                    <v-text-field v-model="password" required outlined label="Password"
                                                   :rules="passwordRules"
+                                                  :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -79,6 +80,10 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
+    import {APICall, RequestType} from "../components/common/API";
+
+    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     export default {
         name: "Login",
@@ -86,20 +91,76 @@
         data: () => ({
             validLogin: true,
             lazyValidation: true,
+            email: null,
+            password: null,
             pwVisible: false,
+            pwError: "",
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
+                value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
+                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ]
         }),
+        computed: {
+            loginState() {
+                return this.$store.state.isLoggedIn;
+            }
+        },
+        watch: {
+            loginState(newState) {
+                if (newState) { this.return(); }
+            },
+            // Wipe server response errors.
+            email() {
+                this.pwError = [];
+            },
+            password() {
+                this.pwError = [];
+            }
+        },
         methods: {
+            // Return to requested redirect, otherwise homepage.
+            return() {
+                let retPath = this.$route.query.redirect;
+                if (!Utilities.isEmpty(retPath)) {
+                    this.$router.push("/" + retPath);
+                } else {
+                    this.$router.push("/home");
+                }
+            },
             validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
-                    // TODO: Check the database for validity.
-                    this.$router.push('/home');
+                    let jsonData = {
+                        email: this.email,
+                        password: this.password
+                    };
+
+                    const LOGIN = 200;
+                    const ALREADY_LOGIN = 401;
+                    const INVALID_INFO = 400;
+
+                    let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
+                    call.performRequest()
+                        .then(response => {
+                            switch (response.status) {
+                                case LOGIN: {
+                                    this.$store.commit("login", response.data);
+                                    this.return();
+                                } break;
+                                
+                                case ALREADY_LOGIN: {
+                                    this.return();
+                                } break;
+
+                                case INVALID_INFO: {
+                                    this.pwError = [response.data.message];
+                                } break;
+                            }
+                        });
                 }
             }
         }

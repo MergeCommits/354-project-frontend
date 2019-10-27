@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <navbars v-if="!['login', 'register'].includes(this.$route.name)" />
+        <navbars v-if="!this.$route.meta.hideNavigation" />
 
         <v-content>
             <router-view></router-view>
@@ -12,6 +12,7 @@
     import Utilities from "./components/common/Utilities"
 
     import NavigationBars from "./components/NavigationBars";
+    import {RequestType, APICall} from "./components/common/API";
 
     export default {
         mixins: [Utilities],
@@ -21,15 +22,38 @@
         data: () => ({
             menuPosition: 'main',
         }),
+        methods: {
+            // Update our login status.
+            updateSelf() {
+                const LOGGED_IN = 200;
+                const NO_AUTH = 400;
+
+                let call = new APICall(RequestType.GET, "users/self", null, [LOGGED_IN, NO_AUTH]);
+                call.performRequest()
+                    .then(response => {
+                        switch (response.status) {
+                            case LOGGED_IN: {
+                                // Send the user data to the store.
+                                this.$store.commit("login", response.data);
+                            } break;
+
+                            case NO_AUTH: {
+                                this.$store.commit("logout");
+                            } break;
+                        }
+                    });
+            }
+        },
         created: function () {
+            this.updateSelf();
             let cart = localStorage.getItem("cart");
             if (!Utilities.isEmpty(cart)) {
                 this.cartItemCount = JSON.parse(cart).length;
             }
         },
         computed: {
-            searchColor(){
-                return this.isSearchActive ? this.ACCENT_COLOR : null
+            searchColor() {
+                return this.isSearchActive ? this.ACCENT_COLOR : null;
             }
         }
     };
