@@ -102,7 +102,6 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue";
-    import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const PASSWORD_PATTERN = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
@@ -160,7 +159,17 @@
 
             validate() {
                 if (this.$refs.form.validate()) {
-                    let usernameCall = new APICall(RequestType.HEAD, "users", {username: this.username}, [FOUND, NOT_FOUND]);
+                    this.usernameErrors = headRequest({username: this.username}, "username");
+                    this.emailErrors = headRequest({email: this.email}, "email");
+                    if (this.postRequest({
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        username: this.username,
+                        password: this.password
+                    })) {
+                        this.$router.push('/home');
+                    }
                 }
             }
         }

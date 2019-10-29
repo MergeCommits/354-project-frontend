@@ -1,51 +1,18 @@
-const FOUND = 200;
-const NOT_FOUND = 404;
+import {APICall, RequestType} from "./API";
 
-usernameCall.performRequest()
-    .then(requestResponse => {
-        if (requestResponse.status === FOUND) {
-            this.usernameErrors = ["This username is taken."];
-        } else if (requestResponse.status === NOT_FOUND) {
-            this.usernameErrors = [];
-        }
-    });
+const HttpStatus = {FOUND: 200, NOT_FOUND: 404, SUCCESS: 200};
 
-let emailCall = new APICall(RequestType.HEAD, "users", {email: this.email}, [FOUND, NOT_FOUND]);
-emailCall.performRequest()
-    .then(requestResponse => {
-        if (requestResponse.status === FOUND) {
-            this.emailErrors = ["This email is taken."];
-        } else if (requestResponse.status === NOT_FOUND) {
-            this.emailErrors = [];
-        }
-    });
-// Submit form for registration.
-let registerData = {
-    firstName: this.firstName,
-    lastName: this.lastName,
-    email: this.email,
-    username: this.username,
-    password: this.password
-};
-
-const SUCCESS = 200;
-
-// TODO: Add some sort of prompt if the server errors out.
-let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS]);
-registerCall.performRequest()
-    .then(registerResponse => {
-        switch (registerResponse.status) {
-            case SUCCESS: {
-                this.$store.commit("login", registerResponse.data);
-                this.$router.push('/home');
-            }
-                break;
-        }
-    });
+function headRequest(Object, objectName) {
+    let userNameErrors;
+    const request = new APICall(RequestType.HEAD, "users", Object, [HttpStatus.FOUND, HttpStatus.NOT_FOUND]);
+    request.performRequest().then(requestResponse => userNameErrors = requestResponse.status === HttpStatus.FOUND ? ["This " + objectName + " is taken."] : []);
+    return userNameErrors;
 }
-break;
+
+function postRequest(Object) {
+    let isRequestValid;
+    const request = new APICall(RequestType.POST, "users", Object, [HttpStatus.SUCCESS]);
+    request.performRequest().then(requestResponse => isRequestValid = requestResponse.status === HttpStatus.SUCCESS ? isRequestValid = true : isRequestValid = false);
+    return isRequestValid;
 }
-})
-;
-}
-break;
+
