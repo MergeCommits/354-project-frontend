@@ -64,7 +64,7 @@
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/103/500'},
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1033/500'},
                 {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1038/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1026/500'}
+                {name: 'Drugs', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/PM5544_with_non-PAL_signals.png'}
             ],
         })
     }

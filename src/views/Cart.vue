@@ -35,7 +35,7 @@
                                             </v-btn>
                                         </v-layout>
                                     </v-list-item>
-                                    <v-divider v-if="index!==cartItems.length-1"></v-divider>
+                                    <v-divider v-bind:key="index" v-if="index!==cartItems.length-1"></v-divider>
                                 </template>
                             </v-list>
                         </v-card>
@@ -107,8 +107,11 @@
             }
         },
         watch: {
-            render: function () {
-                this.cartItems = JSON.parse(localStorage.getItem("cart"));
+            render: function() {
+                let cart = localStorage.getItem("cart");
+                if (!Utilities.isEmpty(cart)) {
+                    this.cartItems = JSON.parse(cart);
+                }
             }
         },
         computed: {
