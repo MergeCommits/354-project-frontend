@@ -2,17 +2,13 @@ import {APICall, RequestType} from "./API";
 
 const HttpStatus = {FOUND: 200, NOT_FOUND: 404, SUCCESS: 200};
 
-function headRequest(Object, objectName) {
-    let userNameErrors;
+async function headRequest(Object, objectName) {
     const request = new APICall(RequestType.HEAD, "users", Object, [HttpStatus.FOUND, HttpStatus.NOT_FOUND]);
-    request.performRequest().then(requestResponse => userNameErrors = requestResponse.status === HttpStatus.FOUND ? ["This " + objectName + " is taken."] : []);
-    return userNameErrors;
+    return await request.performRequest().then(requestResponse => requestResponse.status === HttpStatus.FOUND ? ["This " + objectName + " is taken."] : [])
 }
 
-function postRequest(Object) {
-    let isRequestValid;
+async function postRequest(Object) {
     const request = new APICall(RequestType.POST, "users", Object, [HttpStatus.SUCCESS]);
-    request.performRequest().then(requestResponse => isRequestValid = requestResponse.status === HttpStatus.SUCCESS ? isRequestValid = true : isRequestValid = false);
-    return isRequestValid;
+    return await request.performRequest().then(requestResponse => requestResponse.status === HttpStatus.SUCCESS);
 }
 

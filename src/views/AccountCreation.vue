@@ -157,10 +157,10 @@
                 this.passwordConfirmErrors = this.password !== this.passwordConfirm ? ["Passwords must match"] : [];
             },
 
-            validate() {
+            async validate() {
                 if (this.$refs.form.validate()) {
-                    this.usernameErrors = headRequest({username: this.username}, "username");
-                    this.emailErrors = headRequest({email: this.email}, "email");
+                    this.usernameErrors = await headRequest({username: this.username}, "username");
+                    this.emailErrors = await headRequest({email: this.email}, "email");
                     if (this.postRequest({
                         firstName: this.firstName,
                         lastName: this.lastName,
