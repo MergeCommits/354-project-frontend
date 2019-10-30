@@ -30,7 +30,7 @@
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
-                                                  @click:append="pwVisible = !pwVisible"
+                                                  @click:append="isPasswordVisible = !pwVisible"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
@@ -93,7 +93,7 @@
             lazyValidation: true,
             email: null,
             password: null,
-            pwVisible: false,
+            isPasswordVisible: false,
             pwError: "",
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
@@ -151,7 +151,7 @@
                                     this.$store.commit("login", response.data);
                                     this.return();
                                 } break;
-                                
+
                                 case ALREADY_LOGIN: {
                                     this.return();
                                 } break;

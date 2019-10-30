@@ -4,7 +4,7 @@
             <v-container>
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
-                        <v-form ref="form" v-model="validRegistration" :lazy-validation="true">
+                        <v-form ref="form" v-model="isRegistrationValid" :lazy-validation="true">
                             <v-row style="padding-top: 5%; padding-left: 10%">
                                 <span style="font-size: 30px" class="font-weight-regular">The Stars</span>
                             </v-row>
@@ -43,10 +43,11 @@
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field outlined label="Password" required
+                                                  validate-on-blur
                                                   hint="You must use eight characters with letters, numbers and symbols."
-                                                  :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
-                                                  :type="pwVisible ? 'text' : 'password'"
-                                                  @click:append="pwVisible = !pwVisible"
+                                                  :append-icon="isPasswordVisible ? 'visibility' : 'visibility_off'"
+                                                  :type="isPasswordVisible ? 'text' : 'password'"
+                                                  @click:append="isPasswordVisible = !isPasswordVisible"
                                                   :color="ACCENT_COLOR"
                                                   v-model="password"
                                                   :rules="passwordRules">
@@ -57,7 +58,8 @@
                                 <v-col>
                                     <v-text-field outlined label="Password Confirmation"
                                                   required
-                                                  :type="pwVisible ? 'text' : 'password'"
+                                                  validate-on-blur
+                                                  :type="isPasswordVisible ? 'text' : 'password'"
                                                   :color="ACCENT_COLOR"
                                                   v-model="passwordConfirm"
                                                   :error-messages="passwordConfirmErrors">
@@ -70,7 +72,7 @@
                                         <v-btn style="margin-right: 5%; color: #fff; background-color: #777"
                                                @click="goBack()">Cancel
                                         </v-btn>
-                                        <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR"
+                                        <v-btn :disabled="!isRegistrationValid" :color="PRIMARY_COLOR"
                                                style="color: #ffffff" @click="validate()">Create
                                         </v-btn>
                                     </v-layout>
@@ -100,16 +102,15 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue";
-    import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const PASSWORD_PATTERN = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
 
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
-            validRegistration: true,
+            isRegistrationValid: true,
             firstName: null,
             lastName: null,
             email: null,
@@ -119,7 +120,7 @@
             password: null,
             passwordConfirm: null,
             passwordConfirmErrors: [],
-            pwVisible: false,
+            isPasswordVisible: false,
             nameRules: [
                 value => !Utilities.isEmpty(value) || "A name is required."
             ],
@@ -128,7 +129,7 @@
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
-                value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
+                value => value.length >= 8 || "A minimum of 8 characters is required.",
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
@@ -144,8 +145,6 @@
             email() {
                 this.emailErrors = [];
             },
-
-            // Check if passwords are equal on either text field change.
             password() {
                 this.passwordMatchRules();
             },
@@ -155,78 +154,22 @@
         },
         methods: {
             passwordMatchRules() {
-                if (this.password !== this.passwordConfirm) {
-                    this.passwordConfirmErrors = ["Passwords must match"];
-                } else {
-                    this.passwordConfirmErrors = [];
-                }
+                this.passwordConfirmErrors = this.password !== this.passwordConfirm ? ["Passwords must match"] : [];
             },
 
             validate() {
                 if (this.$refs.form.validate()) {
-                    // Check if the username is already in use.
-                    let usernameData = {
-                        username: this.username
-                    };
-
-                    const FOUND = 200;
-                    const NOT_FOUND = 404;
-
-                    let usernameCall = new APICall(RequestType.HEAD, "users", usernameData, [FOUND, NOT_FOUND]);
-                    usernameCall.performRequest()
-                        .then(userResponse => {
-                            switch (userResponse.status) {
-                                case FOUND: {
-                                    this.usernameErrors = ["This username is taken."];
-                                } break;
-
-                                case NOT_FOUND: {
-                                    this.usernameErrors = [];
-
-                                    // Check email.
-                                    let emailData = {
-                                        email: this.email
-                                    };
-
-                                    let emailCall = new APICall(RequestType.HEAD, "users", emailData, [FOUND, NOT_FOUND]);
-                                    emailCall.performRequest()
-                                        .then(emailResponse => {
-                                            switch (emailResponse.status) {
-                                                case FOUND: {
-                                                    this.emailErrors = ["This email is taken."];
-                                                } break;
-
-                                                case NOT_FOUND: {
-                                                    this.emailErrors = [];
-
-                                                    // Submit form for registration.
-                                                    let registerData = {
-                                                        firstName: this.firstName,
-                                                        lastName: this.lastName,
-                                                        email: this.email,
-                                                        username: this.username,
-                                                        password: this.password
-                                                    };
-
-                                                    const SUCCESS = 200;
-
-                                                    // TODO: Add some sort of prompt if the server errors out.
-                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS]);
-                                                    registerCall.performRequest()
-                                                        .then(registerResponse => {
-                                                            switch (registerResponse.status) {
-                                                                case SUCCESS: {
-                                                                    this.$store.commit("login", registerResponse.data);
-                                                                    this.$router.push('/home');
-                                                                } break;
-                                                            }
-                                                        });
-                                                } break;
-                                            }
-                                        });
-                                } break;
-                            }
-                        });
+                    this.usernameErrors = headRequest({username: this.username}, "username");
+                    this.emailErrors = headRequest({email: this.email}, "email");
+                    if (this.postRequest({
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        username: this.username,
+                        password: this.password
+                    })) {
+                        this.$router.push('/home');
+                    }
                 }
             }
         }
