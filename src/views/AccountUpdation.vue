@@ -25,22 +25,22 @@
                         <v-layout justify-center>
                             <span>Profile</span>
                         </v-layout>
-                        <v-form ref="profileEditForm" v-if='menuPosition === "editProfile"' v-model="valid">
+                        <v-form ref="form" v-if='menuPosition === "editProfile"' v-model="validProfile">
                             <v-container>
                                 <v-row>
                                     <v-col md="5">
-                                        <v-text-field required v-model="firstname" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                        <v-text-field v-model="firstname" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
                                     </v-col>
                                     <v-col md="5">
-                                        <v-text-field required v-model="lastname" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                        <v-text-field v-model="lastname" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col md="6">
-                                        <v-text-field required v-model="email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                        <v-text-field v-model="email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
                                     </v-col>
                                     <v-col md="4">
-                                        <v-text-field v-model="phoneNumber" :rules="rules.validPhoneNumber()" label="Phone Number"/>
+                                        <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -50,31 +50,31 @@
                                 </v-row>
                                 <v-row>
                                     <v-col>
-                                        <v-btn :disabled="!valid" class="mt-5" @click="validate()">
+                                        <v-btn :disabled="!validProfile" class="mt-5" @click="validate">
                                             Save
                                         </v-btn>
                                     </v-col>
                                 </v-row>
                             </v-container>
                         </v-form>
-                        <v-form ref="passwordChangeForm" v-if='menuPosition === "managePassword"' v-model="valid">
+                        <v-form ref="form" v-if='menuPosition === "managePassword"' v-model="validPassword">
                             <v-container>
                                 <v-row>
                                     <v-col md="4">
-                                        <v-text-field required label="Old Password"/>
+                                        <v-text-field type="password" :rules="[rules.fieldRequired]" label="Old Password"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col md="4">
-                                        <v-text-field required v-model="newPassword" :rules="rules.fieldRequired" label="New Password"/>
+                                        <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired]" label="New Password"/>
                                     </v-col>
                                     <v-col md="4">
-                                        <v-text-field required :rules="[rules.fieldRequired, rules.passwordCheck]" label="Confirm Password"/>
+                                        <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col>
-                                        <v-btn :disabled="!valid" class="mt-5" @click="validate()">
+                                        <v-btn :disabled="!validPassword" class="mt-5" @click="validate">
                                             Submit
                                         </v-btn>
                                     </v-col>
@@ -96,8 +96,8 @@
         mixins:[Utilities],
         data: () => ({
             menuPosition: 'editProfile',
-            valid: false,
-            valid1: false,
+            validProfile: false,
+            validPassword: false,
             links: [
                 { icon: 'edit', text: 'Edit profile', strVal: 'editProfile' },
                 { icon: 'far fa-user-circle', text: 'Manage password', strVal: 'managePassword' },
@@ -110,12 +110,12 @@
             phoneNumber: "",
             shippingAddress: "",
             newPassword: "",
+            passwordConfirm: "",
             rules: {
                 fieldRequired: v => !!v || "Required",
-                maxLength: v => v.length <= 26 || "Must be less than 26 characters",
+                maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
                 validEmail: v => /.+@.+\..+/.test(v) || "E-mail must be valid",
-                validPhoneNumber: v => !v || /^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid",
-                passwordCheck: v => v === this.newPassword || "Passwords do not match"
+                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid")
             }
         }),
         methods: {
@@ -123,11 +123,24 @@
                 return this.menuPosition === position;
             },
             validate() {
-                if (this.$refs.profileEditForm.validate()) {
-                    console.log("Validating Profile")//TODO:SEND
+                if (this.$refs.form.validate()) {
+                    //TODO: Connect to back-end
                 }
-                else if (this.$refs.passwordChangeForm.validate()) {
-                    console.log("Validating Password")
+            }
+        },
+        computed: {
+            passwordCheck() {
+                return v => (v === this.newPassword) || "Passwords do not match";
+            }
+        },
+        watch: {
+            menuPosition: function(v) {
+                if (this.$refs.form) {
+                    this.$refs.form.resetValidation();
+                    if (v === "managePassword") {
+                        this.newPassword = "";
+                        this.passwordConfirm = "";
+                    }
                 }
             }
         }
