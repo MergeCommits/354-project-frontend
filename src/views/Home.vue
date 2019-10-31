@@ -39,18 +39,17 @@
                     </v-carousel>
                 </v-layout>
             </v-row>
-            <v-row style="width: 100%">
+            <v-row>
                 <v-layout justify-center>
                     <v-card flat height="450px" color="transparent" width="85%">
                         <v-layout justify-center pt-3>
                             <v-card-title>Popular items</v-card-title>
                         </v-layout>
-                        <v-layout justify-center wrap fill-width
-                                  pt-5 style="min-width: 100%; height: 400px!important;">
+                        <v-layout justify-center wrap pt-5 style="height: 400px!important;">
                             <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
                             <v-card v-for="(category, index) in this.$store.state.inputItems" v-bind:key="index"
                                     max-height="100px"
-                                    max-width="200px" hover flat outlined
+                                    max-width="190px" hover flat outlined
                                     @click="selectedCategory = category; $router.push({ name: 'search'})"
                                     style="margin-right: 3%; margin-top: -10px; border-radius: 10px; "
                                     class="animated fadeIn">
