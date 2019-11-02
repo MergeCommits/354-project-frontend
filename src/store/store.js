@@ -1,6 +1,5 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-import API from "../components/common/API";
+import Vuex from 'vuex';
+import Vue from 'vue';
 
 Vue.use(Vuex)
 

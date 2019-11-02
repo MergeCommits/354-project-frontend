@@ -46,10 +46,11 @@ export default new Router({
             component: Home,
         },
         {
-            path: '/product/:id',
+            path: '/:categoryPermalink/:productPermalink',
             name: 'product',
             component: Product,
             meta: { hideNavigation: false },
+            props: true
         },
         {
             path: '/search',
