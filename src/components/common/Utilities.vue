@@ -4,7 +4,8 @@
         data: () => ({
             PRIMARY_COLOR: "#00838F",
             ACCENT_COLOR: "#FF8F00",
-            BASIC_GREY: "#9E9E9E"
+            BASIC_GREY: "#9E9E9E",
+            HttpStatus: {FOUND: 200, LOGIN: 200, SUCCESS: 200, INVALID_INFO: 400, ALREADY_LOGIN: 401, NOT_FOUND: 404}
         }),
         methods: {
             // Return to the previous page if one existed.

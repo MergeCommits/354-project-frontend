@@ -8,7 +8,8 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%" width="30%"
+                    <v-card hover style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%"
+                            width="30%"
                             min-width="300px">
                         <v-container pb-5>
                             <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
@@ -20,7 +21,8 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR"
+                                                      outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
                                 </v-row>
@@ -79,6 +81,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
+    import Requests from "../components/common/requests.js"
     import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -104,7 +107,9 @@
         },
         watch: {
             loginState(newState) {
-                if (newState) { this.return(); }
+                if (newState) {
+                    this.return();
+                }
             },
             // Wipe server response errors.
             email() {
@@ -116,6 +121,21 @@
         },
         methods: {
             // Return to requested redirect, otherwise homepage.
+            validate() {
+                const loginRequest = Requests.loginPostRequest(this.$refs.form.validate() ? {
+                    email: this.email,
+                    password: this.password
+                } : null);
+                console.log(loginRequest);
+                if (loginRequest.status === this.HttpStatus.LOGIN) {
+                    this.$store.commit("login", loginRequest.data);
+                    this.return();
+                } else if (loginRequest.status === this.HttpStatus.ALREADY_LOGIN) {
+                    this.return();
+                } else {
+                    this.pwError = [loginRequest.data.message];
+                }
+            },
             return() {
                 let retPath = this.$route.query.redirect;
                 if (!Utilities.isEmpty(retPath)) {
@@ -123,41 +143,8 @@
                 } else {
                     this.$router.push("/home");
                 }
-            },
-            validate() {
-                // Are the fields filled in?
-                if (this.$refs.form.validate()) {
-                    let jsonData = {
-                        email: this.email,
-                        password: this.password
-                    };
-
-                    const LOGIN = 200;
-                    const ALREADY_LOGIN = 401;
-                    const INVALID_INFO = 400;
-
-                    let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
-                    call.performRequest()
-                        .then(response => {
-                            switch (response.status) {
-                                case LOGIN: {
-                                    this.$store.commit("login", response.data);
-                                    this.return();
-                                } break;
-
-                                case ALREADY_LOGIN: {
-                                    this.return();
-                                } break;
-
-                                case INVALID_INFO: {
-                                    this.pwError = [response.data.message];
-                                } break;
-                            }
-                        });
-                }
             }
         }
-
     }
 </script>
 

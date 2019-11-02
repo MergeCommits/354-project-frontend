@@ -1,14 +1,23 @@
 import {APICall, RequestType} from "./API";
 
-const HttpStatus = {FOUND: 200, NOT_FOUND: 404, SUCCESS: 200};
+export default class Requests {
+    static HttpStatus = {FOUND: 200, LOGIN: 200, SUCCESS: 200, INVALID_INFO: 400, ALREADY_LOGIN: 401, NOT_FOUND: 404};
 
-async function headRequest(Object, objectName) {
-    const request = new APICall(RequestType.HEAD, "users", Object, [HttpStatus.FOUND, HttpStatus.NOT_FOUND]);
-    return await request.performRequest().then(requestResponse => requestResponse.status === HttpStatus.FOUND ? ["This " + objectName + " is taken."] : [])
-}
+    static async headRequest(Object, objectName) {
+        const request = new APICall(RequestType.HEAD, "users", Object, [this.HttpStatus.FOUND, this.HttpStatus.NOT_FOUND]);
+        return await request.performRequest().then(requestResponse => requestResponse.status === this.HttpStatus.FOUND ? ["This " + objectName + " is taken."] : [])
+    }
 
-async function postRequest(Object) {
-    const request = new APICall(RequestType.POST, "users", Object, [HttpStatus.SUCCESS]);
-    return await request.performRequest().then(requestResponse => requestResponse.status === HttpStatus.SUCCESS);
+    static async postRequest(Object) {
+        const request = new APICall(RequestType.POST, "users", Object, [this.HttpStatus.SUCCESS]);
+        return await request.performRequest().then(requestResponse => requestResponse.status === this.HttpStatus.SUCCESS);
+    }
+
+    static async loginPostRequest(Object) {
+        const request = new APICall(RequestType.POST, "auth/login", Object, [this.HttpStatus.LOGIN, this.HttpStatus.ALREADY_LOGIN, this.HttpStatus.INVALID_INFO]);
+        return await request.performRequest().then(requestResponse => requestResponse);
+    }
+
+
 }
 

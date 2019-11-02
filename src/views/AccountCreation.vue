@@ -102,6 +102,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue";
+    import Requests from "../components/common/requests.js"
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/;
@@ -129,7 +130,7 @@
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
-                value => value.length >= 8 || "A minimum of 8 characters is required.",
+                value => (!Utilities.isEmpty(value) && value.length >= 8) || "A minimum of 8 characters is required.",
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
@@ -159,9 +160,9 @@
 
             async validate() {
                 if (this.$refs.form.validate()) {
-                    this.usernameErrors = await headRequest({username: this.username}, "username");
-                    this.emailErrors = await headRequest({email: this.email}, "email");
-                    if (this.postRequest({
+                    this.usernameErrors = await Requests.headRequest({username: this.username}, "username");
+                    this.emailErrors = await Requests.headRequest({email: this.email}, "email");
+                    if (Requests.postRequest({
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,
