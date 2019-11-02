@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container fluid v-if="productValidated">
         <v-row>
             <v-layout justify-center fill-height pt-5 wrap>
                 <v-card>
@@ -7,7 +7,7 @@
                         <!-- Main product window. -->
                         <v-card class="productWindow">
                             <v-card-title>
-                                Product: <code>{{productPermalink}}</code> in Section: <code>{{categoryPermalink}}</code>
+                                Product: <code>{{product.name}}</code> in Section: <code>{{product.category.name}}</code>
                             </v-card-title>
                             <v-img style="margin: 10px"
                                     src="https://cdn.discordapp.com/attachments/186878192240427009/638161021202333698/unknown.png"
@@ -61,6 +61,8 @@
         name: "Product",
         mixins: [Utilities],
         data: () => ({
+            productValidated: null,
+            product: null,
             headers: [
                 {
                     text: "Description",
@@ -86,15 +88,25 @@
             // Get the section.
 
             const FOUND = 200;
-            const NOT_FOUND = 404;
+            const NOT_FOUND = 404; // TODO: Implement.
 
             let url = "categories/" + this.categoryPermalink + "/products";
-            let usernameCall = new APICall(RequestType.GET, url, null, [FOUND]);
-            usernameCall.performRequest()
-                .then(userResponse => {
-                    switch (userResponse.status) {
+            let call = new APICall(RequestType.GET, url, null, [FOUND]);
+            call.performRequest()
+                .then(response => {
+                    switch (response.status) {
                         case FOUND: {
-                            this.usernameErrors = ["This username is taken."];
+                            let products = response.data.products;
+                            // TODO: Handle product not being found.
+                            for (let i = 0; i < products.length; i++) {
+                                if (products[i].permalink === this.productPermalink.toLowerCase()) {
+                                    this.product = products[i];
+                                    this.productValidated = true;
+                                    return;
+                                }
+                            }
+
+                            this.productValidated = false;
                         } break;
                     }
                 })
