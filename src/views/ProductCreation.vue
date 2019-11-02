@@ -136,7 +136,29 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
-                    // TODO:
+                    let permalinkStr = encodeURI(this.name);
+                    let jsonData = {
+                        name: this.name,
+                        description: this.description,
+                        category_id: this.selectedCategory.id,
+                        tax_id: 1, // Hardcoded for the time being.
+                        brand_id: this.selectedBrand.id,
+                        condition: this.condition,
+                        permalink: permalinkStr
+                    };
+
+                    const CREATED = 200;
+
+                    let call = new APICall(RequestType.POST, "products", jsonData, [ CREATED ]);
+                    call.performRequest()
+                        .then(response => {
+                            switch (response.status) {
+                                case CREATED: {
+                                    this.$router.push("/" + this.selectedCategory.permalink + "/"
+                                        + response.data.permalink);
+                                }
+                            }
+                        });
                 }
             },
             returnConfirmation() {
