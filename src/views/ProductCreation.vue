@@ -51,8 +51,9 @@
                             </v-col>
 
                             <v-col>
-                                <v-text-field type="number" v-model="quantity" required :color="PRIMARY_COLOR"
-                                              outlined label="Quantity"
+                                <v-text-field v-model="quantity" class="mt-0 pt-0"
+                                              single-line type="number"
+                                              label="Quantity"
                                               :rules="quantityRules" />
                             </v-col>
                         </v-row>
@@ -118,7 +119,8 @@
             quantity: null,
             quantityRules: [
                 value => !Utilities.isEmpty(value) || "A quantity is required.",
-                value => !Utilities.isEmpty(value) && value > 0 && value < 100 || "Quantity must be between 1 and 99."
+                value => !Utilities.isEmpty(value) && value > 0 && value < 100 || "Quantity must be between 1 and 99.",
+                value => !Utilities.isEmpty(value) && !value.toString().includes(".") || "Quantity must be an integer value."
             ]
         }),
         created: function() {
