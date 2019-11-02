@@ -26,7 +26,6 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field v-model="password" required outlined label="Password"
-                                                  :rules="passwordRules"
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
@@ -151,7 +150,7 @@
                                     this.$store.commit("login", response.data);
                                     this.return();
                                 } break;
-                                
+
                                 case ALREADY_LOGIN: {
                                     this.return();
                                 } break;

@@ -6,8 +6,8 @@ import Utilities from "./Utilities";
 
 const axios = require('axios').default;
 
-const API_URL = "http://dev.354thestars.com:8080/";
-// const API_URL = "http://127.0.0.1:5000/";
+//const API_URL = "http://dev.354thestars.com:8080/";
+const API_URL = "http://127.0.0.1:5000/";
 
 const APICaller = axios.create({
     baseURL: API_URL,
