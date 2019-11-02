@@ -9,6 +9,7 @@ import Search from './views/Search';
 import Settings from "./views/AccountUpdation";
 import Cart from "./views/Cart";
 import Product from "./views/Product";
+import ProductCreation from "./views/ProductCreation";
 
 Vue.use(Router)
 
@@ -51,6 +52,12 @@ export default new Router({
             component: Product,
             meta: { hideNavigation: false },
             props: true
+        },
+        {
+            path: '/add-product',
+            name: 'add-product',
+            component: ProductCreation,
+            meta: { hideNavigation: true }
         },
         {
             path: '/search',
