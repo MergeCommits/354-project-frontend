@@ -98,10 +98,6 @@
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
-            passwordRules: [
-                value => !Utilities.isEmpty(value) || "A password is required.",
-                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
-            ]
         }),
         computed: {
             loginState() {
