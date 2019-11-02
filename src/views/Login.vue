@@ -26,7 +26,6 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field v-model="password" required outlined label="Password"
-                                                  :rules="passwordRules"
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
@@ -83,8 +82,6 @@
     import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
     export default {
         name: "Login",
         mixins: [Utilities],
@@ -99,10 +96,6 @@
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
-            passwordRules: [
-                value => !Utilities.isEmpty(value) || "A password is required.",
-                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
-            ]
         }),
         computed: {
             loginState() {
@@ -151,7 +144,7 @@
                                     this.$store.commit("login", response.data);
                                     this.return();
                                 } break;
-                                
+
                                 case ALREADY_LOGIN: {
                                     this.return();
                                 } break;
