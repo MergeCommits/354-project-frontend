@@ -51,6 +51,9 @@
             </v-layout>
         </v-row>
     </v-container>
+    <v-container v-else-if="productValidated !== null && !productValidated">
+        <p v-html="errorMessage" style="text-align: center;"/>
+    </v-container>
 </template>
 
 <script>
@@ -62,6 +65,7 @@
         mixins: [Utilities],
         data: () => ({
             productValidated: null,
+            errorMessage: null,
             product: null,
             headers: [
                 {
@@ -88,16 +92,15 @@
             // Get the section.
 
             const FOUND = 200;
-            const NOT_FOUND = 404; // TODO: Implement.
+            const NOT_FOUND = 404;
 
             let url = "categories/" + this.categoryPermalink + "/products";
-            let call = new APICall(RequestType.GET, url, null, [FOUND]);
+            let call = new APICall(RequestType.GET, url, null, [FOUND, NOT_FOUND]);
             call.performRequest()
                 .then(response => {
                     switch (response.status) {
                         case FOUND: {
-                            let products = response.data.products;
-                            // TODO: Handle product not being found.
+                            let products = response.data["products"];
                             for (let i = 0; i < products.length; i++) {
                                 if (products[i].permalink === this.productPermalink.toLowerCase()) {
                                     this.product = products[i];
@@ -107,6 +110,12 @@
                             }
 
                             this.productValidated = false;
+                            this.errorMessage = "Could not find the product <code>" + this.productPermalink + "</code> in category <code>" + this.categoryPermalink + "</code>!";
+                        } break;
+
+                        case NOT_FOUND: {
+                            this.productValidated = false;
+                            this.errorMessage = "Could not find the category <code>" + this.categoryPermalink + "</code>!";
                         } break;
                     }
                 })
