@@ -6,11 +6,15 @@ import Utilities from "./Utilities";
 
 const axios = require('axios').default;
 
-const API_URL = "http://dev.354thestars.com:8080/";
-// const API_URL = "http://127.0.0.1:5000/";
+/**
+ * @return {string}
+ */
+let API_URl = function () {
+    return window.location.href.includes("8080") ? "http://127.0.0.1:5000/" : "http://dev.354thestars.com:8080/";
 
+};
 const APICaller = axios.create({
-    baseURL: API_URL,
+    baseURL: API_URl(),
     withCredentials: true,
     validateStatus: function (status) {
         return status >= 200 && status < 500;
