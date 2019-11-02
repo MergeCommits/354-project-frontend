@@ -27,9 +27,9 @@
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field v-model="password" required outlined label="Password"
                                                   :error-messages="pwError"
-                                                  :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
-                                                  :type="pwVisible ? 'text' : 'password'"
-                                                  @click:append="isPasswordVisible = !pwVisible"
+                                                  :append-icon="isPasswordVisible? 'visibility' : 'visibility_off'"
+                                                  :type="isPasswordVisible ? 'text' : 'password'"
+                                                  @click:append="isPasswordVisible = ! isPasswordVisible"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
