@@ -10,7 +10,7 @@ const axios = require('axios').default;
  * @return {string}
  */
 let API_URl = function () {
-    return !window.location.href.includes("5000") ? "http://127.0.0.1:5000/" : "http://dev.354thestars.com:8080/";
+    return window.location.href.includes("8080") ? "http://127.0.0.1:5000/" : "http://dev.354thestars.com:8080/";
 
 };
 const APICaller = axios.create({
