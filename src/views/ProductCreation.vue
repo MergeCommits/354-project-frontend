@@ -1,23 +1,41 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 50%; margin-top: 5vh">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh">
             <v-container>
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
-                        <v-row style="padding-top: 5%">
+                        <v-row style="padding: 5% 0">
                             <span style="font-size: 30px; width: 100%; text-align: center" class="font-weight-regular">Create a new product</span>
                         </v-row>
-                        <v-row style="margin-right: 5%; margin-left: 5%">
+                        <v-row class="productRow">
                             <v-col>
-                                <v-text-field v-model="firstName" required :rules="nameRules" :color="ACCENT_COLOR"
-                                              outlined label="First name" />
+                                <v-text-field v-model="name" required :rules="nameRules" :color="ACCENT_COLOR"
+                                              outlined label="Product Name" />
                             </v-col>
                         </v-row>
-                        <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
+                        <v-row class="productRow">
                             <v-col>
-                                <v-text-field v-model="username" required :rules="usernameRules"
-                                              :error-messages="usernameErrors"
-                                              :color="ACCENT_COLOR" outlined label="Username" />
+                                <v-textarea v-model="description" required :rules="descriptionRules"
+                                            :color="ACCENT_COLOR" outlined label="Description" :hint="this.charactersLeft" />
+                            </v-col>
+                        </v-row>
+                        <v-row class="productRow">
+                            <v-col>
+                                <v-text-field v-model="price" required :rules="priceRules" :color="ACCENT_COLOR"
+                                              :key="freeProduct"
+                                              :disabled="freeProduct"
+                                              filled label="Price" />
+                            </v-col>
+                            <v-col>
+                                <v-checkbox v-model="freeProduct" :color="PRIMARY_COLOR"
+                                            outlined label="Free?"
+                                            @change="freeCheckboxCallback()" />
+                            </v-col>
+                        </v-row>
+                        <v-row class="productRow">
+                            <v-col>
+                                <v-select v-model="selectedCategory" :items="categories" label="Category"
+                                          item-text="name" />
                             </v-col>
                         </v-row>
                         <v-row>
@@ -43,15 +61,44 @@
     import Utilities from "../components/common/Utilities.vue";
     import {APICall, RequestType} from "../components/common/API";
 
+    const PRICE_PATTERN = /^\d+\.[\d]{2}$/; // At least one digit followed by a period, followed by exactly two digits.
+
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
             validProduct: true,
-            usernameRules: [
-                value => !Utilities.isEmpty(value) || "A username is required."
-            ]
+            name: null,
+            nameRules: [
+                value => !Utilities.isEmpty(value) || "A name is required."
+            ],
+            description: null,
+            descriptionRules: [
+                value => !Utilities.isEmpty(value) || "A description is required.",
+                value => !Utilities.isEmpty(value) && value.length <= 1000 || "Description exceeds 1000 character limit."
+            ],
+            price: null,
+            priceRules: [
+                value => !Utilities.isEmpty(value) || "A price is required.",
+                value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number."
+            ],
+            freeProduct: false,
+            categories: [],
+            selectedCategory: null,
         }),
+        created: function() {
+            const FOUND = 200;
+
+            let categoryQuery = new APICall(RequestType.GET, "categories", null, [FOUND]);
+            categoryQuery.performRequest()
+                .then(response => {
+                    switch (response.status) {
+                        case FOUND: {
+                            this.categories = response.data.categories;
+                        } break;
+                    }
+                })
+        },
         watch: {
             // Wipe server response errors.
             username() {
@@ -72,6 +119,21 @@
                 if (confirmed) {
                     this.goBack();
                 }
+            },
+            freeCheckboxCallback() {
+                this.price = this.freeProduct ? '0.00' : this.price;
+            }
+        },
+        computed: {
+            charactersLeft: {
+                get: function () {
+                    let remaining = 1000;
+                    if (!Utilities.isEmpty(this.description)) {
+                        remaining = Math.max(0, 1000 - this.description.length);
+                    }
+
+                    return remaining.toString() + " character" + (remaining !== 1 ? "s" : "") + " left.";
+                }
             }
         }
     };
@@ -80,5 +142,10 @@
 <style scoped>
     .makeProduct {
         height: 100%;
+    }
+
+    .productRow {
+        margin-right: 5%;
+        margin-left: 5%;
     }
 </style>
