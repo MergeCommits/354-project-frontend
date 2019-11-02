@@ -1,10 +1,10 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh; margin-bottom: 5vh">
             <v-container>
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
-                        <v-row style="padding: 5% 0">
+                        <v-row style="padding-bottom: 5%">
                             <span style="font-size: 30px; width: 100%; text-align: center" class="font-weight-regular">Create a new product</span>
                         </v-row>
                         <v-row class="productRow">
@@ -34,8 +34,20 @@
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-select v-model="selectedCategory" :items="categories" label="Category"
-                                          item-text="name" />
+                                <v-select style="width: 100%" v-model="selectedCategory" :items="categories" label="Category"
+                                          item-text="name"
+                                          :rules="categoryRules" />
+                            </v-col>
+                            <v-col>
+                                <v-select style="width: 100%" v-model="selectedBrand" :items="brands" label="Brand"
+                                          item-text="name"
+                                          :rules="brandRules" />
+                            </v-col>
+                        </v-row>
+                        <v-row class="productRow">
+                            <v-col>
+                                <v-text-field v-model="condition" required :rules="conditionRules"
+                                            :color="ACCENT_COLOR" outlined label="Condition" />
                             </v-col>
                         </v-row>
                         <v-row>
@@ -85,6 +97,18 @@
             freeProduct: false,
             categories: [],
             selectedCategory: null,
+            categoryRules: [
+                value => !Utilities.isEmpty(value) || "A category is required."
+            ],
+            brands: [],
+            selectedBrand: null,
+            brandRules: [
+                value => !Utilities.isEmpty(value) || "A brand is required."
+            ],
+            condition: null,
+            conditionRules: [
+                value => !Utilities.isEmpty(value) || "A condition for the product is required."
+            ],
         }),
         created: function() {
             const FOUND = 200;
@@ -98,15 +122,16 @@
                         } break;
                     }
                 })
-        },
-        watch: {
-            // Wipe server response errors.
-            username() {
-                this.usernameErrors = [];
-            },
-            email() {
-                this.emailErrors = [];
-            }
+
+            let brandQuery = new APICall(RequestType.GET, "brands", null, [FOUND]);
+            brandQuery.performRequest()
+                .then(response => {
+                    switch (response.status) {
+                        case FOUND: {
+                            this.brands = response.data.brands;
+                        } break;
+                    }
+                })
         },
         methods: {
             validate() {
