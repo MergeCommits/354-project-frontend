@@ -42,7 +42,7 @@
                 :solo="isSearchActive"
                 :solo-inverted="!isSearchActive"
                 :color="PRIMARY_COLOR"
-                style="margin-left: 20px; max-width: 30%;"
+                style="margin-left: 20px; max-width: 20%;"
                 :flat="!isSearchActive"
                 v-model="search"
                 rounded
