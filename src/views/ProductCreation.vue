@@ -35,19 +35,25 @@
                         <v-row class="productRow">
                             <v-col>
                                 <v-select style="width: 100%" v-model="selectedCategory" :items="categories" label="Category"
-                                          item-text="name"
+                                          item-text="name" return-object
                                           :rules="categoryRules" />
                             </v-col>
                             <v-col>
                                 <v-select style="width: 100%" v-model="selectedBrand" :items="brands" label="Brand"
-                                          item-text="name"
+                                          item-text="name" return-object
                                           :rules="brandRules" />
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
                                 <v-text-field v-model="condition" required :rules="conditionRules"
-                                            :color="ACCENT_COLOR" outlined label="Condition" />
+                                              :color="ACCENT_COLOR" outlined label="Condition" />
+                            </v-col>
+
+                            <v-col>
+                                <v-text-field type="number" v-model="quantity" required :color="PRIMARY_COLOR"
+                                              outlined label="Quantity"
+                                              :rules="quantityRules" />
                             </v-col>
                         </v-row>
                         <v-row>
@@ -109,6 +115,11 @@
             conditionRules: [
                 value => !Utilities.isEmpty(value) || "A condition for the product is required."
             ],
+            quantity: null,
+            quantityRules: [
+                value => !Utilities.isEmpty(value) || "A quantity is required.",
+                value => !Utilities.isEmpty(value) && value > 0 && value < 100 || "Quantity must be between 1 and 99."
+            ]
         }),
         created: function() {
             const FOUND = 200;
@@ -140,9 +151,10 @@
                     let jsonData = {
                         name: this.name,
                         description: this.description,
-                        category_id: this.selectedCategory.id,
-                        tax_id: 1, // Hardcoded for the time being.
-                        brand_id: this.selectedBrand.id,
+                        stockQuantity: this.quantity,
+                        categoryId: this.selectedCategory.id,
+                        taxId: 1, // Hardcoded for the time being.
+                        brandId: this.selectedBrand.id,
                         condition: this.condition,
                         permalink: permalinkStr
                     };
