@@ -52,7 +52,10 @@
         </v-row>
     </v-container>
     <v-container v-else-if="productValidated !== null && !productValidated">
-        <p v-html="errorMessage" style="text-align: center;"></p>
+        <p v-html="errorMessage" style="text-align: center"></p>
+    </v-container>
+    <v-container v-else style="text-align: center">
+        <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
     </v-container>
 </template>
 

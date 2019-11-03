@@ -1,7 +1,7 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh; margin-bottom: 5vh">
-            <v-container>
+            <v-container v-if="categoryDataLoaded && brandDataLoaded">
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
                         <v-row style="padding-bottom: 5%">
@@ -28,20 +28,20 @@
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-select style="width: 100%" v-model="selectedCategory" :items="categories" label="Category"
+                                <v-select v-model="selectedCategory" :items="categories" label="Category"
                                           item-text="name" return-object
                                           :rules="categoryRules" />
                             </v-col>
                             <v-col>
-                                <v-select style="width: 100%" v-model="selectedBrand" :items="brands" label="Brand"
+                                <v-select v-model="selectedBrand" :items="brands" label="Brand"
                                           item-text="name" return-object
                                           :rules="brandRules" />
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-select style="width: 100%" v-model="selectedCondition" :items="conditions" label="Condition"
-                                          :rules="brandRules" />
+                                <v-select v-model="selectedCondition" :items="conditions" label="Condition"
+                                          :rules="conditionRules" />
                             </v-col>
                             <v-col>
                                 <v-text-field v-model="quantity"
@@ -65,6 +65,9 @@
                     </v-form>
                 </v-row>
             </v-container>
+            <v-container v-else style="text-align: center">
+                <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
+            </v-container>
         </v-card>
     </v-layout>
 </template>
@@ -79,6 +82,8 @@
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
+            categoryDataLoaded: false,
+            brandDataLoaded: false,
             validProduct: true,
             name: null,
             nameRules: [
@@ -128,6 +133,7 @@
                     switch (response.status) {
                         case FOUND: {
                             this.categories = response.data.categories;
+                            this.categoryDataLoaded = true;
                         } break;
                     }
                 })
@@ -138,6 +144,7 @@
                     switch (response.status) {
                         case FOUND: {
                             this.brands = response.data.brands;
+                            this.brandDataLoaded = true;
                         } break;
                     }
                 })
