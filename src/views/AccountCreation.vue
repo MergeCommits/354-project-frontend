@@ -161,7 +161,7 @@
                 if (this.$refs.form.validate()) {
                     await Requests.registrationHeadRequest({username: this.username}, "username").then(errors => this.usernameErrors = errors);
                     await Requests.registrationHeadRequest({email: this.email}, "email").then(errors => this.emailErrors = errors);
-                    if (this.emailErrors.length > 0 && this.usernameErrors.length > 0) {
+                    if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
                         Requests.registrationPostRequest({
                             firstName: this.firstName,
                             lastName: this.lastName,
