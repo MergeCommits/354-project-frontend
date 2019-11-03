@@ -161,13 +161,15 @@
                 if (this.$refs.form.validate()) {
                     await Requests.headRequest({username: this.username}, "username").then(errors => this.usernameErrors = errors);
                     await Requests.headRequest({email: this.email}, "email").then(errors => this.emailErrors = errors);
-                    Requests.postRequest({
-                        firstName: this.firstName,
-                        lastName: this.lastName,
-                        email: this.email,
-                        username: this.username,
-                        password: this.password
-                    }).then(isSuccess => isSuccess ? this.$router.push('/home') : null);
+                    if (this.emailErrors.length > 0 && this.usernameErrors.length > 0) {
+                        Requests.postRequest({
+                            firstName: this.firstName,
+                            lastName: this.lastName,
+                            email: this.email,
+                            username: this.username,
+                            password: this.password
+                        }).then(isSuccess => isSuccess ? this.$router.push('/home') : null);
+                    }
                 }
             }
         }
