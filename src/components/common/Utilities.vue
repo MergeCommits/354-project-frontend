@@ -1,5 +1,5 @@
 <script>
-    export default {
+    const utils = {
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: "#00838F",
@@ -9,7 +9,11 @@
         methods: {
             // Return to the previous page if one existed.
             goBack() {
-                window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+                if (!utils.isEmpty(this.$route.meta.prevRoute.query.redirect)) {
+                    this.$router.push("/home");
+                } else {
+                    window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+                }
             },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
@@ -31,7 +35,9 @@
         isEmpty(object) {
             return object === undefined || object === null || object.length === 0 || object === "";
         }
-    }
+    };
+
+    export default utils;
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
     <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 50%; margin-top: 5vh">
-            <v-container>
+            <v-container v-if="this.$store.state.selfCheckComplete && !this.$store.state.isLoggedIn">
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
                         <v-form ref="form" v-model="validRegistration" :lazy-validation="true">
@@ -94,6 +94,9 @@
                     </v-col>
                 </v-row>
             </v-container>
+            <v-container v-else style="text-align: center">
+                You're already logged in!
+            </v-container>
         </v-card>
     </v-layout>
 </template>
@@ -103,7 +106,7 @@
     import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/;
 
     export default {
         name: 'AccountCreation',
