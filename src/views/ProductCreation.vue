@@ -21,15 +21,9 @@
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-text-field v-model="price" required :rules="priceRules" :color="ACCENT_COLOR"
-                                              :key="freeProduct"
-                                              :disabled="freeProduct"
-                                              filled label="Price" />
-                            </v-col>
-                            <v-col>
-                                <v-checkbox v-model="freeProduct" :color="PRIMARY_COLOR"
-                                            outlined label="Free?"
-                                            @change="freeCheckboxCallback()" />
+                                <v-text-field v-model="price" required type="number"
+                                              :rules="priceRules" :color="ACCENT_COLOR"
+                                              filled label="Price"/>
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
@@ -46,13 +40,12 @@
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-text-field v-model="condition" required :rules="conditionRules"
-                                              :color="ACCENT_COLOR" outlined label="Condition" />
+                                <v-select style="width: 100%" v-model="selectedCondition" :items="conditions" label="Condition"
+                                          :rules="brandRules" />
                             </v-col>
-
                             <v-col>
-                                <v-text-field v-model="quantity" class="mt-0 pt-0"
-                                              single-line type="number"
+                                <v-text-field v-model="quantity"
+                                              type="number"
                                               label="Quantity"
                                               :rules="quantityRules" />
                             </v-col>
@@ -101,7 +94,6 @@
                 value => !Utilities.isEmpty(value) || "A price is required.",
                 value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number."
             ],
-            freeProduct: false,
             categories: [],
             selectedCategory: null,
             categoryRules: [
@@ -112,7 +104,11 @@
             brandRules: [
                 value => !Utilities.isEmpty(value) || "A brand is required."
             ],
-            condition: null,
+            conditions: [
+                "New",
+                "Used"
+            ],
+            selectedCondition: null,
             conditionRules: [
                 value => !Utilities.isEmpty(value) || "A condition for the product is required."
             ],
@@ -149,15 +145,16 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
-                    let permalinkStr = encodeURI(this.name);
+                    let permalinkStr = encodeURI(this.name.toLowerCase());
                     let jsonData = {
                         name: this.name,
                         description: this.description,
-                        stockQuantity: this.quantity,
+                        stockQuantity: Number(this.quantity),
                         categoryId: this.selectedCategory.id,
+                        // price: this.price, TODO: Uncomment when price gets added to backend.
                         taxId: 1, // Hardcoded for the time being.
                         brandId: this.selectedBrand.id,
-                        condition: this.condition,
+                        condition: this.selectedCondition,
                         permalink: permalinkStr
                     };
 
@@ -169,7 +166,7 @@
                             switch (response.status) {
                                 case CREATED: {
                                     this.$router.push("/" + this.selectedCategory.permalink + "/"
-                                        + response.data.permalink);
+                                        + response.data["permalink"]);
                                 }
                             }
                         });

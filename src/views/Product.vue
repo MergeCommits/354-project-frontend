@@ -7,7 +7,7 @@
                         <!-- Main product window. -->
                         <v-card class="productWindow">
                             <v-card-title>
-                                Product: <code>{{product.name}}</code> in Section: <code>{{product.category.name}}</code>
+                                {{product.name}}
                             </v-card-title>
                             <v-img style="margin: 10px"
                                     src="https://cdn.discordapp.com/attachments/186878192240427009/638161021202333698/unknown.png"
@@ -18,7 +18,7 @@
                         <!-- Purchase bar. -->
                         <v-card class="purchaseBar animated fadeIn"
                                 tile elevation="14" v-bind:style="{border: PRIMARY_COLOR}">
-                            <v-card-title style="width: 100%">$599.99</v-card-title>
+                            <v-card-title style="width: 100%">${{product.price.amount}}</v-card-title>
 
                             <v-card-actions>
                                 <v-btn block :color="ACCENT_COLOR" width="100%" dark outlined>
@@ -32,18 +32,18 @@
                         <v-layout wrap>
                             <v-container>
                                 <h2>Description:</h2>
-                                You sit at the restaurant with your young son, he says he is hungry. You agree to get him dinner. You open up to the kids menu, your child is far to young for adult food. Chicken nugger stares at you from the page. You don’t understand. Your palms get sweaty and your son complains. He says he is hungry. Your mind strains, searching for an answer in a world of sweer potato and French fried. You try to order the chicken nugger, but you cannot. The words cannot escape your lips. Your son is hungry, he complains. The waitress stares at you, her head a spinning chicken nugger, her arms swinging French fried. Your son cries the tears of a chicken nugger-less child. In your mind you scream. It is raining sweer potato now, you have French fried engraved on your left temple and you do not understand. Your son weeps in the corner, he is starving. Starving for the chicken nugger.
+                                {{product.description}}
                             </v-container>
 
                             <v-container>
                                 <h2>Specification:</h2>
                                 <v-data-table
                                         :headers="headers"
-                                        :items="dummyData"
-                                        :items-per-page="5"
-                                        class="elevation-1"
-                                ></v-data-table>
-                                I stubbed my toe and this is a new line..
+                                        :items="specData"
+                                        :items-per-page="50"
+                                        hide-default-header
+                                        hide-default-footer
+                                        class="elevation-1" />
                             </v-container>
                         </v-layout>
                     </v-layout>
@@ -52,7 +52,7 @@
         </v-row>
     </v-container>
     <v-container v-else-if="productValidated !== null && !productValidated">
-        <p v-html="errorMessage" style="text-align: center;"/>
+        <p v-html="errorMessage" style="text-align: center;"></p>
     </v-container>
 </template>
 
@@ -74,18 +74,12 @@
                     sortable: false,
                     value: "description",
                 },
-                { text: "Value", value: "value" }
-            ],
-            dummyData: [
                 {
-                    description: "Condition",
-                    value: "Uh."
-                },
-                {
-                    description: "Condition",
-                    value: "Uh."
+                    text: "Value",
+                    value: "value"
                 }
-            ]
+            ],
+            specData: []
         }),
         props: [ "categoryPermalink", "productPermalink" ],
         created: function() {
@@ -104,6 +98,29 @@
                             for (let i = 0; i < products.length; i++) {
                                 if (products[i].permalink === this.productPermalink.toLowerCase()) {
                                     this.product = products[i];
+                                    this.specData = [
+                                        {
+                                            description: "Date Added",
+                                            value: this.product["dateAdded"]
+                                        },
+                                        {
+                                            description: "Category",
+                                            value: this.product["category"].name
+                                        },
+                                        {
+                                            description: "Brand",
+                                            value: this.product["brand"].name
+                                        },
+                                        {
+                                            description: "Condition",
+                                            value: this.product["condition"]
+                                        },
+                                        {
+                                            description: "Seller Contact",
+                                            value: this.product["sellerInfo"].email
+                                        },
+                                    ]
+
                                     this.productValidated = true;
                                     return;
                                 }
