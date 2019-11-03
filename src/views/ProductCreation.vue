@@ -125,6 +125,11 @@
             ]
         }),
         created: function() {
+            if (!this.$store.state.isLoggedIn) {
+                this.$router.push(this.getLoginRouter());
+                return;
+            }
+
             const FOUND = 200;
 
             let categoryQuery = new APICall(RequestType.GET, "categories", null, [FOUND]);
