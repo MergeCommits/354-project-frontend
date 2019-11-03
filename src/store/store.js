@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
         categorySelected: null,
@@ -85,6 +86,9 @@ export default new Vuex.Store({
         logout(state) {
             state.isLoggedIn = false;
             state.currUser = null;
+        },
+        selfChecked(state) {
+            state.selfCheckComplete = true;
         }
     }
 });

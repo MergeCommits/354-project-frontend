@@ -97,15 +97,7 @@
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
         }),
-        computed: {
-            loginState() {
-                return this.$store.state.isLoggedIn;
-            }
-        },
         watch: {
-            loginState(newState) {
-                if (newState) { this.return(); }
-            },
             // Wipe server response errors.
             email() {
                 this.pwError = [];

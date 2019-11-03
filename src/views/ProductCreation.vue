@@ -125,11 +125,6 @@
             ]
         }),
         created: function() {
-            if (!this.$store.state.isLoggedIn) {
-                this.$router.push(this.getLoginRouter());
-                return;
-            }
-
             const FOUND = 200;
 
             let categoryQuery = new APICall(RequestType.GET, "categories", null, [FOUND]);
@@ -162,7 +157,6 @@
                         description: this.description,
                         stockQuantity: Number(this.quantity),
                         categoryId: this.selectedCategory.id,
-                        // price: this.price, TODO: Uncomment when price gets added to backend.
                         taxId: 1, // Hardcoded for the time being.
                         brandId: this.selectedBrand.id,
                         price: Number(this.price),

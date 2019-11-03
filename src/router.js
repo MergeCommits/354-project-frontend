@@ -11,9 +11,9 @@ import Cart from "./views/Cart";
 import Product from "./views/Product";
 import ProductCreation from "./views/ProductCreation";
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+let router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
@@ -25,59 +25,102 @@ export default new Router({
         {
             path: '/login',
             name: 'login',
-            meta: { hideNavigation: true },
-            component: Login
+            component: Login,
+            meta: {
+                hideNavigation: true,
+                loginRequired: false,
+                logoutRequired: true
+            }
         },
         {
             path: '/logout',
             name: 'logout',
-            meta: { hideNavigation: true },
-            component: Logout
+            component: Logout,
+            meta: {
+                hideNavigation: true,
+                loginRequired: false,
+                logoutRequired: false
+            }
         },
         {
             path: '/register',
             name: 'register',
-            meta: { hideNavigation: true },
-            component: Register
+            component: Register,
+            meta: {
+                hideNavigation: true,
+                loginRequired: false,
+                logoutRequired: true
+            }
         },
         {
             path: '/home',
             name: 'home',
-            meta: { hideNavigation: false },
             component: Home,
+            meta: {
+                hideNavigation: false,
+                loginRequired: false,
+                logoutRequired: false
+            }
         },
         {
             path: '/:categoryPermalink/:productPermalink',
             name: 'product',
             component: Product,
-            meta: { hideNavigation: false },
+            meta: {
+                hideNavigation: false,
+                loginRequired: false,
+                logoutRequired: false
+            },
             props: true
         },
         {
             path: '/add-product',
             name: 'add-product',
             component: ProductCreation,
-            meta: { hideNavigation: true }
+            meta: {
+                hideNavigation: true,
+                loginRequired: true,
+                logoutRequired: false
+            }
         },
         {
             path: '/search',
             name: 'search',
-            meta: { hideNavigation: false },
             component: Search,
-            props: true
+            props: true,
+            meta: {
+                hideNavigation: false,
+                loginRequired: false,
+                logoutRequired: false
+            }
         },
         {
             path: '/settings',
             name: 'settings',
-            meta: { hideNavigation: false },
-            component: Settings
+            component: Settings,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false
+            }
         },
         {
             path: '/cart',
             name: 'cart',
-            meta: { hideNavigation: false },
-            component: Cart
+            component: Cart,
+            meta: {
+                hideNavigation: false,
+                loginRequired: false,
+                logoutRequired: false
+            }
         }
 
     ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+    to.meta.prevRoute = from;
+    next();
+});
+
+export default router;

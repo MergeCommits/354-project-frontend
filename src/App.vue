@@ -3,7 +3,10 @@
         <navbars v-if="!this.$route.meta.hideNavigation" />
 
         <v-content>
-            <router-view></router-view>
+            <v-container v-if="!this.$store.state.selfCheckComplete" style="text-align: center">
+                <v-progress-circular size="300" width="30" indeterminate :color="PRIMARY_COLOR" />
+            </v-container>
+            <router-view v-else />
         </v-content>
     </v-app>
 </template>
@@ -35,13 +38,27 @@
                             case LOGGED_IN: {
                                 // Send the user data to the store.
                                 this.$store.commit("login", response.data);
+                                this.beforeRouteEnterCallback();
+                                this.$store.commit("selfChecked");
                             } break;
 
                             case NO_AUTH: {
                                 this.$store.commit("logout");
+                                this.beforeRouteEnterCallback();
+                                this.$store.commit("selfChecked");
                             } break;
                         }
                     });
+            },
+            beforeRouteEnterCallback() {
+                let currRoute = this.$route;
+                if (currRoute.meta.loginRequired && !this.$store.state.isLoggedIn) {
+                    // Redirect them to login which subsequently redirects them back here.
+                    this.$router.push(this.getLoginRouter());
+                } else if (currRoute.meta.logoutRequired && this.$store.state.isLoggedIn) {
+                    // Just kick them out.
+                    this.goBack();
+                }
             }
         },
         created: function () {
@@ -51,12 +68,12 @@
                 this.cartItemCount = JSON.parse(cart).length;
             }
         },
-        computed: {
-            searchColor() {
-                return this.isSearchActive ? this.ACCENT_COLOR : null;
+        watch: {
+            $route() {
+                this.beforeRouteEnterCallback();
             }
         }
-    };
+    }
 </script>
 
 <style scoped>
