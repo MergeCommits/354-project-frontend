@@ -1,7 +1,7 @@
 <template>
     <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 50%; margin-top: 5vh">
-            <v-container>
+            <v-container v-if="this.$store.state.selfCheckComplete && !this.$store.state.isLoggedIn">
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
                         <v-form ref="form" v-model="validRegistration" :lazy-validation="true">
@@ -93,6 +93,9 @@
                         </v-row>
                     </v-col>
                 </v-row>
+            </v-container>
+            <v-container v-else style="text-align: center">
+                You're already logged in!
             </v-container>
         </v-card>
     </v-layout>

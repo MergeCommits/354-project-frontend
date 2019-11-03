@@ -1,11 +1,11 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-import API from "../components/common/API";
+import Vuex from 'vuex';
+import Vue from 'vue';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
         categorySelected: null,
@@ -86,6 +86,9 @@ export default new Vuex.Store({
         logout(state) {
             state.isLoggedIn = false;
             state.currUser = null;
+        },
+        selfChecked(state) {
+            state.selfCheckComplete = true;
         }
     }
 });

@@ -9,12 +9,12 @@ const axios = require('axios').default;
 /**
  * @return {string}
  */
-let API_URl = function () {
+let API_URL = function () {
     return window.location.href.includes("8080") ? "http://127.0.0.1:5000/" : "http://dev.354thestars.com:8080/";
-
 };
+
 const APICaller = axios.create({
-    baseURL: API_URl(),
+    baseURL: API_URL(),
     withCredentials: true,
     validateStatus: function (status) {
         return status >= 200 && status < 500;
