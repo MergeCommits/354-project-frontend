@@ -38,7 +38,7 @@
                             <v-container>
                                 <h2>Specification:</h2>
                                 <v-data-table
-                                        :headers="headers"
+                                        :headers="specificationHeader"
                                         :items="specData"
                                         :items-per-page="50"
                                         hide-default-header
@@ -70,7 +70,7 @@
             productValidated: null,
             errorMessage: null,
             product: null,
-            headers: [
+            specificationHeader: [
                 {
                     text: "Description",
                     align: "left",
@@ -86,8 +86,6 @@
         }),
         props: [ "categoryPermalink", "productPermalink" ],
         created: function() {
-            // Get the section.
-
             const FOUND = 200;
             const NOT_FOUND = 404;
 
