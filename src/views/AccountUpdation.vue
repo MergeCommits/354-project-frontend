@@ -61,12 +61,12 @@
                             <v-container>
                                 <v-row>
                                     <v-col md="4">
-                                        <v-text-field type="password" :rules="[rules.fieldRequired]" label="Old Password"/>
+                                        <v-text-field type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col md="4">
-                                        <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired]" label="New Password"/>
+                                        <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
                                     </v-col>
                                     <v-col md="4">
                                         <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
@@ -104,18 +104,20 @@
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
-            firstname: "",  //TODO: Default to the registered name
-            lastname: "",
-            email: "",  //TODO: Default to the registered e-mail
-            phoneNumber: "",
-            shippingAddress: "",
+            firstname: "",          //
+            lastname: "",           //
+            email: "",              //
+            phoneNumber: "",        //TODO: Add default values from back-end
+            shippingAddress: "",    //
             newPassword: "",
             passwordConfirm: "",
             rules: {
                 fieldRequired: v => !!v || "Required",
                 maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
-                validEmail: v => /.+@.+\..+/.test(v) || "E-mail must be valid",
-                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid")
+                validEmail: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "E-mail must be valid",
+                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
+                validPassword: v => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(v) || "Needs to include a letter, a number and a symbol",
+                passwordLength: v => !!v && (v.length >= 8 || "Password must be at least 8 characters long")
             }
         }),
         methods: {
