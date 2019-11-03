@@ -157,20 +157,17 @@
             passwordMatchRules() {
                 this.passwordConfirmErrors = this.password !== this.passwordConfirm ? ["Passwords must match"] : [];
             },
-
             async validate() {
                 if (this.$refs.form.validate()) {
-                    this.usernameErrors = await Requests.headRequest({username: this.username}, "username");
-                    this.emailErrors = await Requests.headRequest({email: this.email}, "email");
-                    if (Requests.postRequest({
+                    await Requests.headRequest({username: this.username}, "username").then(errors => this.usernameErrors = errors);
+                    await Requests.headRequest({email: this.email}, "email").then(errors => this.emailErrors = errors);
+                    Requests.postRequest({
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,
                         username: this.username,
                         password: this.password
-                    })) {
-                        this.$router.push('/home');
-                    }
+                    }).then(isSuccess => isSuccess ? this.$router.push('/home') : null);
                 }
             }
         }

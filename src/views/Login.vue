@@ -122,19 +122,20 @@
         methods: {
             // Return to requested redirect, otherwise homepage.
             validate() {
-                const loginRequest = Requests.loginPostRequest(this.$refs.form.validate() ? {
+                Requests.loginPostRequest(this.$refs.form.validate() ? {
                     email: this.email,
                     password: this.password
-                } : null);
-                console.log(loginRequest);
-                if (loginRequest.status === this.HttpStatus.LOGIN) {
-                    this.$store.commit("login", loginRequest.data);
-                    this.return();
-                } else if (loginRequest.status === this.HttpStatus.ALREADY_LOGIN) {
-                    this.return();
-                } else {
-                    this.pwError = [loginRequest.data.message];
-                }
+                } : null)
+                    .then(loginRequestResponse => {
+                        if (loginRequestResponse.status === this.HttpStatus.LOGIN) {
+                            this.$store.commit("login", loginRequestResponse.data);
+                            this.return();
+                        } else if (loginRequestResponse.status === this.HttpStatus.ALREADY_LOGIN) {
+                            this.return();
+                        } else {
+                            this.pwError = [loginRequestResponse.data.message];
+                        }
+                    })
             },
             return() {
                 let retPath = this.$route.query.redirect;
