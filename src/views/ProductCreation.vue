@@ -76,7 +76,7 @@
     import Utilities from "../components/common/Utilities.vue";
     import {APICall, RequestType} from "../components/common/API";
 
-    const PRICE_PATTERN = /^\d+\.[\d]{2}$/; // At least one digit followed by a period, followed by exactly two digits.
+    const PRICE_PATTERN = /^\d+[.]?(|\d\d)$/; // At least one digit that can be followed by a period and 0 or 2 digits.
 
     export default {
         name: 'AccountCreation',
@@ -189,9 +189,6 @@
                 if (confirmed) {
                     this.goBack();
                 }
-            },
-            freeCheckboxCallback() {
-                this.price = this.freeProduct ? '0.00' : this.price;
             }
         },
         computed: {
