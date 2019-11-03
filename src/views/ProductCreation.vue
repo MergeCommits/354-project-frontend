@@ -157,7 +157,6 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
-                    let permalinkStr = encodeURI(this.name.toLowerCase());
                     let jsonData = {
                         name: this.name,
                         description: this.description,
@@ -166,8 +165,8 @@
                         // price: this.price, TODO: Uncomment when price gets added to backend.
                         taxId: 1, // Hardcoded for the time being.
                         brandId: this.selectedBrand.id,
-                        condition: this.selectedCondition,
-                        permalink: permalinkStr
+                        price: Number(this.price),
+                        condition: this.selectedCondition
                     };
 
                     const CREATED = 200;
