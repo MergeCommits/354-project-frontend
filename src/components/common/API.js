@@ -46,7 +46,9 @@ function jsonToUrl(jsonData) {
 export const RequestType = {
     GET: "get",
     POST: "post",
-    HEAD: "head"
+    HEAD: "head",
+    PUT: "put",
+    DELETE: "delete"
 };
 
 export class APICall {

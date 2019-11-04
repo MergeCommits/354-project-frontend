@@ -52,6 +52,27 @@
                         }
                     });
             },
+            // TODO: Move to Utilities.
+            updateCart() {
+                this.$store.commit("startCartLoad");
+
+                const CART_FOUND = 200;
+                const CART_NOT_FOUND = 400;
+
+                let call = new APICall(RequestType.GET, "carts/mine", null, [CART_FOUND, CART_NOT_FOUND]);
+                call.performRequest()
+                    .then(response => {
+                        switch (response.status) {
+                            case CART_FOUND: {
+                                this.$store.commit("setShoppingCart", response.data);
+                                this.$store.commit("stopCartLoad");
+                            } break;
+                            case CART_NOT_FOUND: {
+                                this.$store.commit("stopCartLoad");
+                            } break;
+                        }
+                    });
+            },
             beforeRouteEnterCallback() {
                 let currRoute = this.$route;
                 if (currRoute.meta.loginRequired && !this.$store.state.isLoggedIn) {
@@ -65,6 +86,7 @@
         },
         created: function () {
             this.updateSelf();
+            this.updateCart();
         },
         watch: {
             $route() {
