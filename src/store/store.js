@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
@@ -9,6 +9,7 @@ export default new Vuex.Store({
         isLoggedIn: false,
         currUser: null,
         categorySelected: null,
+        hashedPassword: null,
         inputItems: [
             {
                 price: 325,
@@ -76,7 +77,8 @@ export default new Vuex.Store({
         ]
     },
 
-    getters: { },
+    getters: {
+    },
 
     mutations: {
         login(state, userData) {
@@ -89,6 +91,9 @@ export default new Vuex.Store({
         },
         selfChecked(state) {
             state.selfCheckComplete = true;
-        }
+        },
+        /*setHashedPassword(state, hash) {
+            state.hashedPassword = hash;    //Doesn't work for some reason
+        }*/
     }
 });

@@ -1,4 +1,6 @@
 <script>
+    import {generate} from "pbkdf2-hasher";
+
     const utils = {
         name: "Utilities",
         data: () => ({
@@ -25,7 +27,18 @@
             },
             getUserData(key) {
                 return this.$store.state.currUser[key];
-            }
+            },
+            hashIt(password) {
+                generate(password, (err, hash) => {
+                    if (err) {
+                        console.error(err, "Error occurred generating hash for password.");
+                    }
+                    else {
+                        //this.$store.commit("setHashedPassword");    //I don't know why this doesn't work
+                        this.$store.hashedPassword = hash;   //but this works
+                    }
+                });
+            },
         },
 
         // Misc. free functions.
