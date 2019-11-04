@@ -91,36 +91,8 @@
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
-            render: true,
-            cartItems: []
+
         }),
-        created: function () {
-            this.render = !this.render;
-        },
-        methods: {
-            removeItemFromCart(item) {
-                let cart = JSON.parse(localStorage.getItem("cart"));
-                cart = cart.filter(cartItem => cartItem.id !== item.id);
-                localStorage.setItem("cart", JSON.stringify(cart.filter(cartItem => cartItem.id !== item.id)));
-                this.$root.$emit('cartItemCount', this.$store.state.cartItemCount--);
-                this.render = !this.render;
-            }
-        },
-        watch: {
-            render: function() {
-                let cart = localStorage.getItem("cart");
-                if (!Utilities.isEmpty(cart)) {
-                    this.cartItems = JSON.parse(cart);
-                }
-            }
-        },
-        computed: {
-            totalPrice() {
-                let totalPrice = 0;
-                this.cartItems.forEach(item => totalPrice += item.price);
-                return totalPrice
-            }
-        }
     }
 </script>
 
