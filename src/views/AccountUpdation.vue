@@ -23,16 +23,16 @@
                     </v-col>
                     <v-col>
                         <v-layout justify-center>
-                            <span>Profile</span>
+<!--                            <span>Profile</span>-->
                         </v-layout>
                         <v-form ref="form" v-if='menuPosition === "editProfile"' v-model="validProfile">
                             <v-container>
                                 <v-row>
                                     <v-col md="5">
-                                        <v-text-field v-model="firstname" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                        <v-text-field v-model="firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
                                     </v-col>
                                     <v-col md="5">
-                                        <v-text-field v-model="lastname" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                        <v-text-field v-model="lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -50,7 +50,7 @@
                                 </v-row>
                                 <v-row>
                                     <v-col>
-                                        <v-btn :disabled="!validProfile" class="mt-5" @click="validate">
+                                        <v-btn :disabled="!validProfile || changeCheck" class="mt-5" @click="validate">
                                             Save
                                         </v-btn>
                                     </v-col>
@@ -89,13 +89,14 @@
 </template>
 
 <script>
-    import Utilities from "../components/common/Utilities"
+    import Utilities from "../components/common/Utilities";
+    import {APICall} from "../components/common/API";
 
     export default {
         name: "AccountUpdation",
         mixins:[Utilities],
         data: () => ({
-            menuPosition: 'editProfile',
+            menuPosition: null,
             validProfile: false,
             validPassword: false,
             links: [
@@ -104,13 +105,13 @@
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
-            firstname: "",          //
-            lastname: "",           //
-            email: "",              //
-            phoneNumber: "",        //TODO: Add default values from back-end
-            shippingAddress: "",    //
-            newPassword: "",
-            passwordConfirm: "",
+            firstName: null,
+            lastName: null,           //
+            email: null,              //
+            phoneNumber: null,        //TODO: Add default values from back-end
+            shippingAddress: null,    //
+            newPassword: null,
+            passwordConfirm: null,
             rules: {
                 fieldRequired: v => !!v || "Required",
                 maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
@@ -126,25 +127,66 @@
             },
             validate() {
                 if (this.$refs.form.validate()) {
-                    //TODO: Connect to back-end
+                    let jsonData = {};
+
+                    if (this.firstName !== this.getUserData("firstName")) {
+                        jsonData.firstName = this.firstName;
+                    }
+                    if (this.lastName !== this.getUserData("lastName")) {
+                        jsonData.lastName = this.lastName;
+                    }
+                    if (this.email !== this.getUserData("email")) {
+                        jsonData.email = this.email;
+                    }
+
+                    const SUCCESS = 200;
+                    const FAILED = 400;
+
+                    let call = new APICall("PATCH", "users/self", jsonData, [SUCCESS, FAILED]);
+                    call.performRequest()
+                        .then(response => {     //This fails
+                            switch (response.status) {
+                                case SUCCESS: {
+                                    this.$store.commit("login", response.data);
+                                    this.return();
+                                } break;
+
+                                case FAILED: {
+                                    console.error(response.status, response.data.message); //400 Unauthorized Access
+                                } break;
+                            }
+                        });
                 }
             }
         },
         computed: {
             passwordCheck() {
                 return v => (v === this.newPassword) || "Passwords do not match";
+            },
+            changeCheck() {
+                return (this.firstName === this.getUserData("firstName") && this.lastName === this.getUserData("lastName") && this.email === this.getUserData("email"))
             }
         },
         watch: {
             menuPosition: function(v) {
                 if (this.$refs.form) {
                     this.$refs.form.resetValidation();
-                    if (v === "managePassword") {
-                        this.newPassword = "";
-                        this.passwordConfirm = "";
+                    if (v === "editProfile") {
+                        this.firstName = this.getUserData("firstName");
+                        this.lastName = this.getUserData("lastName");
+                        this.email = this.getUserData("email");
+                    }
+                    else if (v === "managePassword") {
+                        this.newPassword = null;
+                        this.passwordConfirm = null;
                     }
                 }
             }
+        },
+        mounted() {
+            this.firstName = this.getUserData("firstName");
+            this.lastName = this.getUserData("lastName");
+            this.email = this.getUserData("email");
         }
     }
 </script>
