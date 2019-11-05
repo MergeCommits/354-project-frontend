@@ -24,7 +24,8 @@
                                 <v-text-field v-model="quantity"
                                               type="number"
                                               label="Quantity"
-                                              :rules="quantityRules" />
+                                              :rules="quantityRules"
+                                              :error-messages="quantityExceedError" />
                             </v-col>
 
                             <v-card-actions>
@@ -83,6 +84,7 @@
                 value => !Utilities.isEmpty(value) && value > 0 && value < 100 || "Quantity must be between 1 and 99.",
                 value => !Utilities.isEmpty(value) && !value.toString().includes(".") || "Quantity must be an integer value."
             ],
+            quantityExceedError: [],
             specificationHeader: [
                 {
                     text: "Description",
@@ -97,6 +99,13 @@
             ],
             specData: []
         }),
+        watch: {
+            quantity(value) {
+                this.quantityExceedError = this.product["quantity"] < Number(value)
+                    ? ["The available quantity of this product is " + this.product["quantity"] + "."]
+                    : [];
+            }
+        },
         methods: {
             // TODO: Wrap this in a sync function to stop API spam.
             async addToCart() {
