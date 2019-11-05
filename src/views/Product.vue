@@ -21,7 +21,7 @@
                             <v-card-title style="width: 100%">${{product.price.amount}}</v-card-title>
 
                             <v-card-actions>
-                                <v-btn block :color="ACCENT_COLOR" width="100%" dark outlined>
+                                <v-btn block :color="ACCENT_COLOR" width="100%" dark outlined @click="test()">
                                     <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
                                     Add to cart
                                 </v-btn>
@@ -84,6 +84,35 @@
             ],
             specData: []
         }),
+        methods: {
+            test() {
+                let wro = {
+                    lines: [
+                        {
+                            description: "Date Added",
+                            value: this.product["dateAdded"]
+                        },
+                        {
+                            description: "Category",
+                            value: this.product["category"].name
+                        },
+                        {
+                            description: "Brand",
+                            value: this.product["brand"].name
+                        },
+                        {
+                            description: "Condition",
+                            value: this.product["condition"]
+                        },
+                        {
+                            description: "Seller Contact",
+                            value: this.product["sellerInfo"].email
+                        },
+                    ]
+                };
+                this.$store.commit("setShoppingCart", wro);
+            }
+        },
         props: [ "categoryPermalink", "productPermalink" ],
         created: function() {
             const FOUND = 200;
@@ -97,7 +126,7 @@
                         case FOUND: {
                             let products = response.data["products"];
                             for (let i = 0; i < products.length; i++) {
-                                if (products[i].permalink === this.productPermalink.toLowerCase()) {
+                                if (products[i]["permalink"] === this.productPermalink.toLowerCase()) {
                                     this.product = products[i];
                                     this.specData = [
                                         {
@@ -120,7 +149,7 @@
                                             description: "Seller Contact",
                                             value: this.product["sellerInfo"].email
                                         },
-                                    ]
+                                    ];
 
                                     this.productValidated = true;
                                     return;
@@ -161,7 +190,7 @@
         }
 
         .purchaseBar {
-            margin: 40px 0px;
+            margin: 40px 0;
             width: 350px;
         }
     }

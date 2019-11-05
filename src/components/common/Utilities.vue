@@ -17,11 +17,11 @@
             },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
-                return "/logout?redirect=" + this.$router.currentRoute.name;
+                return "/logout?redirect=" + this.$router.currentRoute.path;
             },
             // Returns the route a given page should go to in order to login and return to the same page.
             getLoginRouter() {
-                return "/login?redirect=" + this.$router.currentRoute.name;
+                return "/login?redirect=" + this.$router.currentRoute.path;
             },
             getUserData(key) {
                 return this.$store.state.currUser[key];

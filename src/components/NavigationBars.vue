@@ -6,9 +6,10 @@
             <v-icon :color="ACCENT_COLOR" large style="margin-left: 10px">fas fa-meteor</v-icon>
             <span class="title ml-4 mr-3 font-weight-regular" style="color:white">The Stars</span>
             <v-divider color="white" style="max-width: 3%"></v-divider>
-            <v-badge style="margin-top: 3px; margin-left: 15px"
+            <v-badge v-if="!this.$store.state.loadingShoppingCart" style="margin-top: 3px; margin-left: 15px"
                      overlap
                      class="animated bounceIn"
+                     :key="this.cartCount"
                      :color="ACCENT_COLOR">
                 <template v-if="this.cartCount > 0" v-slot:badge style="max-height: 10px!important;">
                     <span>{{cartCount}}</span>
@@ -19,6 +20,9 @@
                           style="font-size: 17px !important; margin-left: 5px; text-transform: none">Cart</span>
                 </v-btn>
             </v-badge>
+            <template v-else>
+                <v-progress-circular style="margin-left: 10px" indeterminate color="white" />
+            </template>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>

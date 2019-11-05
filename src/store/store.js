@@ -9,7 +9,7 @@ export default new Vuex.Store({
         isLoggedIn: false,
         currUser: null,
 
-        loadingShoppingCart: false,
+        loadingShoppingCart: true,
         shoppingCart: null,
 
         categorySelected: null,
