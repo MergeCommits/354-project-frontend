@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="!this.$store.state.loadingShoppingCart" fluid>
         <v-row style="max-height: 1em; margin-top: 10px">
             <v-btn color="grey darken-2" text @click="goBack()">
                 <v-icon color="grey darken-2" style="margin-right: 10px">
@@ -18,24 +18,22 @@
                     <v-row style="margin-top: 10px">
                         <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                             <v-list v-if="this.cartCount > 0" two-line>
-                                <template v-for="(item, index) in cartItems">
-                                    <v-list-item :key="item.title">
+                                <template v-for="(item, index) in this.cartItems">
+                                    <v-list-item :key="item.name">
                                         <v-list-item-avatar>
-                                            <v-img height="70" min-width="70" :src="item.imageUrl"></v-img>
+                                            <v-img height="70" min-width="70" :src="this.randURL()"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title v-html="item.title"></v-list-item-title>
                                             <v-list-item-subtitle v-html="item.name"></v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-layout justify-end pt-5 style="max-width: 30%">
-                                            <v-select dense label="Quantity" solo flat filled
-                                                      style="max-width: 120px; margin-right: 10px; max-height: 80px!important;"></v-select>
                                             <v-btn fab depressed @click="removeItemFromCart(item)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                         </v-layout>
                                     </v-list-item>
-                                    <v-divider v-bind:key="index" v-if="index!==cartItems.length-1"></v-divider>
+                                    <v-divider v-bind:key="index" v-if="index !== this.cartItems.length-1"></v-divider>
                                 </template>
                             </v-list>
                             <span v-else>You have no items in your shopping cart.</span>
@@ -53,10 +51,10 @@
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
-<!--                                    <v-col><span>Items({{cartItems.length}})</span></v-col>-->
+                                    <v-col><span>Items ({{cartItems.length}})</span></v-col>
                                     <v-col></v-col>
                                     <v-col>
-<!--                                        <v-layout justify-end>${{totalPrice}}</v-layout>-->
+                                        <v-layout justify-end>${{totalPrice}}</v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -72,7 +70,7 @@
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>
-<!--                                            <span class="title font-weight-regular">${{totalPrice}}</span>-->
+                                            <span class="title font-weight-regular">${{totalPrice}}</span>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -83,22 +81,80 @@
             </v-col>
         </v-row>
     </v-container>
+    <v-container v-else style="text-align: center">
+        <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
+    </v-container>
 </template>
 
 <script>
     import Utilities from "../components/common/Utilities"
+    import {APICall, RequestType} from "../components/common/API";
 
     export default {
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
-            cartItems: []
         }),
+        methods: {
+            getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            },
+            randURL() {
+                switch (this.getRandomInt(6)) {
+                    case 0:
+                        return "https://picsum.photos/id/1013/500";
+                    case 1:
+                        return "https://picsum.photos/id/1016/500";
+                    case 2:
+                        return "https://picsum.photos/id/1029/500";
+                    case 3:
+                        return "https://picsum.photos/id/102/500";
+                    case 4:
+                        return "https://picsum.photos/id/1023/500";
+                    case 5:
+                        return "https://picsum.photos/id/1038/500";
+                    case 6:
+                        return "https://picsum.photos/id/1055/500";
+                }
+            },
+            removeItemFromCart(product) {
+                this.$store.commit("startCartLoad");
+                const SUCCESS = 200;
+                const url = "carts/mine/" + product.id;
 
+                let createCartCall = new APICall(RequestType.DELETE, url, null, [SUCCESS]);
+                createCartCall.performRequest()
+                    .then(response => {
+                        if (response.status === SUCCESS) {
+                            this.updateShoppingCart();
+                        }
+                    });
+            }
+
+        },
         computed: {
             cartCount: {
                 get() {
                     return this.$store.getters.cartItemCount;
+                }
+            },
+            cartItems: {
+                get() {
+                    return this.$store.state.shoppingCart["lines"];
+                }
+            },
+            totalPrice: {
+                get() {
+                    let products = this.cartItems;
+                    let cost = 0.0;
+                    for (let i = 0; i < products.length; i++) {
+                        cost += products["currentPrice"];
+                    }
+
+                    const TAX_SCALE = 0.15;
+                    cost += cost * TAX_SCALE;
+
+                    return cost.toString(); // TODO: 2 decimal places.
                 }
             }
         }

@@ -1,4 +1,6 @@
 <script>
+    import {APICall, RequestType} from "./API";
+
     const utils = {
         name: "Utilities",
         data: () => ({
