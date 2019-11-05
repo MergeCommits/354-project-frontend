@@ -1,6 +1,6 @@
 <template>
-    <v-container fluid style="margin-left: 10%">
-        <v-row style="max-height: 1em; margin-left: -10%; margin-top: 10px">
+    <v-container fluid>
+        <v-row style="max-height: 1em; margin-top: 10px">
             <v-btn color="grey darken-2" text @click="goBack()">
                 <v-icon color="grey darken-2" style="margin-right: 10px">
                     arrow_back
@@ -16,11 +16,11 @@
                               style="font-size: 25px!important; color: #424242">Shopping Cart</span>
                     </v-row>
                     <v-row style="margin-top: 10px">
-                        <v-card width="100%" height="fit-content" outlined style="border-radius: 10px;">
-                            <v-list two-line>
+                        <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
+                            <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in cartItems">
                                     <v-list-item :key="item.title">
-                                        <v-list-item-avatar style="margin-left: 2%">
+                                        <v-list-item-avatar>
                                             <v-img height="70" min-width="70" :src="item.imageUrl"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
@@ -38,6 +38,7 @@
                                     <v-divider v-bind:key="index" v-if="index!==cartItems.length-1"></v-divider>
                                 </template>
                             </v-list>
+                            <span v-else>You have no items in your shopping cart.</span>
                         </v-card>
                     </v-row>
                 </v-container>
@@ -52,10 +53,10 @@
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
-                                    <v-col><span>Items({{cartItems.length}})</span></v-col>
+<!--                                    <v-col><span>Items({{cartItems.length}})</span></v-col>-->
                                     <v-col></v-col>
                                     <v-col>
-                                        <v-layout justify-end>${{totalPrice}}</v-layout>
+<!--                                        <v-layout justify-end>${{totalPrice}}</v-layout>-->
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -71,7 +72,7 @@
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>
-                                            <span class="title font-weight-regular">${{totalPrice}}</span>
+<!--                                            <span class="title font-weight-regular">${{totalPrice}}</span>-->
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -91,8 +92,16 @@
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
-
+            cartItems: []
         }),
+
+        computed: {
+            cartCount: {
+                get() {
+                    return this.$store.getters.cartItemCount;
+                }
+            }
+        }
     }
 </script>
 

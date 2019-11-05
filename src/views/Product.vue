@@ -20,8 +20,15 @@
                                 tile elevation="14" v-bind:style="{border: PRIMARY_COLOR}">
                             <v-card-title style="width: 100%">${{product.price.amount}}</v-card-title>
 
+                            <v-col>
+                                <v-text-field v-model="quantity"
+                                              type="number"
+                                              label="Quantity"
+                                              :rules="quantityRules" />
+                            </v-col>
+
                             <v-card-actions>
-                                <v-btn block :color="ACCENT_COLOR" width="100%" dark outlined @click="test()">
+                                <v-btn class="no-highlight" block :color="ACCENT_COLOR" width="100%" dark outlined @click="addToCart()">
                                     <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
                                     Add to cart
                                 </v-btn>
@@ -70,6 +77,12 @@
             productValidated: null,
             errorMessage: null,
             product: null,
+            quantity: null,
+            quantityRules: [
+                value => !Utilities.isEmpty(value) || "A quantity is required.",
+                value => !Utilities.isEmpty(value) && value > 0 && value < 100 || "Quantity must be between 1 and 99.",
+                value => !Utilities.isEmpty(value) && !value.toString().includes(".") || "Quantity must be an integer value."
+            ],
             specificationHeader: [
                 {
                     text: "Description",
@@ -85,32 +98,32 @@
             specData: []
         }),
         methods: {
-            test() {
-                let wro = {
-                    lines: [
-                        {
-                            description: "Date Added",
-                            value: this.product["dateAdded"]
-                        },
-                        {
-                            description: "Category",
-                            value: this.product["category"].name
-                        },
-                        {
-                            description: "Brand",
-                            value: this.product["brand"].name
-                        },
-                        {
-                            description: "Condition",
-                            value: this.product["condition"]
-                        },
-                        {
-                            description: "Seller Contact",
-                            value: this.product["sellerInfo"].email
-                        },
-                    ]
+            // TODO: Wrap this in a sync function to stop API spam.
+            async addToCart() {
+                this.$store.commit("startCartLoad");
+                const SUCCESS = 200;
+
+                if (this.$store.state.shoppingCart === null) {
+                    let createCartCall = new APICall(RequestType.POST, "carts", null, [SUCCESS]);
+                    let cartCreated = await createCartCall.performRequest()
+                        .then(response => {
+                            return response.status === SUCCESS;
+                        });
+
+                    if (!cartCreated) {
+                        return; // TODO: Error message.
+                    }
+                }
+
+                let productData = {
+                    productId: this.product["id"],
+                    quantity: this.quantity
                 };
-                this.$store.commit("setShoppingCart", wro);
+
+                let addItemCall = new APICall(RequestType.POST, "carts/mine/items", productData, [SUCCESS]);
+                await addItemCall.performRequest();
+
+                this.updateShoppingCart(); // This commits "stopCartLoad" to the store.
             }
         },
         props: [ "categoryPermalink", "productPermalink" ],
@@ -165,7 +178,7 @@
                             this.errorMessage = "Could not find the category <code>" + this.categoryPermalink + "</code>!";
                         } break;
                     }
-                })
+                });
         }
     }
 </script>
