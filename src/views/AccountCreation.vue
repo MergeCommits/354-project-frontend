@@ -71,7 +71,7 @@
                                                @click="goBack()">Cancel
                                         </v-btn>
                                         <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR"
-                                               style="color: #ffffff" @click="validate()">Create
+                                               style="color: #ffffff" :loading="loading" @click="validate()">Create
                                         </v-btn>
                                     </v-layout>
                                 </v-col>
@@ -113,6 +113,7 @@
         mixins: [Utilities],
         data: () => ({
             validRegistration: true,
+            loading: false,
             firstName: null,
             lastName: null,
             email: null,
@@ -167,6 +168,7 @@
 
             validate() {
                 if (this.$refs.form.validate()) {
+                    this.loading = true;
                     // Check if the username is already in use.
                     let usernameData = {
                         username: this.username
@@ -181,6 +183,7 @@
                             switch (userResponse.status) {
                                 case FOUND: {
                                     this.usernameErrors = ["This username is taken."];
+                                    this.loading = false;
                                 } break;
 
                                 case NOT_FOUND: {
@@ -197,6 +200,7 @@
                                             switch (emailResponse.status) {
                                                 case FOUND: {
                                                     this.emailErrors = ["This email is taken."];
+                                                    this.loading = false;
                                                 } break;
 
                                                 case NOT_FOUND: {
@@ -212,15 +216,20 @@
                                                     };
 
                                                     const SUCCESS = 200;
+                                                    const FAILED = 400;
 
                                                     // TODO: Add some sort of prompt if the server errors out.
-                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS]);
+                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS, FAILED]);
                                                     registerCall.performRequest()
                                                         .then(registerResponse => {
                                                             switch (registerResponse.status) {
                                                                 case SUCCESS: {
                                                                     this.$store.commit("login", registerResponse.data);
                                                                     this.$router.push('/home');
+                                                                } break;
+                                                                case FAILED:{
+                                                                    alert("There was an error registering your account.");
+                                                                    this.loading = false;
                                                                 } break;
                                                             }
                                                         });

@@ -120,12 +120,12 @@
             validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
+                    this.loading = true;
+
                     let jsonData = {
                         email: this.email,
                         password: this.password
                     };
-
-                    this.loading = true;
 
                     const LOGIN = 200;
                     const ALREADY_LOGIN = 401;
@@ -134,8 +134,6 @@
                     let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
                     call.performRequest()
                         .then(response => {
-                            this.loading = false;
-
                             switch (response.status) {
                                 case LOGIN: {
                                     this.$store.commit("login", response.data);
@@ -148,6 +146,7 @@
 
                                 case INVALID_INFO: {
                                     this.pwError = [response.data.message];
+                                    this.loading = false;
                                 } break;
                             }
                         });
