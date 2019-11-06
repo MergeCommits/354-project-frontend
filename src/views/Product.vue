@@ -126,7 +126,7 @@
 
                 let productData = {
                     productId: this.product["id"],
-                    quantity: this.quantity
+                    quantity: Number(this.quantity)
                 };
 
                 let addItemCall = new APICall(RequestType.POST, "carts/mine/items", productData, [SUCCESS]);

@@ -19,9 +19,10 @@
                         <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                             <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in this.cartItems">
+                                    <v-divider v-bind:key="index" v-if="index !== 0" />
                                     <v-list-item :key="item.name">
                                         <v-list-item-avatar>
-                                            <v-img height="70" min-width="70" :src="this.randURL()"></v-img>
+                                            <v-img height="70" min-width="70" :src="randURL()"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title v-html="item.title"></v-list-item-title>
@@ -33,7 +34,6 @@
                                             </v-btn>
                                         </v-layout>
                                     </v-list-item>
-                                    <v-divider v-bind:key="index" v-if="index !== this.cartItems.length-1"></v-divider>
                                 </template>
                             </v-list>
                             <span v-else>You have no items in your shopping cart.</span>
@@ -140,6 +140,9 @@
             },
             cartItems: {
                 get() {
+                    if (this.cartCount < 1) {
+                        return [];
+                    }
                     return this.$store.state.shoppingCart["lines"];
                 }
             },

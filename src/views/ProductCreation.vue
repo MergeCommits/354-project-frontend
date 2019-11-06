@@ -136,7 +136,7 @@
                             this.categoryDataLoaded = true;
                         } break;
                     }
-                })
+                });
 
             let brandQuery = new APICall(RequestType.GET, "brands", null, [FOUND]);
             brandQuery.performRequest()
@@ -147,7 +147,7 @@
                             this.brandDataLoaded = true;
                         } break;
                     }
-                })
+                });
         },
         methods: {
             validate() {
@@ -170,7 +170,7 @@
                         .then(response => {
                             switch (response.status) {
                                 case CREATED: {
-                                    this.$router.push("/" + this.selectedCategory.permalink + "/"
+                                    this.$router.push("/" + this.selectedCategory["permalink"] + "/"
                                         + response.data["permalink"]);
                                 }
                             }

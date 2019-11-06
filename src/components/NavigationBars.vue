@@ -106,20 +106,41 @@
         <!-- Navigation bar. -->
         <v-navigation-drawer v-model="drawer" mini app clipped color="grey lighten-4">
             <v-list dense class="grey lighten-4" shaped>
-                <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
-                    <v-list-item-action v-if="link.icon !== 'shopping_cart'">
-                        <v-icon>{{link.icon}}</v-icon>
+                <v-list-item router to="/home">
+                    <v-list-item-action>
+                        <v-icon>home</v-icon>
                     </v-list-item-action>
-                    <v-list-item-action v-else>
+                    <v-list-item-content>
+                        <v-list-item-title class="grey--text">Dashboard</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item router to="/cart">
+                    <v-list-item-action>
                         <v-badge :color="ACCENT_COLOR">
-                            <template v-if="cartCount > 0" v-slot:badge style="max-height: 10px!important;">
+                            <template v-if="this.cartCount > 0" v-slot:badge style="max-height: 10px!important;">
                                 <span>{{cartCount}}</span>
                             </template>
                             <v-icon>shopping_cart</v-icon>
                         </v-badge>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title class="grey--text">{{link.text}}</v-list-item-title>
+                        <v-list-item-title class="grey--text">Shopping Cart</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item router to="/settings">
+                    <v-list-item-action>
+                        <v-icon>person</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="grey--text">Manage Account</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item router to="/settings">
+                    <v-list-item-action>
+                        <v-icon>settings</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="grey--text">Settings</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -135,15 +156,7 @@
         data: () => ({
             drawer: false,
             isSearchActive: false,
-            search: null,
-
-            links: [
-                { icon: 'home', text: 'Dashboard', route: '/home' },
-                { icon: 'shopping_cart', text: 'Shopping Cart', route: '/cart' },
-                // TODO: Figure out wtf is the difference between these two.
-                { icon: 'person', text: 'Manage account', route: '/settings' },
-                { icon: 'settings', text: 'Settings', route: '/settings' },
-            ]
+            search: null
         }),
         created: function () {
 
