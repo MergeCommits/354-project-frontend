@@ -107,15 +107,6 @@
             }
         },
         methods: {
-            // Return to requested redirect, otherwise homepage.
-            return() {
-                let retPath = this.$route.query.redirect;
-                if (!Utilities.isEmpty(retPath)) {
-                    this.$router.push("/" + retPath);
-                } else {
-                    this.$router.push("/home");
-                }
-            },
             validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
@@ -134,11 +125,11 @@
                             switch (response.status) {
                                 case LOGIN: {
                                     this.$store.commit("login", response.data);
-                                    this.return();
+                                    this.returnToRedirect();
                                 } break;
 
                                 case ALREADY_LOGIN: {
-                                    this.return();
+                                    this.returnToRedirect();
                                 } break;
 
                                 case INVALID_INFO: {
