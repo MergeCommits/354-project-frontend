@@ -20,15 +20,15 @@
                             <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
-                                    <v-list-item :key="item.name">
+                                    <v-list-item :key="item.product.name" router :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">
                                         <v-list-item-avatar>
                                             <v-img height="70" min-width="70" :src="randURL()"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
-                                            <v-list-item-title v-html="item.title"></v-list-item-title>
-                                            <v-list-item-subtitle v-html="item.name"></v-list-item-subtitle>
+                                            <v-list-item-title>{{item.product.name}}</v-list-item-title>
+                                            <v-list-item-subtitle>${{item.product.price.amount}}</v-list-item-subtitle>
                                         </v-list-item-content>
-                                        <v-layout justify-end pt-5 style="max-width: 30%">
+                                        <v-layout justify-end style="padding: 10px 0; max-width: 30%">
                                             <v-btn fab depressed @click="removeItemFromCart(item)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
@@ -117,10 +117,10 @@
                         return "https://picsum.photos/id/1055/500";
                 }
             },
-            removeItemFromCart(product) {
+            removeItemFromCart(item) {
                 this.$store.commit("startCartLoad");
                 const SUCCESS = 200;
-                const url = "carts/mine/" + product.id;
+                const url = "carts/mine/" + item.product.id;
 
                 let createCartCall = new APICall(RequestType.DELETE, url, null, [SUCCESS]);
                 createCartCall.performRequest()
@@ -148,16 +148,16 @@
             },
             totalPrice: {
                 get() {
-                    let products = this.cartItems;
+                    let items = this.cartItems;
                     let cost = 0.0;
-                    for (let i = 0; i < products.length; i++) {
-                        cost += products["currentPrice"];
+                    for (let i = 0; i < items.length; i++) {
+                        cost += Number(items[i].product["price"].amount);
                     }
 
                     const TAX_SCALE = 0.15;
                     cost += cost * TAX_SCALE;
 
-                    return cost.toString(); // TODO: 2 decimal places.
+                    return cost.toFixed(2);
                 }
             }
         }
