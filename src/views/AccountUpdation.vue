@@ -1,10 +1,10 @@
 <template>
-    <v-layout justify-center fill-height pt-5 wrap style="min-width: 110%; margin-left: -3%">
-        <v-card height="500px" width="1000px" flat outlined style="padding-left: 20px; padding-right: 20px; border-radius: 10px">
-            <v-container fluid>
-                <v-row>
-                    <v-col style="max-width: 300px!important;">
-                        <v-layout style="border-right: solid grey 1px;">
+    <v-row>
+        <v-layout justify-center fill-height pt-5 wrap style="min-width: 110%; margin-left: -3%">
+            <v-card width="1000px" flat outlined style="padding-left: 20px; padding-right: 20px; border-radius: 10px">
+                <v-container fluid>
+                    <v-row>
+                        <v-col style="border-right: solid grey 1px; max-width: 300px!important;">
                             <v-list>
                                 <span class="title font-weight-medium" style="color:#616161">Account settings</span>
                                 <v-list-item v-for="link in links" :key="link.text" @click="menuPosition = link.strVal"
@@ -19,73 +19,142 @@
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list>
-                        </v-layout>
-                    </v-col>
-                    <v-col>
-                        <v-layout justify-center>
-<!--                            <span>Profile</span>-->
-                        </v-layout>
-                        <v-form ref="form" v-if='menuPosition === "editProfile"' v-model="validProfile">
-                            <v-container>
-                                <v-row>
-                                    <v-col md="5">
-                                        <v-text-field v-model="firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
-                                    </v-col>
-                                    <v-col md="5">
-                                        <v-text-field v-model="lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col md="6">
-                                        <v-text-field v-model="email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
-                                    </v-col>
-                                    <v-col md="4">
-                                        <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col md="10">
-                                        <v-text-field v-model="shippingAddress" label="Shipping Address"/>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col>
-                                        <v-btn :disabled="!validProfile || changeCheck" class="mt-5" @click="validate">
-                                            Save
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                        </v-form>
-                        <v-form ref="form" v-if='menuPosition === "managePassword"' v-model="validPassword">
-                            <v-container>
-                                <v-row>
-                                    <v-col md="4">
-                                        <v-text-field type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col md="4">
-                                        <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
-                                    </v-col>
-                                    <v-col md="4">
-                                        <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col>
-                                        <v-btn :disabled="!validPassword" class="mt-5" @click="validate">
-                                            Submit
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                        </v-form>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-card>
-    </v-layout>
+                        </v-col>
+                        <v-col>
+                            <v-form ref="form" v-if='menuPosition === "editProfile"' v-model="validProfile">
+                                <v-container>
+                                    <v-row>
+                                        <v-col md="5">
+                                            <v-text-field v-model="firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                        </v-col>
+                                        <v-col md="6">
+                                            <v-text-field v-model="lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col md="7">
+                                            <v-text-field v-model="email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                        </v-col>
+                                        <v-col md="4">
+                                            <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col md="11">
+                                            <span class="caption font-weight-light">Saved shipping addresses</span>
+                                            <v-divider></v-divider>
+                                            <v-expansion-panels class="mt-2" focusable>
+                                                <v-expansion-panel>
+                                                    <v-expansion-panel-header>Address 1</v-expansion-panel-header>
+                                                    <v-expansion-panel-content>
+                                                        <v-text-field class="my-0" label="Line 1"/>
+                                                        <v-text-field class="my-0 py-0" label="Line 2"/>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Country"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="State/Province" />
+                                                            </v-col>
+                                                        </v-row>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="City"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Postal Code" />
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-expansion-panel-content>
+                                                </v-expansion-panel>
+                                                <v-expansion-panel>
+                                                    <v-expansion-panel-header>Address 2</v-expansion-panel-header>
+                                                    <v-expansion-panel-content>
+                                                        <v-text-field class="my-0" label="Line 1"/>
+                                                        <v-text-field class="my-0 py-0" label="Line 2"/>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Country"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="State/Province" />
+                                                            </v-col>
+                                                        </v-row>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="City"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Postal Code" />
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-expansion-panel-content>
+                                                </v-expansion-panel>
+                                                <v-expansion-panel>
+                                                    <v-expansion-panel-header>Address 3</v-expansion-panel-header>
+                                                    <v-expansion-panel-content>
+                                                        <v-text-field class="my-0" label="Line 1"/>
+                                                        <v-text-field class="my-0 py-0" label="Line 2"/>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Country"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="State/Province" />
+                                                            </v-col>
+                                                        </v-row>
+                                                        <v-row>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="City"/>
+                                                            </v-col>
+                                                            <v-col md="6" class="my-0 py-0">
+                                                                <v-text-field class="my-0 py-0" label="Postal Code" />
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-expansion-panel-content>
+                                                </v-expansion-panel>
+                                            </v-expansion-panels>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col>
+                                            <v-btn :disabled="!validProfile || changeCheck" class="mt-5" @click="validate">
+                                                Save
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-form>
+                            <v-form ref="form" v-if='menuPosition === "managePassword"' v-model="validPassword">
+                                <v-container>
+                                    <v-row>
+                                        <v-col md="4">
+                                            <v-text-field type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col md="4">
+                                            <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
+                                        </v-col>
+                                        <v-col md="4">
+                                            <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col>
+                                            <v-btn :disabled="!validPassword" class="mt-5" @click="validate">
+                                                Submit
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-form>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+        </v-layout>
+    </v-row>
 </template>
 
 <script>
@@ -105,6 +174,14 @@
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
+            // jsonData: {
+            //     firstName: null,
+            //     lastName: null,
+            //     email: null,             //Thinking about having everything stored like this to begin with
+            //     phoneNumber: null,
+            //     shippingAddress: null,
+            //     newPassword: null
+            // },
             firstName: null,
             lastName: null,           //
             email: null,              //
