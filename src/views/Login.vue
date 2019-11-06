@@ -37,7 +37,7 @@
                                 <v-row style=" margin-top: -3%">
                                     <v-col>
                                         <v-layout justify-end style="margin-right: 9%; margin-left: 9%" pt-5>
-                                            <v-btn block :color="ACCENT_COLOR" dark @click="validate()">Continue</v-btn>
+                                            <v-btn block :color="ACCENT_COLOR" :loading="loading" dark @click="validate()">Continue</v-btn>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -92,6 +92,7 @@
             password: "",
             pwVisible: false,
             pwError: "",
+            loading: false,
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
@@ -124,6 +125,8 @@
                         password: this.password
                     };
 
+                    this.loading = true;
+
                     const LOGIN = 200;
                     const ALREADY_LOGIN = 401;
                     const INVALID_INFO = 400;
@@ -131,6 +134,8 @@
                     let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
                     call.performRequest()
                         .then(response => {
+                            this.loading = false;
+
                             switch (response.status) {
                                 case LOGIN: {
                                     this.$store.commit("login", response.data);
