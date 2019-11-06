@@ -20,12 +20,12 @@
                             <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
-                                    <v-list-item :key="item.product.name" router :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">
+                                    <v-list-item :key="item.product.name">
                                         <v-list-item-avatar>
                                             <v-img height="70" min-width="70" :src="randURL()"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
-                                            <v-list-item-title>{{item.product.name}}</v-list-item-title>
+                                            <v-list-item-title><a :href="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</a></v-list-item-title>
                                             <v-list-item-subtitle>${{item.product.price.amount}}</v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-layout justify-end style="padding: 10px 0; max-width: 30%">
@@ -120,7 +120,7 @@
             removeItemFromCart(item) {
                 this.$store.commit("startCartLoad");
                 const SUCCESS = 200;
-                const url = "carts/mine/" + item.product.id;
+                const url = "carts/mine/items/" + item.product.id;
 
                 let createCartCall = new APICall(RequestType.DELETE, url, null, [SUCCESS]);
                 createCartCall.performRequest()
