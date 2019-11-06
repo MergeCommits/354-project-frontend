@@ -8,7 +8,7 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%" width="30%"
+                    <v-card style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%" width="30%"
                             min-width="300px">
                         <v-container pb-5>
                             <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
@@ -25,7 +25,7 @@
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field v-model="password" required outlined label="Password"
+                                    <v-text-field v-model="password" required @keyup.enter="validate" outlined label="Password"
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
@@ -89,7 +89,7 @@
             validLogin: true,
             lazyValidation: true,
             email: null,
-            password: null,
+            password: "",
             pwVisible: false,
             pwError: "",
             emailRules: [
