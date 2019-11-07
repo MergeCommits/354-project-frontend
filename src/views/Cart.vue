@@ -21,10 +21,10 @@
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
                                     <v-list-item :key="item.product.name">
                                         <v-list-item-avatar>
-                                            <v-img height="70" min-width="70" :src="randURL()"></v-img>
+                                            <v-img height="70" min-width="70" :src="randURL()" />
                                         </v-list-item-avatar>
                                         <v-list-item-content>
-                                            <v-list-item-title><a :href="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</a></v-list-item-title>
+                                            <v-list-item-title><router-link :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</router-link></v-list-item-title>
                                             <v-list-item-subtitle>${{item.product.price.amount}}</v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-layout justify-end style="padding: 10px 0; max-width: 30%">
@@ -43,7 +43,7 @@
             <v-col>
                 <v-container fluid>
                     <v-row class="checkoutRow">
-                        <v-card width="25em" min-height="13.5em" height="fit-content" hover style="border-radius: 20px; margin-top: 10px">
+                        <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                             <v-container fluid>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%">
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>

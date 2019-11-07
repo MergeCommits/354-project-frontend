@@ -19,16 +19,16 @@
             },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
-                return "/logout?redirect=" + this.$router.currentRoute.path;
+                return "/logout?redirect=" + this.$route.path;
             },
             // Returns the route a given page should go to in order to login and return to the same page.
             getLoginRouter() {
-                return "/login?redirect=" + this.$router.currentRoute.path;
+                return "/login?redirect=" + this.$route.path;
             },
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
-            updateShoppingCart() {
+            async updateShoppingCart() {
                 this.$store.commit("startCartLoad");
 
                 const CART_FOUND = 200;
