@@ -17,6 +17,15 @@
                     window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
                 }
             },
+            // Return to requested redirect, otherwise homepage.
+            returnToRedirect() {
+                let retPath = this.$route.query.redirect;
+                if (!utils.isEmpty(retPath)) {
+                    this.$router.push("/" + retPath);
+                } else {
+                    this.$router.push("/home");
+                }
+            },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
                 return "/logout?redirect=" + this.$route.path;

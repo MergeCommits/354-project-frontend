@@ -11,17 +11,6 @@
     export default {
         name: "Logout",
         mixins: [Utilities],
-        methods: {
-            // Return to requested redirect, otherwise homepage.
-            return() {
-                let retPath = this.$route.query.redirect;
-                if (!Utilities.isEmpty(retPath)) {
-                    this.$router.push("/" + retPath);
-                } else {
-                    this.$router.push("/");
-                }
-            }
-        },
         created: function () {
             const SUCCESS = 200;
             const NO_AUTH = 400;
@@ -33,7 +22,7 @@
                         case SUCCESS:
                         case NO_AUTH: {
                             this.$store.commit("logout");
-                            this.return();
+                            this.returnToRedirect();
                         } break;
                     }
                 });

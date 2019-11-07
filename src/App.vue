@@ -58,8 +58,8 @@
                     // Redirect them to login which subsequently redirects them back here.
                     this.$router.push(this.getLoginRouter());
                 } else if (currRoute.meta.logoutRequired && this.$store.state.isLoggedIn) {
-                    // Just kick them out.
-                    this.goBack();
+                    // Just send them to the homepage or redirect.
+                    this.returnToRedirect();
                 }
             }
         },

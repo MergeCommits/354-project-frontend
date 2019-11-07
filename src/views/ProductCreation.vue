@@ -57,7 +57,7 @@
                                            @click="returnConfirmation()">Cancel
                                     </v-btn>
                                     <v-btn :disabled="!validProduct" :color="PRIMARY_COLOR"
-                                           style="color: #ffffff" @click="validate()">Create
+                                           style="color: #ffffff" :loading="loading" @click="validate()">Create
                                     </v-btn>
                                 </v-layout>
                             </v-col>
@@ -85,6 +85,7 @@
             categoryDataLoaded: false,
             brandDataLoaded: false,
             validProduct: true,
+            loading: false,
             name: null,
             nameRules: [
                 value => !Utilities.isEmpty(value) || "A name is required."
@@ -152,6 +153,8 @@
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
+                    this.loading = true;
+
                     let jsonData = {
                         name: this.name,
                         description: this.description,
@@ -164,14 +167,19 @@
                     };
 
                     const CREATED = 200;
+                    const FAILED = 400;
 
-                    let call = new APICall(RequestType.POST, "products", jsonData, [ CREATED ]);
+                    let call = new APICall(RequestType.POST, "products", jsonData, [ CREATED, FAILED ]);
                     call.performRequest()
                         .then(response => {
                             switch (response.status) {
                                 case CREATED: {
                                     this.$router.push("/" + this.selectedCategory["permalink"] + "/"
                                         + response.data["permalink"]);
+                                } break;
+                                case FAILED: {
+                                    alert("There was an error creating the product listing.");
+                                    this.loading = false;
                                 }
                             }
                         });

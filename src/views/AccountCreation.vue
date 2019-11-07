@@ -43,7 +43,7 @@
                             <v-row style="margin-right: 5%; margin-left: 5%; margin-top: -6%">
                                 <v-col>
                                     <v-text-field outlined label="Password" required
-                                                  hint="You must use eight characters with letters, numbers and symbols."
+                                                  hint="You must use eight characters with at least one lowercase and uppercase letter, a number and a symbol."
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
                                                   @click:append="pwVisible = !pwVisible"
@@ -71,7 +71,7 @@
                                                @click="goBack()">Cancel
                                         </v-btn>
                                         <v-btn :disabled="!validRegistration" :color="PRIMARY_COLOR"
-                                               style="color: #ffffff" @click="validate()">Create
+                                               style="color: #ffffff" :loading="loading" @click="validate()">Create
                                         </v-btn>
                                     </v-layout>
                                 </v-col>
@@ -106,13 +106,14 @@
     import {APICall, RequestType} from "../components/common/API";
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/;
+    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/;
 
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
             validRegistration: true,
+            loading: false,
             firstName: null,
             lastName: null,
             email: null,
@@ -132,6 +133,7 @@
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
                 value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
+                value => !Utilities.isEmpty(value) && value.length <= 32 || "Password exceeds 32 characters.",
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
@@ -167,6 +169,7 @@
 
             validate() {
                 if (this.$refs.form.validate()) {
+                    this.loading = true;
                     // Check if the username is already in use.
                     let usernameData = {
                         username: this.username
@@ -181,6 +184,7 @@
                             switch (userResponse.status) {
                                 case FOUND: {
                                     this.usernameErrors = ["This username is taken."];
+                                    this.loading = false;
                                 } break;
 
                                 case NOT_FOUND: {
@@ -197,6 +201,7 @@
                                             switch (emailResponse.status) {
                                                 case FOUND: {
                                                     this.emailErrors = ["This email is taken."];
+                                                    this.loading = false;
                                                 } break;
 
                                                 case NOT_FOUND: {
@@ -212,15 +217,20 @@
                                                     };
 
                                                     const SUCCESS = 200;
+                                                    const FAILED = 400;
 
                                                     // TODO: Add some sort of prompt if the server errors out.
-                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS]);
+                                                    let registerCall = new APICall(RequestType.POST, "users", registerData, [SUCCESS, FAILED]);
                                                     registerCall.performRequest()
                                                         .then(registerResponse => {
                                                             switch (registerResponse.status) {
                                                                 case SUCCESS: {
                                                                     this.$store.commit("login", registerResponse.data);
                                                                     this.$router.push('/home');
+                                                                } break;
+                                                                case FAILED:{
+                                                                    alert("There was an error registering your account.");
+                                                                    this.loading = false;
                                                                 } break;
                                                             }
                                                         });
