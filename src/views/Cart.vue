@@ -1,6 +1,6 @@
 <template>
     <v-container v-if="!this.$store.state.loadingShoppingCart" fluid>
-        <v-row style="max-height: 1em; margin-top: 10px">
+        <v-row style="max-height: 1em; margin-top: 10px; margin-bottom: 25px">
             <v-btn color="grey darken-2" text @click="goBack()">
                 <v-icon color="grey darken-2" style="margin-right: 10px">
                     arrow_back
@@ -8,13 +8,12 @@
                 GO back
             </v-btn>
         </v-row>
+        <v-row style="padding-left: 15px">
+            <span class="title font-weight-regular" style="font-size: 25px!important; color: #424242">Shopping Cart</span>
+        </v-row>
         <v-row>
-            <v-col style="min-width:50%">
+            <v-col style="min-width: 50%">
                 <v-container fluid>
-                    <v-row>
-                        <span class="title font-weight-regular"
-                              style="font-size: 25px!important; color: #424242">Shopping Cart</span>
-                    </v-row>
                     <v-row style="margin-top: 10px">
                         <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                             <v-list v-if="this.cartCount > 0" two-line>
@@ -43,18 +42,40 @@
             </v-col>
             <v-col>
                 <v-container fluid>
-                    <v-row style="height: 33px"></v-row>
-                    <v-row>
-                        <v-card width="25em" height="13.5em" hover style="border-radius: 20px; margin-top: 10px">
+                    <v-row class="checkoutRow">
+                        <v-card width="25em" min-height="13.5em" height="fit-content" hover style="border-radius: 20px; margin-top: 10px">
                             <v-container fluid>
-                                <v-row style="margin-left: 5%; margin-right: 5%">
+                                <v-row style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%">
                                     <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
                                 </v-row>
+                                <template v-for="(item, index) in this.cartItems">
+                                    <v-row v-bind:key="index" class="itemCheckoutBox">
+                                        <v-col><span>{{item.product.name}} X {{item.quantity}}</span></v-col>
+                                        <v-col>
+                                            <v-layout justify-end>${{Number(item.product.price.amount * item.quantity).toFixed(2)}}</v-layout>
+                                        </v-col>
+                                    </v-row>
+                                </template>
+                                <v-divider style="margin-top: 10px" />
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
                                     <v-col><span>Items ({{cartItems.length}})</span></v-col>
                                     <v-col></v-col>
                                     <v-col>
-                                        <v-layout justify-end>${{totalPrice}}</v-layout>
+                                        <v-layout justify-end>${{sumItemsCost.toFixed(2)}}</v-layout>
+                                    </v-col>
+                                </v-row>
+                                <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
+                                    <v-col>Tax</v-col>
+                                    <v-col></v-col>
+                                    <v-col>
+                                        <v-layout justify-end>${{sumItemsTax.toFixed(2)}}</v-layout>
+                                    </v-col>
+                                </v-row>
+                                <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
+                                    <v-col>Site Interest</v-col>
+                                    <v-col></v-col>
+                                    <v-col>
+                                        <v-layout justify-end>${{sumItemsSiteInterest.toFixed(2)}}</v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -64,13 +85,13 @@
                                         <v-layout justify-end>Free</v-layout>
                                     </v-col>
                                 </v-row>
-                                <v-divider style="margin-top: 10px"></v-divider>
+                                <v-divider style="margin-top: 10px" />
                                 <v-row style="margin-left: 5%; margin-right: 5%">
                                     <v-col><span class="title font-weight-regular">Total</span></v-col>
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>
-                                            <span class="title font-weight-regular">${{totalPrice}}</span>
+                                            <span class="title font-weight-regular">${{totalPriceStr}}</span>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -90,10 +111,14 @@
     import Utilities from "../components/common/Utilities"
     import {APICall, RequestType} from "../components/common/API";
 
+    const TAX_SCALE = 0.15;
+    const SITE_USAGE_INTEREST = 0.08;
+
     export default {
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
+
         }),
         methods: {
             getRandomInt(max) {
@@ -146,17 +171,30 @@
                     return this.$store.state.shoppingCart["lines"];
                 }
             },
-            totalPrice: {
+            sumItemsCost: {
                 get() {
                     let items = this.cartItems;
                     let cost = 0.0;
                     for (let i = 0; i < items.length; i++) {
-                        cost += Number(items[i].product["price"].amount);
+                        cost += Number(items[i].product["price"].amount) * Number(items[i].quantity);
                     }
 
-                    const TAX_SCALE = 0.15;
-                    cost += cost * TAX_SCALE;
-
+                    return cost;
+                }
+            },
+            sumItemsTax: {
+                get() {
+                    return this.sumItemsCost * TAX_SCALE;
+                }
+            },
+            sumItemsSiteInterest: {
+                get() {
+                    return this.sumItemsTax * SITE_USAGE_INTEREST;
+                }
+            },
+            totalPriceStr: {
+                get() {
+                    let cost = this.sumItemsCost + this.sumItemsTax + this.sumItemsSiteInterest;
                     return cost.toFixed(2);
                 }
             }
@@ -165,5 +203,15 @@
 </script>
 
 <style scoped>
+    .itemCheckoutBox {
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom: -4%;
+    }
 
+    @media screen and (max-width: 847px) {
+        .checkoutRow {
+            justify-content: center;
+        }
+    }
 </style>
