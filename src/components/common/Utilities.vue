@@ -37,14 +37,13 @@
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
-            hashIt(password) {
+            hashIt(password, fn) {
                 generate(password, (err, hash) => {
                     if (err) {
                         console.error(err, "Error occurred generating hash for password.");
                     }
                     else {
-                        //this.$store.commit("setHashedPassword", hash);    //I don't know why this doesn't work
-                        this.$store.hashedPassword = hash;   //but this works
+                        fn(hash);
                     }
                 });
             },
