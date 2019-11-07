@@ -9,7 +9,6 @@ export default new Vuex.Store({
         isLoggedIn: false,
         currUser: null,
         categorySelected: null,
-        hashedPassword: null,
         inputItems: [
             {
                 price: 325,
@@ -92,8 +91,5 @@ export default new Vuex.Store({
         selfChecked(state) {
             state.selfCheckComplete = true;
         },
-        /*setHashedPassword(state, hash) {
-            state.hashedPassword = hash;    //Doesn't work for some reason
-        }*/
     }
 });
