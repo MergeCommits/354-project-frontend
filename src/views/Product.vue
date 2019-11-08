@@ -10,7 +10,7 @@
                                 {{product.name}}
                             </v-card-title>
                             <v-img style="margin: 10px"
-                                   src="https://cdn.discordapp.com/attachments/334105851411431424/642019657041313828/10888893.jpeg"
+                                   src="https://cdn.discordapp.com/attachments/334105851411431424/642069656948965426/10888893.jpg"
                                    class="grey lighten-2" />
                         </v-card>
 
@@ -32,7 +32,7 @@
                             <v-card-actions>
                                 <v-btn class="no-highlight" block :color="ACCENT_COLOR" width="100%" outlined
                                        :loading="this.$store.state.loadingShoppingCart"
-                                       :disabled="!this.validQuantity"
+                                       :disabled="this.$store.state.loadingShoppingCart || !this.validQuantity"
                                        @click="cartButtonPressed()">
                                     <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
                                     {{addToCartLabel}}
@@ -106,9 +106,11 @@
         }),
         watch: {
             quantity(value) {
-                this.quantityExceedError = this.product["quantity"] < Number(value)
-                    ? ["The available quantity of this product is " + this.product["quantity"] + "."]
-                    : [];
+                if (value !== null && this.product !== null) {
+                    this.quantityExceedError = this.product["quantity"] < Number(value)
+                        ? ["The available quantity of this product is " + this.product["quantity"] + "."]
+                        : [];
+                }
             }
         },
         methods: {
@@ -116,7 +118,7 @@
                 if (this.itemInCartAndSameQuantity) {
                     this.$router.push("/cart");
                 } else if (this.itemFromCart !== null) {
-                    this.updateCartQuantity(this.itemFromCart, this.quantity());
+                    this.updateCartQuantity(this.itemFromCart, this.quantity);
                 } else {
                     this.addToCartAsync();
                 }
@@ -172,14 +174,14 @@
                     if (this.itemFromCart === null) {
                         return false;
                     }
-                    return this.itemFromCart.quantity !== this.quantity;
+                    return Number(this.itemFromCart.quantity) === Number(this.quantity);
                 }
             },
             addToCartLabel: {
                 get() {
-                    if (!this.validQuantity) {
-                        return "Add to cart";
-                    }
+                    // if (!this.validQuantity) {
+                    //     return "Add to cart";
+                    // }
                     if (this.itemInCartAndSameQuantity) {
                         return "View cart";
                     }
@@ -221,10 +223,6 @@
                                         {
                                             description: "Condition",
                                             value: this.product["condition"]
-                                        },
-                                        {
-                                            description: "Seller Contact",
-                                            value: this.product["sellerInfo"].email
                                         },
                                     ];
 

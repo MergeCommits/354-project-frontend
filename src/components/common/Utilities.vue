@@ -56,6 +56,23 @@
                             } break;
                         }
                     });
+            },
+            updateCartQuantity(item, newQuantity) {
+                this.$store.commit("startCartLoad");
+
+                const SUCCESS = 200;
+                const FAIL = 400;
+
+                let jsonData = {
+                    productId: item.product.id,
+                    quantity: Number(newQuantity)
+                }
+
+                let call = new APICall(RequestType.PUT, "carts/mine/items", jsonData, [SUCCESS, FAIL]);
+                call.performRequest()
+                    .then(() => {
+                        this.updateShoppingCart();
+                    });
             }
         },
 

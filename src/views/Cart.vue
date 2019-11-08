@@ -27,7 +27,13 @@
                                             <v-list-item-title><router-link :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</router-link></v-list-item-title>
                                             <v-list-item-subtitle>${{item.product.price.amount}}</v-list-item-subtitle>
                                         </v-list-item-content>
-                                        <v-layout justify-end style="padding: 10px 0; max-width: 30%">
+<!--                                        <v-text-field style="max-width: 80px"-->
+<!--                                                      v-model="quantity"-->
+<!--                                                      type="number"-->
+<!--                                                      label="Quantity"-->
+<!--                                                      :rules="quantityRules"-->
+<!--                                                      :error-messages="quantityExceedError" />-->
+                                        <v-layout justify-end style="padding: 10px 0 10px 20px; max-width: fit-content">
                                             <v-btn fab depressed @click="removeItemFromCart(item)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
@@ -65,17 +71,10 @@
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
-                                    <v-col>Tax</v-col>
+                                    <v-col>Tax (15%)</v-col>
                                     <v-col></v-col>
                                     <v-col>
                                         <v-layout justify-end>${{sumItemsTax.toFixed(2)}}</v-layout>
-                                    </v-col>
-                                </v-row>
-                                <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
-                                    <v-col>Site Interest</v-col>
-                                    <v-col></v-col>
-                                    <v-col>
-                                        <v-layout justify-end>${{sumItemsSiteInterest.toFixed(2)}}</v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-top: -5%">
@@ -118,7 +117,7 @@
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
-
+            updatedQuantities: []
         }),
         methods: {
             getRandomInt(max) {
@@ -187,14 +186,9 @@
                     return this.sumItemsCost * TAX_SCALE;
                 }
             },
-            sumItemsSiteInterest: {
-                get() {
-                    return this.sumItemsTax * SITE_USAGE_INTEREST;
-                }
-            },
             totalPriceStr: {
                 get() {
-                    let cost = this.sumItemsCost + this.sumItemsTax + this.sumItemsSiteInterest;
+                    let cost = this.sumItemsCost + this.sumItemsTax;
                     return cost.toFixed(2);
                 }
             }
