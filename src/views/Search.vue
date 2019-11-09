@@ -61,30 +61,30 @@
                 <v-col style="width: 45%; margin-right: -2%">
                     <v-container fluid>
                         <v-layout justify-center v-for="item in items.slice(0,4)" v-bind:key="item.name">
-                            <v-card :color="itemCardColor(item)" @mouseover="hoverItem = item"
+                            <v-card @mouseover="hoverItem = item"
                                     outlined width="100%" height="10em" class="mb-3"
                                     style="border: solid #E0E0E0 1px!important; border-radius: 10px">
                                 <v-row>
                                     <v-col style="max-width:26% !important;">
                                         <v-img class="white--text"
-                                               style="border-radius: 10%; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
-                                               min-height="20%"
-                                               min-width="20%"
-                                               :src="item.imageUrl">
+                                                style="border-radius: 10%; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
+                                                min-height="20%"
+                                                min-width="20%"
+                                                :src="item.imageUrl">
                                         </v-img>
                                     </v-col>
                                     <v-col>
                                         <v-layout pt-1 style="min-height: 65px">
                                                     <span class="headline font-weight-light"
-                                                          style="font-size: 17px!important;">{{item.title}}</span>
+                                                            style="font-size: 17px!important;">{{item.name}}</span>
                                         </v-layout>
                                         <v-layout pt-2>
                                                     <span class="headline font-weight-bold"
-                                                          style="font-size: 19px!important; color:#FF8F00">${{item.price}}</span>
+                                                            style="font-size: 19px!important; color:#FF8F00">${{item.price.amount}}</span>
                                         </v-layout>
                                         <v-layout align-end justify-end v-if="hoverItem && hoverItem.name === item.name"
-                                                  style="margin-top: 1%">
-                                            <v-btn text small depressed color="grey darken-2">details
+                                                    style="margin-top: 1%">
+                                            <v-btn text small depressed color="grey darken-2" :to="{ name: 'product', params: { categoryPermalink: item.category.permalink, productPermalink: item.permalink }}">details
                                                 <v-icon style="margin-left: 5px; margin-right: 10px; font-size: 12px!important;"
                                                         :color="ACCENT_COLOR">arrow_forward_ios
                                                 </v-icon>
@@ -100,6 +100,9 @@
                                 v-model="page"
                                 :color="PRIMARY_COLOR"
                                 :length="paginationLength"
+                                @next="$store.dispatch('fetchProducts', queryString)"
+                                @input="$store.dispatch('fetchProducts', queryString)"
+                                @previous="$store.dispatch('fetchProducts', queryString)"
                         ></v-pagination>
                     </v-layout>
                 </v-col>
@@ -112,7 +115,7 @@
                                     <v-layout justify-center class="ml-2"
                                               style="min-height: 40px; max-height: 40px">
                                     <span class="headline font-weight-regular"
-                                          style="color:#424242">{{hoverItem.title}}</span>
+                                          style="color:#424242">{{hoverItem.name}}</span>
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-top: 10px">
@@ -129,13 +132,13 @@
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Category: </span>
                                             <span class="headline font-weight-light"
-                                                  style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.name}}</span>
+                                                  style="font-size: 20px!important; margin-left: 5px"> {{hoverItem.category.name}}</span>
                                         </v-layout>
                                         <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Price: </span>
                                             <span class="headline font-weight-regular"
-                                                  style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
+                                                  style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price.amount}}</span>
                                         </v-layout>
                                         <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
@@ -147,14 +150,14 @@
                                         <span class="headline font-weight-regular"
                                               style="font-size: 20px!important;">Description: <span
                                                 class="headline font-weight-light"
-                                                style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.title}} </span></span>
+                                                style="font-size: 15px!important;margin-left: 1px"> {{hoverItem.description}} </span></span>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-layout justify-center pt-1>
                                     <span class="headline font-weight-light"
-                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
+                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price.amount}}</span></span>
                                         <v-icon style="margin-top: -5px; margin-left: 5px" large
                                                 :color="ACCENT_COLOR">fas fa-meteor
                                         </v-icon>
@@ -168,7 +171,7 @@
                                             <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
                                                       pt-3>
                                                 <v-select dense :color="ACCENT_COLOR" solo rounded
-                                                          label="Quantity"></v-select>
+                                                          label="Quantity" :items="hoverItemQuantities"></v-select>
                                             </v-layout>
                                         </v-row>
                                         <v-row>
@@ -207,12 +210,35 @@
 <script>
     import Utilities from "../components/common/Utilities";
     import TitleBar from "../components/TitleBar";
+    import {APICall, RequestType} from "../components/common/API"
 
     export default {
         name: "Search",
         mixins: [Utilities],
         components: {
             'titlebar': TitleBar
+        },
+        computed: {
+            items() {
+                return this.$store.state.inputItems;
+            },
+            hoverItemQuantities() {
+                let quantities = []
+                for (let i = 1; i <= this.hoverItem.quantity; i++) {
+                    quantities.push(i)
+                }
+                return quantities
+            },
+            queryString() {
+                return dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit})
+            },
+            paginationLength() {
+                let paginationLength = Math.ceil(this.$store.state.productsCount/this.limit)
+                return (paginationLength === 0)?1:paginationLength
+            }
+        },
+        created() {
+            this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({...this.$route.query}))
         },
         data: () => ({
             priceRangeFilter: {
@@ -221,8 +247,8 @@
             },
             hoverItem: null,
             page: 1,
+            limit: 4,
             priceOrderFilter: null,
-            paginationLength: 5,
             filters: [{text: 'Highest to Lowest', value: 'highToLow'}, {text: 'Lowest to Highest', value: 'lowToHigh'}],
         }),
         methods: {
@@ -243,28 +269,6 @@
                     this.$root.$emit('cartItemCount', this.$store.state.cartItemCount++);
                 }
             }
-        },
-        computed: {
-            items() {
-                this.inputItems = this.$store.state.inputItems;
-                let validItems = Utilities.clone(this.inputItems);
-                if (this.priceOrderFilter === 'lowToHigh') {
-                    validItems = validItems.sort(function (a, b) {
-                        return a.price - b.price
-                    });
-                } else if (this.priceOrderFilter === 'highToLow') {
-                    validItems = validItems.sort(function (a, b) {
-                        return a.price - b.price
-                    }).reverse();
-                }
-                if (!Utilities.isEmpty(this.priceRangeFilter.high) && !Utilities.isEmpty(this.priceRangeFilter)) {
-                    validItems = validItems.filter(item => item.price >= this.priceRangeFilter.low && item.price <= this.priceRangeFilter.high)
-                }
-                if (!Utilities.isEmpty(this.search)) {
-                    validItems = validItems.filter(item => item.title.toLowerCase().includes(this.search.toLowerCase()))
-                }
-                return validItems;
-            },
         }
     }
 </script>
