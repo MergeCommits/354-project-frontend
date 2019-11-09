@@ -1,4 +1,6 @@
 <script>
+    import {APICall, RequestType} from "./API";
+
     const utils = {
         name: "Utilities",
         data: () => ({
@@ -26,14 +28,51 @@
             },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
-                return "/logout?redirect=" + this.$router.currentRoute.name;
+                return "/logout?redirect=" + this.$route.path.substr(1);
             },
             // Returns the route a given page should go to in order to login and return to the same page.
             getLoginRouter() {
-                return "/login?redirect=" + this.$router.currentRoute.name;
+                return "/login?redirect=" + this.$route.path.substr(1);
             },
             getUserData(key) {
                 return this.$store.state.currUser[key];
+            },
+            async updateShoppingCart() {
+                this.$store.commit("startCartLoad");
+
+                const CART_FOUND = 200;
+                const CART_NOT_FOUND = 400;
+
+                let call = new APICall(RequestType.GET, "carts/mine", null, [CART_FOUND, CART_NOT_FOUND]);
+                call.performRequest()
+                    .then(response => {
+                        switch (response.status) {
+                            case CART_FOUND: {
+                                this.$store.commit("setShoppingCart", response.data);
+                                this.$store.commit("stopCartLoad");
+                            } break;
+                            case CART_NOT_FOUND: {
+                                this.$store.commit("stopCartLoad");
+                            } break;
+                        }
+                    });
+            },
+            updateCartQuantity(item, newQuantity) {
+                this.$store.commit("startCartLoad");
+
+                const SUCCESS = 200;
+                const FAIL = 400;
+
+                let jsonData = {
+                    productId: item.product.id,
+                    quantity: Number(newQuantity)
+                }
+
+                let call = new APICall(RequestType.PUT, "carts/mine/items", jsonData, [SUCCESS, FAIL]);
+                call.performRequest()
+                    .then(() => {
+                        this.updateShoppingCart();
+                    });
             }
         },
 

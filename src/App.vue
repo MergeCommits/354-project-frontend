@@ -65,10 +65,7 @@
         },
         created: function () {
             this.updateSelf();
-            let cart = localStorage.getItem("cart");
-            if (!Utilities.isEmpty(cart)) {
-                this.cartItemCount = JSON.parse(cart).length;
-            }
+            this.updateShoppingCart();
         },
         watch: {
             $route() {
