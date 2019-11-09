@@ -8,8 +8,7 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card hover style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%"
-                            width="30%"
+                    <v-card style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%" width="30%"
                             min-width="300px">
                         <v-container pb-5>
                             <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
@@ -27,7 +26,7 @@
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
-                                    <v-text-field v-model="password" required outlined label="Password"
+                                    <v-text-field v-model="password" required @keyup.enter="validate" outlined label="Password"
                                                   :error-messages="pwError"
                                                   :append-icon="isPasswordVisible? 'visibility' : 'visibility_off'"
                                                   :type="isPasswordVisible ? 'text' : 'password'"
@@ -39,7 +38,7 @@
                                 <v-row style=" margin-top: -3%">
                                     <v-col>
                                         <v-layout justify-end style="margin-right: 9%; margin-left: 9%" pt-5>
-                                            <v-btn block :color="ACCENT_COLOR" dark @click="validate()">Continue</v-btn>
+                                            <v-btn block :color="ACCENT_COLOR" :loading="loading" dark @click="validate()">Continue</v-btn>
                                         </v-layout>
                                     </v-col>
                                 </v-row>
@@ -95,22 +94,13 @@
             password: null,
             isPasswordVisible: false,
             pwError: "",
+            loading: false,
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
         }),
-        computed: {
-            loginState() {
-                return this.$store.state.isLoggedIn;
-            }
-        },
         watch: {
-            loginState(newState) {
-                if (newState) {
-                    this.return();
-                }
-            },
             // Wipe server response errors.
             email() {
                 this.pwError = [];
@@ -122,6 +112,7 @@
         methods: {
             // Return to requested redirect, otherwise homepage.
             validate() {
+                this.loading = true;
                 Requests.loginPostRequest(this.$refs.form.validate() ? {
                     email: this.email,
                     password: this.password
