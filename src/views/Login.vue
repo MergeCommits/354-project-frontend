@@ -120,9 +120,8 @@
                     };
 
                     await this.hashIt(this.password)
-                        .then(
-                            response => {jsonData.password = response;},
-                            () => {alert(" An error occurred during password creation.");}
+                        .then(response => jsonData.password = response)
+                        .catch(error => alert("An error occurred during password creation. " + error)
                         );
 
                     const LOGIN = 200;
