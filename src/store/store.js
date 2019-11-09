@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import {APICall, RequestType} from '../components/common/API'
 
 Vue.use(Vuex)
 
@@ -9,74 +10,31 @@ export default new Vuex.Store({
         isLoggedIn: false,
         currUser: null,
         categorySelected: null,
-        inputItems: [
-            {
-                price: 325,
-                name: 'Cars',
-                imageUrl: 'https://picsum.photos/id/1013/500',
-                title: 'Tufoil Lubit 8 Lubit-8 with PTFE - "It takes few drops" Oil Lock Pen Stylo',
-                id: 1
-            },
-            {
-                price: 3,
-                name: 'Sports',
-                imageUrl: 'https://picsum.photos/id/1016/500',
-                title: 'Few Days Left - Scorpio The Man Myth Legend Gildan Hoodie Sweatshirt',
-                id: 2
-            },
-            {
-                price: 435,
-                name: 'Kitchen',
-                imageUrl: 'https://picsum.photos/id/1055/500',
-                title: 'Come Back in a Few Beers Patch Beer Iron to Sew on Patch Badge',
-                id: 3
-            },
-            {
-                price: 354,
-                name: 'Drugs',
-                imageUrl: 'https://picsum.photos/id/1024/500',
-                title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few',
-                id: 4
-            },
-            {
-                price: 99,
-                name: 'House',
-                imageUrl: 'https://picsum.photos/id/1029/500',
-                title: 'Antminer A3 Very few hours used.',
-                id: 5
-            },
-            {
-                price: 27,
-                name: 'Footwear',
-                imageUrl: 'https://picsum.photos/id/103/500',
-                title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW',
-                id: 6
-            },
-            {
-                price: 12,
-                name: 'Food',
-                imageUrl: 'https://picsum.photos/id/1033/500',
-                title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD',
-                id: 7
-            },
-            {
-                price: 2344,
-                name: 'Electronics',
-                imageUrl: 'https://picsum.photos/id/1038/500',
-                title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS',
-                id: 8
-            },
-            {
-                price: 101,
-                name: 'Clothing',
-                imageUrl: 'https://picsum.photos/id/1026/500',
-                title: '1951 $1.00 MS-63 FEW TONED',
-                id: 9
-            }
-        ]
+        inputItems: [],
+        productsCount: 0
     },
 
-    getters: { },
+    actions: {
+        fetchProducts(context,queryString) {
+            const FOUND = 200;
+            let searchQuery = new APICall(RequestType.GET, 'products' + queryString, null, [FOUND]);
+            searchQuery.performRequest()
+                .then(response => {
+                    switch (response.status) {
+                        case FOUND: {
+                            context.commit('setProducts', response.data.products)
+                            context.commit('setProductsCount', response.data.count)
+                        } break;
+                    }
+                });      
+        }
+    },
+
+    getters: { 
+        getItems(state) {
+            return state.inputItems
+        }
+    },
 
     mutations: {
         login(state, userData) {
@@ -89,6 +47,25 @@ export default new Vuex.Store({
         },
         selfChecked(state) {
             state.selfCheckComplete = true;
+        },
+        setProducts(state, products) {
+            state.inputItems.splice(0, state.inputItems.length)
+            for(let product of products){
+                state.inputItems.push(product)
+            }
+        },
+        setProductsCount(state, productsCount) {
+            if (productsCount > -1) {
+                state.productsCount = productsCount
+            } else {
+                state.productsCount = 0
+            }
+        },
+        setCategories(state, categories) {
+            state.categories.splice(0, state.categories.length)
+            for(let category of categories){
+                state.categories.push(category)
+            }
         }
     }
 });
