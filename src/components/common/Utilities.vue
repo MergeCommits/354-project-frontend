@@ -43,6 +43,9 @@
         },
         isEmpty(object) {
             return object === undefined || object === null || object.length === 0 || object === "";
+        },
+        dictToQueryString(object) {
+           return '?' + Object.keys(object).map(key => key + '=' + object[key]).join('&')
         }
     };
 
