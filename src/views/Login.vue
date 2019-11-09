@@ -108,15 +108,24 @@
             }
         },
         methods: {
-            validate() {
+            async validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
                     this.loading = true;
 
                     let jsonData = {
                         email: this.email,
-                        password: this.password
+                        password: null
                     };
+
+                    await this.hashIt(this.password)
+                        .then(
+                          function (response) {jsonData.password = response;},
+                          function (error) {
+                              alert("An error occurred, try again.");
+                              console.error(error, "There was an error during the hashing of the password.")
+                          }
+                        );
 
                     const LOGIN = 200;
                     const ALREADY_LOGIN = 401;

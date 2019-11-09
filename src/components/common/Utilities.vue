@@ -37,15 +37,17 @@
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
-            hashIt(password, fn) {
-                generate(password, (err, hash) => {
-                    if (err) {
-                        console.error(err, "Error occurred generating hash for password.");
-                    }
-                    else {
-                        fn(hash);
-                    }
-                });
+            hashIt(password) {
+                return new Promise((function (resolve, reject) {
+                    generate(password, function (err, hash) {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(hash);
+                        }
+                    });
+                }));
             },
         },
 
