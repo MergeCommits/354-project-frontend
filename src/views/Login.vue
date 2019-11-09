@@ -20,7 +20,7 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                        <v-text-field v-model="email" required :disabled="loading" :rules="emailRules" :color="ACCENT_COLOR" outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
                                 </v-row>
@@ -29,6 +29,7 @@
                                                   :error-messages="pwError"
                                                   :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
                                                   :type="pwVisible ? 'text' : 'password'"
+                                                  :disabled="loading"
                                                   @click:append="pwVisible = !pwVisible"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
@@ -111,20 +112,17 @@
             async validate() {
                 // Are the fields filled in?
                 if (this.$refs.form.validate()) {
-                    this.loading = true;
+                    this.loading = null;
 
                     let jsonData = {
                         email: this.email,
-                        password: null
+                        password: this.password
                     };
 
                     await this.hashIt(this.password)
                         .then(
-                          function (response) {jsonData.password = response;},
-                          function (error) {
-                              alert("An error occurred, try again.");
-                              console.error(error, "There was an error during the hashing of the password.")
-                          }
+                            response => {jsonData.password = response;},
+                            () => {alert(" An error occurred during password creation.");}
                         );
 
                     const LOGIN = 200;

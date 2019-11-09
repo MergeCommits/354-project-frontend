@@ -39,13 +39,8 @@
             },
             hashIt(password) {
                 return new Promise((function (resolve, reject) {
-                    generate(password, function (err, hash) {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            resolve(hash);
-                        }
+                    generate(password, (err, hash) => {
+                        err ? reject(err) : resolve(hash);
                     });
                 }));
             },
