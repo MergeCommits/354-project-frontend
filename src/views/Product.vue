@@ -73,7 +73,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities";
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests";
 
     export default {
         name: "Product",
@@ -118,24 +118,18 @@
                 if (this.itemInCartAndSameQuantity) {
                     this.$router.push("/cart");
                 } else if (this.itemFromCart !== null) {
-                    this.updateCartLineAsync(this.itemFromCart, this.quantity);
+                    this.updateCartQuantityAsync(this.itemFromCart, this.quantity);
                 } else {
                     this.addToCartAsync();
                 }
             },
             async addToCartAsync() {
                 this.$store.commit("startCartLoad");
-                const SUCCESS = 200;
-                const FAIL = 400;
 
                 if (this.$store.state.shoppingCart === null) {
-                    let createCartCall = new APICall(RequestType.POST, "carts", null, [SUCCESS, FAIL]);
-                    let cartCreated = await createCartCall.performRequest()
-                        .then(response => {
-                            return response.status === SUCCESS;
-                        });
+                    let response = await Requests.createShoppingCartAsync();
 
-                    if (!cartCreated) {
+                    if (response.error) {
                         alert("Something went wrong with creating your cart. Please try again in a moment.");
                         return;
                     }
@@ -146,10 +140,8 @@
                     quantity: Number(this.quantity)
                 };
 
-                let addItemCall = new APICall(RequestType.POST, "carts/mine/items", productData, [SUCCESS]);
-                await addItemCall.performRequest();
-
-                await this.updateShoppingCart(); // This commits "stopCartLoad" to the store.
+                await Requests.addItemToCartAsync(productData);
+                await this.updateShoppingCartAsync(); // This commits "stopCartLoad" to the store.
             }
         },
         computed: {
@@ -179,9 +171,6 @@
             },
             addToCartLabel: {
                 get() {
-                    // if (!this.validQuantity) {
-                    //     return "Add to cart";
-                    // }
                     if (this.itemInCartAndSameQuantity) {
                         return "View cart";
                     }
@@ -193,54 +182,47 @@
             }
         },
         props: [ "categoryPermalink", "productPermalink" ],
-        created: function() {
-            const FOUND = 200;
-            const NOT_FOUND = 404;
-
+        created: async function() {
             let url = "categories/" + this.categoryPermalink + "/products";
-            let call = new APICall(RequestType.GET, url, null, [FOUND, NOT_FOUND]);
-            call.performRequest()
-                .then(response => {
-                    switch (response.status) {
-                        case FOUND: {
-                            let products = response.data["products"];
-                            for (let i = 0; i < products.length; i++) {
-                                if (products[i]["permalink"] === this.productPermalink.toLowerCase()) {
-                                    this.product = products[i];
-                                    this.specData = [
-                                        {
-                                            description: "Date Added",
-                                            value: this.product["dateAdded"]
-                                        },
-                                        {
-                                            description: "Category",
-                                            value: this.product["category"].name
-                                        },
-                                        {
-                                            description: "Brand",
-                                            value: this.product["brand"].name
-                                        },
-                                        {
-                                            description: "Condition",
-                                            value: this.product["condition"]
-                                        },
-                                    ];
+            let response = await Requests.queryProductAsync(url);
 
-                                    this.productValidated = true;
-                                    return;
-                                }
-                            }
+            if (!response.error) {
+                if (response.status === Requests.HttpStatus.SUCCESS) {
+                    let products = response.data["products"];
+                    for (let i = 0; i < products.length; i++) {
+                        if (products[i]["permalink"] === this.productPermalink.toLowerCase()) {
+                            this.product = products[i];
+                            this.specData = [
+                                {
+                                    description: "Date Added",
+                                    value: this.product["dateAdded"]
+                                },
+                                {
+                                    description: "Category",
+                                    value: this.product["category"].name
+                                },
+                                {
+                                    description: "Brand",
+                                    value: this.product["brand"].name
+                                },
+                                {
+                                    description: "Condition",
+                                    value: this.product["condition"]
+                                },
+                            ];
 
-                            this.productValidated = false;
-                            this.errorMessage = "Could not find the product <code>" + this.productPermalink + "</code> in category <code>" + this.categoryPermalink + "</code>!";
-                        } break;
-
-                        case NOT_FOUND: {
-                            this.productValidated = false;
-                            this.errorMessage = "Could not find the category <code>" + this.categoryPermalink + "</code>!";
-                        } break;
+                            this.productValidated = true;
+                            return;
+                        }
                     }
-                });
+
+                    this.productValidated = false;
+                    this.errorMessage = "Could not find the product <code>" + this.productPermalink + "</code> in category <code>" + this.categoryPermalink + "</code>!";
+                } else if (response.status === Requests.HttpStatus.NOT_FOUND) {
+                    this.productValidated = false;
+                    this.errorMessage = "Could not find the category <code>" + this.categoryPermalink + "</code>!";
+                }
+            }
         }
     }
 </script>
