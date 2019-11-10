@@ -210,7 +210,6 @@
 <script>
     import Utilities from "../components/common/Utilities";
     import TitleBar from "../components/TitleBar";
-    import {APICall, RequestType} from "../components/common/API"
 
     export default {
         name: "Search",
@@ -223,28 +222,28 @@
                 return this.$store.state.inputItems;
             },
             hoverItemQuantities() {
-                let quantities = []
+                let quantities = [];
                 for (let i = 1; i <= this.hoverItem.quantity; i++) {
-                    quantities.push(i)
+                    quantities.push(i);
                 }
-                return quantities
+                return quantities;
             },
             queryString() {
-                return Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit})
+                return Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit});
             },
             paginationLength() {
-                let paginationLength = Math.ceil(this.$store.state.productsCount/this.limit)
-                return (paginationLength === 0)?1:paginationLength
+                let paginationLength = Math.ceil(this.$store.state.productsCount / this.limit);
+                return (paginationLength === 0) ? 1 : paginationLength;
             }
         },
         created() {
-            let query = this.$route.query
+            let query = this.$route.query;
             
-            if ('page' in query) {
-                this.page = this.$route.query['page']
+            if ("page" in query) {
+                this.page = this.$route.query["page"];
             }
 
-            this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: 4}))
+            this.$store.dispatch("fetchProducts", Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: 4}))
         },
         data: () => ({
             priceRangeFilter: {
@@ -255,14 +254,14 @@
             page: 1,
             limit: 4,
             priceOrderFilter: null,
-            filters: [{text: 'Highest to Lowest', value: 'highToLow'}, {text: 'Lowest to Highest', value: 'lowToHigh'}],
+            filters: [{text: "Highest to Lowest", value: "highToLow"}, {text: "Lowest to Highest", value: "lowToHigh"}],
         }),
         methods: {
             itemCardColor(item) {
-                return this.hoverItem && item.name === this.hoverItem.name ? 'grey lighten-3' : 'white';
+                return this.hoverItem && item.name === this.hoverItem.name ? "grey lighten-3" : "white";
             },
             isFilterActive(vModel) {
-                return vModel ? this.ACCENT_COLOR : null
+                return vModel ? this.ACCENT_COLOR : null;
             },
             addItemToCart(item) {
                 // TODO:
