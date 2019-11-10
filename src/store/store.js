@@ -1,38 +1,45 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import {APICall, RequestType} from '../components/common/API'
+import Requests from "../components/common/Requests";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
+
+        loadingShoppingCart: true,
+        shoppingCart: null,
+
         categorySelected: null,
         inputItems: [],
         productsCount: 0
     },
 
     actions: {
-        fetchProducts(context,queryString) {
-            const FOUND = 200;
-            let searchQuery = new APICall(RequestType.GET, 'products' + queryString, null, [FOUND]);
-            searchQuery.performRequest()
-                .then(response => {
-                    switch (response.status) {
-                        case FOUND: {
-                            context.commit('setProducts', response.data.products)
-                            context.commit('setProductsCount', response.data.count)
-                        } break;
-                    }
-                });      
-        }
+async fetchProducts(context, queryString) {
+    let response = await Requests.searchQueryAsync(queryString);
+
+    if (!response.error) {
+        context.commit('setProducts', response.data.products);
+        context.commit('setProductsCount', response.data.count);
+    }
+}
     },
 
-    getters: { 
+    getters: {
+        cartItemCount(state) {
+            if (state.shoppingCart !== null) {
+                return state.shoppingCart["lines"].length;
+            }
+            return 0;
+        },
+
         getItems(state) {
-            return state.inputItems
+            return state.inputItems;
         }
     },
 
@@ -48,6 +55,17 @@ export default new Vuex.Store({
         selfChecked(state) {
             state.selfCheckComplete = true;
         },
+
+        setShoppingCart(state, cartData) {
+            state.shoppingCart = cartData;
+        },
+        startCartLoad(state) {
+            state.loadingShoppingCart = true;
+        },
+        stopCartLoad(state) {
+            state.loadingShoppingCart = false;
+        },
+
         setProducts(state, products) {
             state.inputItems.splice(0, state.inputItems.length)
             for(let product of products){

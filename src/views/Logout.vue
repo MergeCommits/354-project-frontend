@@ -6,26 +6,19 @@
 
 <script>
     import Utilities from "../components/common/Utilities";
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests";
 
     export default {
         name: "Logout",
         mixins: [Utilities],
-        created: function () {
-            const SUCCESS = 200;
-            const NO_AUTH = 400;
-
-            let call = new APICall(RequestType.GET, "auth/logout", null, [SUCCESS, NO_AUTH]);
-            call.performRequest()
-                .then(response => {
-                    switch (response.status) {
-                        case SUCCESS:
-                        case NO_AUTH: {
-                            this.$store.commit("logout");
-                            this.returnToRedirect();
-                        } break;
-                    }
-                });
+        created: async function () {
+            let response = await Requests.logoutAsync();
+            if (!response.error) {
+                this.$store.commit("logout");
+            } else {
+                alert("There was an error logging you out. Please try again in a moment.");
+            }
+            this.returnToRedirect();
         }
     }
 </script>

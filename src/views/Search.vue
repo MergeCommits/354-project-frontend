@@ -265,15 +265,7 @@
                 return vModel ? this.ACCENT_COLOR : null
             },
             addItemToCart(item) {
-                let cart = JSON.parse(localStorage.getItem("cart"));
-                if (Utilities.isEmpty(cart)) {
-                    localStorage.setItem("cart", JSON.stringify(new Array(item)));
-                    this.$root.$emit('cartItemCount', this.$store.state.cartItemCount++);
-                } else if (!(cart.filter(cartItem => cartItem.id === item.id).length > 0)) {
-                    cart.push(item);
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    this.$root.$emit('cartItemCount', this.$store.state.cartItemCount++);
-                }
+                // TODO:
             }
         }
     }
