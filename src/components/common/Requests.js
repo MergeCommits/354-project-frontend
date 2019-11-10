@@ -11,6 +11,12 @@ export default class Requests {
         return call;
     }
 
+    static async updateSelfAsync(jsonData) {
+        let call = new APICall(RequestType.PATCH, "users/self", jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
     static async registrationHeadAsync(jsonData, dataName) {
         let call = new APICall(RequestType.HEAD, "users", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.NOT_FOUND]);
         await call.performRequestAsync();

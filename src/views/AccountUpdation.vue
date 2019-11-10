@@ -159,7 +159,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities";
-    import {APICall} from "../components/common/API";
+    import Requests from "../components/common/Requests";
 
     export default {
         name: "AccountUpdation",
@@ -203,6 +203,10 @@
                 return this.menuPosition === position;
             },
             validate() {
+                // TODO: Deactivate the form while it's doing the API call.
+                this.validateAsync();
+            },
+            async validateAsync() {
                 if (this.$refs.form.validate()) {
                     let jsonData = {};
 
@@ -216,23 +220,13 @@
                         jsonData.email = this.email;
                     }
 
-                    const SUCCESS = 200;
-                    const FAILED = 400;
+                    let response = await Requests.updateSelfAsync(jsonData);
 
-                    let call = new APICall("PATCH", "users/self", jsonData, [SUCCESS, FAILED]);
-                    call.performRequest()
-                        .then(response => {     //This fails
-                            switch (response.status) {
-                                case SUCCESS: {
-                                    this.$store.commit("login", response.data);
-                                    this.return();
-                                } break;
-
-                                case FAILED: {
-                                    console.error(response.status, response.data.message); //400 Unauthorized Access
-                                } break;
-                            }
-                        });
+                    if (!response.error) {
+                        this.$store.commit("login", response.data);
+                    } else {
+                        alert("Something went wrong with updating your info. Please try again in a moment.");
+                    }
                 }
             }
         },
