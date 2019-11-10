@@ -70,7 +70,7 @@
                                                 style="border-radius: 10%; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
                                                 min-height="20%"
                                                 min-width="20%"
-                                                :src="item.imageUrl">
+                                                :src="item.photos[0]">
                                         </v-img>
                                     </v-col>
                                     <v-col>
@@ -124,7 +124,7 @@
                                                style="border-radius: 10%; margin-top: 4px"
                                                height="90%"
                                                width="99%"
-                                               :src="hoverItem.imageUrl">
+                                               :src="hoverItem.photos[0]">
                                         </v-img>
                                     </v-col>
                                     <v-col style="width: 50%">
@@ -230,7 +230,7 @@
                 return quantities
             },
             queryString() {
-                return dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit})
+                return Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit})
             },
             paginationLength() {
                 let paginationLength = Math.ceil(this.$store.state.productsCount/this.limit)
@@ -238,7 +238,13 @@
             }
         },
         created() {
-            this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({...this.$route.query}))
+            let query = this.$route.query
+            
+            if ('page' in query) {
+                this.page = this.$route.query['page']
+            }
+
+            this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: 4}))
         },
         data: () => ({
             priceRangeFilter: {
