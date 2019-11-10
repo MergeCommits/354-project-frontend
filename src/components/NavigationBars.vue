@@ -167,8 +167,14 @@
         methods: {
             searchProducts() {
                 if (this.search !== null && this.search.length > 0) {
-                    this.$router.push({ name: 'search', query: {...this.$route.query, 'q': this.search }})
-                    this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({...this.$route.query, page: 0, limit: 4}))
+                    if (this.search !== this.$route.query["q"]) {
+                        this.$router.push({name: 'search', query: {...this.$route.query, 'q': this.search}});
+                        this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({
+                            ...this.$route.query,
+                            page: 0,
+                            limit: 4
+                        }));
+                    }
                 }
             }
         },
