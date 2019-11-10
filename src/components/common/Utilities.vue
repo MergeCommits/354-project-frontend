@@ -1,14 +1,14 @@
 <script>
-    import {generate} from "pbkdf2-hasher";
     import Requests from "./Requests";
+    // const bcrypt = require('bcrypt');
+    const SALT_ROUNDS = 10;
 
     const utils = {
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: "#00838F",
             ACCENT_COLOR: "#FF8F00",
-            BASIC_GREY: "#9E9E9E",
-            HttpStatus: {FOUND: 200, LOGIN: 200, SUCCESS: 200, INVALID_INFO: 400, ALREADY_LOGIN: 401, NOT_FOUND: 404}
+            BASIC_GREY: "#9E9E9E"
         }),
         methods: {
             // Return to the previous page if one existed.
@@ -40,12 +40,10 @@
                 return this.$store.state.currUser[key];
             },
 
-            hashIt(password) {
-                return new Promise((function (resolve, reject) {
-                    generate(password, (err, hash) => {
-                        err ? reject(err) : resolve(hash);
-                    });
-                }));
+            hashString(plainText) {
+                const salt = bcrypt.genSaltSync(SALT_ROUNDS);
+                alert("SALT: " + salt);
+                return bcrypt.hashSync(plainText, salt);
             },
 
             async updateShoppingCartAsync() {
