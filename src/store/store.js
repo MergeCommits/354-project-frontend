@@ -8,6 +8,10 @@ export default new Vuex.Store({
         selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
+
+        loadingShoppingCart: true,
+        shoppingCart: null,
+
         categorySelected: null,
         inputItems: [
             {
@@ -77,6 +81,12 @@ export default new Vuex.Store({
     },
 
     getters: {
+        cartItemCount(state) {
+            if (state.shoppingCart !== null) {
+                return state.shoppingCart["lines"].length;
+            }
+            return 0;
+        }
     },
 
     mutations: {
@@ -91,5 +101,15 @@ export default new Vuex.Store({
         selfChecked(state) {
             state.selfCheckComplete = true;
         },
+
+        setShoppingCart(state, cartData) {
+            state.shoppingCart = cartData;
+        },
+        startCartLoad(state) {
+            state.loadingShoppingCart = true;
+        },
+        stopCartLoad(state) {
+            state.loadingShoppingCart = false;
+        }
     }
 });
