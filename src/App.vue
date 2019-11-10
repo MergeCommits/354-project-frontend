@@ -3,12 +3,12 @@
         <navbars v-if="!this.$route.meta.hideNavigation" />
 
         <v-content>
-            <v-container v-if="!this.$store.state.selfCheckComplete" style="height: 100%; text-align: center">
-                <v-row justify="center" align-content="center" style="height: 100%">
-                    <v-progress-circular size="300" width="30" indeterminate :color="PRIMARY_COLOR" />
-                </v-row>
-            </v-container>
-            <router-view v-else />
+            <!--            <v-container v-if="!this.$store.state.selfCheckComplete" style="height: 100%; text-align: center">-->
+            <!--                <v-row justify="center" align-content="center" style="height: 100%">-->
+            <!--                    <v-progress-circular size="300" width="30" indeterminate :color="PRIMARY_COLOR" />-->
+            <!--                </v-row>-->
+            <!--            </v-container>-->
+            <router-view/>
         </v-content>
     </v-app>
 </template>
