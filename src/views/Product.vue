@@ -118,7 +118,7 @@
                 if (this.itemInCartAndSameQuantity) {
                     this.$router.push("/cart");
                 } else if (this.itemFromCart !== null) {
-                    this.updateCartQuantity(this.itemFromCart, this.quantity);
+                    this.updateCartLineAsync(this.itemFromCart, this.quantity);
                 } else {
                     this.addToCartAsync();
                 }

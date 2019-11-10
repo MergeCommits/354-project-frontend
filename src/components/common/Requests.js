@@ -38,6 +38,24 @@ export default class Requests {
         return call;
     }
 
+    static async queryCategoriesAsync() {
+        let call = new APICall(RequestType.GET, "categories", null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async queryBrandsAsync() {
+        let call = new APICall(RequestType.GET, "brands", null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async createProductAsync(jsonData) {
+        let call = new APICall(RequestType.POST, "products", jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
     static async getShoppingCartAsync() {
         let call = new APICall(RequestType.GET, "carts/mine", null, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
         await call.performRequestAsync();
