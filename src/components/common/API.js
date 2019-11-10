@@ -6,11 +6,15 @@ import Utilities from "./Utilities";
 
 const axios = require('axios').default;
 
-const API_URL = "http://dev.354thestars.com:8080/";
-// const API_URL = "http://127.0.0.1:5000/";
+/**
+ * @return {string}
+ */
+let API_URL = function () {
+    return window.location.href.includes("8080") ? "http://127.0.0.1:5000/" : "http://dev.354thestars.com:8080/";
+};
 
 const APICaller = axios.create({
-    baseURL: API_URL,
+    baseURL: API_URL(),
     withCredentials: true,
     validateStatus: function (status) {
         return status >= 200 && status < 500;
@@ -42,10 +46,15 @@ function jsonToUrl(jsonData) {
 export const RequestType = {
     GET: "get",
     POST: "post",
-    HEAD: "head"
+    HEAD: "head",
+    PUT: "put",
+    DELETE: "delete"
 };
 
 export class APICall {
+    error = false;
+    data = null;
+
     constructor(requestType, path, json, validResponses) {
         this.requestType = requestType;
         this.path = path;
@@ -53,27 +62,35 @@ export class APICall {
         this.validResponses = validResponses;
     }
 
-    performRequest() {
-        let promiseRequest;
+    async performRequestAsync() {
+        let request;
         if (Utilities.isEmpty(this.json)) {
             // Do we have any JSON data to send?
-            promiseRequest = axiosRequestNoJSON(this.requestType, this.path);
+            request = axiosRequestNoJSON(this.requestType, this.path);
         } else if (this.requestType === RequestType.GET || this.requestType === RequestType.HEAD) {
             // These request types take URL queries instead of JSON data.
-            promiseRequest = axiosRequestNoJSON(this.requestType, this.path + jsonToUrl(this.json));
+            request = axiosRequestNoJSON(this.requestType, this.path + jsonToUrl(this.json));
         } else {
-            promiseRequest = axiosRequest(this.requestType, this.path, this.json);
+            request = axiosRequest(this.requestType, this.path, this.json);
         }
 
-        return promiseRequest.then(response => {
-                if (!this.validResponses.includes(response.status)) {
-                    console.error("Unexpected Response Code:" +
-                        "\nCode:" + response.status +
-                        "\nData:" + JSON.stringify(response));
-                }
-                return response;
-            }).catch(error => {
-                console.error(error);
-            });
+        try {
+            const response = await request;
+
+            if (!this.validResponses.includes(response.status)) {
+                console.error("Unexpected Response Code:" +
+                    "\nCode:" + response.status +
+                    "\nData:" + JSON.stringify(response));
+
+                this.error = true;
+                return;
+            }
+
+            this.status = response.status;
+            this.data = response.data;
+            this.error = false;
+        } catch (error) {
+            this.error = true;
+        }
     }
 }

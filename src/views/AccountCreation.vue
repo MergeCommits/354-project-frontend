@@ -1,7 +1,7 @@
 <template>
     <v-layout justify-center class="register" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
         <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 50%; margin-top: 5vh">
-            <v-container>
+            <v-container v-if="this.$store.state.selfCheckComplete && !this.$store.state.isLoggedIn">
                 <v-row>
                     <v-col cols="7" style="padding: 6px">
                         <v-form ref="form" v-model="isRegistrationValid" :lazy-validation="true">
@@ -44,7 +44,7 @@
                                 <v-col>
                                     <v-text-field outlined label="Password" required
                                                   validate-on-blur
-                                                  hint="You must use eight characters with letters, numbers and symbols."
+                                                  hint="You must use eight characters with at least one lowercase and uppercase letter, a number and a symbol."
                                                   :append-icon="isPasswordVisible ? 'visibility' : 'visibility_off'"
                                                   :type="isPasswordVisible ? 'text' : 'password'"
                                                   @click:append="isPasswordVisible = !isPasswordVisible"
@@ -73,7 +73,7 @@
                                                @click="goBack()">Cancel
                                         </v-btn>
                                         <v-btn :disabled="!isRegistrationValid" :color="PRIMARY_COLOR"
-                                               style="color: #ffffff" @click="validate()">Create
+                                               style="color: #ffffff" :loading="loading" @click="validate()">Create
                                         </v-btn>
                                     </v-layout>
                                 </v-col>
@@ -96,21 +96,26 @@
                     </v-col>
                 </v-row>
             </v-container>
+            <v-container v-else style="text-align: center">
+                You're already logged in!
+            </v-container>
         </v-card>
     </v-layout>
 </template>
 
 <script>
     import Utilities from "../components/common/Utilities.vue";
+    import Requests from "../components/common/Requests.js"
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
+    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/;
 
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
             isRegistrationValid: true,
+            loading: false,
             firstName: null,
             lastName: null,
             email: null,
@@ -129,7 +134,8 @@
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
-                value => value.length >= 8 || "A minimum of 8 characters is required.",
+                value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
+                value => !Utilities.isEmpty(value) && value.length <= 32 || "Password exceeds 32 characters.",
                 value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
@@ -156,21 +162,34 @@
             passwordMatchRules() {
                 this.passwordConfirmErrors = this.password !== this.passwordConfirm ? ["Passwords must match"] : [];
             },
-
             validate() {
                 if (this.$refs.form.validate()) {
-                    this.usernameErrors = headRequest({username: this.username}, "username");
-                    this.emailErrors = headRequest({email: this.email}, "email");
-                    if (this.postRequest({
+                    this.loading = true;
+                    this.validateAsync();
+                }
+            },
+            async validateAsync() {
+                this.usernameErrors = await Requests.registrationHeadAsync({username: this.username}, "username");
+                this.emailErrors = await Requests.registrationHeadAsync({email: this.email}, "email");
+                if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
+                    let data = {
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,
                         username: this.username,
                         password: this.password
-                    })) {
-                        this.$router.push('/home');
+                    };
+                    let response = await Requests.registrationPostAsync(data);
+
+                    if (!response.error) {
+                        this.$store.commit("login", response.data);
+                        await this.$router.push("/home");
+                        return;
                     }
+                    alert("There was an error registering your account. Please try again in a moment.");
                 }
+
+                this.loading = false;
             }
         }
     };

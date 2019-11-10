@@ -3,7 +3,12 @@
         <navbars v-if="!this.$route.meta.hideNavigation" />
 
         <v-content>
-            <router-view></router-view>
+            <v-container v-if="!this.$store.state.selfCheckComplete" style="height: 100%; text-align: center">
+                <v-row justify="center" align-content="center" style="height: 100%">
+                    <v-progress-circular size="300" width="30" indeterminate :color="PRIMARY_COLOR" />
+                </v-row>
+            </v-container>
+            <router-view v-else />
         </v-content>
     </v-app>
 </template>
@@ -12,7 +17,7 @@
     import Utilities from "./components/common/Utilities"
 
     import NavigationBars from "./components/NavigationBars";
-    import {RequestType, APICall} from "./components/common/API";
+    import Requests from "./components/common/Requests";
 
     export default {
         mixins: [Utilities],
@@ -24,39 +29,40 @@
         }),
         methods: {
             // Update our login status.
-            updateSelf() {
-                const LOGGED_IN = 200;
-                const NO_AUTH = 400;
+            async checkLoginStatusAsync() {
+                let response = await Requests.checkSelfAsync();
 
-                let call = new APICall(RequestType.GET, "users/self", null, [LOGGED_IN, NO_AUTH]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case LOGGED_IN: {
-                                // Send the user data to the store.
-                                this.$store.commit("login", response.data);
-                            } break;
-
-                            case NO_AUTH: {
-                                this.$store.commit("logout");
-                            } break;
-                        }
-                    });
+                if (!response.error) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
+                        this.$store.commit("login", response.data);
+                    } else if (response.status === Requests.HttpStatus.BAD_REQUEST) {
+                        this.$store.commit("logout");
+                    }
+                    this.beforeRouteEnterCallback();
+                    this.$store.commit("selfChecked");
+                }
+            },
+            beforeRouteEnterCallback() {
+                let currRoute = this.$route;
+                if (currRoute.meta.loginRequired && !this.$store.state.isLoggedIn) {
+                    // Redirect them to login which subsequently redirects them back here.
+                    this.$router.push(this.getLoginRouter());
+                } else if (currRoute.meta.logoutRequired && this.$store.state.isLoggedIn) {
+                    // Just send them to the homepage or redirect.
+                    this.returnToRedirect();
+                }
             }
         },
         created: function () {
-            this.updateSelf();
-            let cart = localStorage.getItem("cart");
-            if (!Utilities.isEmpty(cart)) {
-                this.cartItemCount = JSON.parse(cart).length;
-            }
+            this.checkLoginStatusAsync();
+            this.updateShoppingCartAsync();
         },
-        computed: {
-            searchColor() {
-                return this.isSearchActive ? this.ACCENT_COLOR : null;
+        watch: {
+            $route() {
+                this.beforeRouteEnterCallback();
             }
         }
-    };
+    }
 </script>
 
 <style scoped>

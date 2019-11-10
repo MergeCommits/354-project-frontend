@@ -1,0 +1,3 @@
+.v-btn.no-highlight:focus::before {
+    opacity: 0 !important; /* We have no choice but to use !important here. */
+}

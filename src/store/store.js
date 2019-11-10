@@ -1,13 +1,17 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-import API from "../components/common/API";
+import Vuex from 'vuex';
+import Vue from 'vue';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
+
+        loadingShoppingCart: true,
+        shoppingCart: null,
+
         categorySelected: null,
         inputItems: [
             {
@@ -76,7 +80,14 @@ export default new Vuex.Store({
         ]
     },
 
-    getters: { },
+    getters: {
+        cartItemCount(state) {
+            if (state.shoppingCart !== null) {
+                return state.shoppingCart["lines"].length;
+            }
+            return 0;
+        }
+    },
 
     mutations: {
         login(state, userData) {
@@ -86,6 +97,19 @@ export default new Vuex.Store({
         logout(state) {
             state.isLoggedIn = false;
             state.currUser = null;
+        },
+        selfChecked(state) {
+            state.selfCheckComplete = true;
+        },
+
+        setShoppingCart(state, cartData) {
+            state.shoppingCart = cartData;
+        },
+        startCartLoad(state) {
+            state.loadingShoppingCart = true;
+        },
+        stopCartLoad(state) {
+            state.loadingShoppingCart = false;
         }
     }
 });
