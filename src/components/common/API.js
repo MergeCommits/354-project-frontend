@@ -62,7 +62,7 @@ export class APICall {
         this.validResponses = validResponses;
     }
 
-    async performRequest() {
+    async performRequestAsync() {
         let request;
         if (Utilities.isEmpty(this.json)) {
             // Do we have any JSON data to send?
@@ -90,7 +90,6 @@ export class APICall {
             this.data = response.data;
             this.error = false;
         } catch (error) {
-            console.error(error);
             this.error = true;
         }
     }

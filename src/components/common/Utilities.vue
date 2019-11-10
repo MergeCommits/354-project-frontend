@@ -1,5 +1,6 @@
 <script>
     import {APICall, RequestType} from "./API";
+    import Requests from "./Requests";
 
     const utils = {
         name: "Utilities",
@@ -38,42 +39,30 @@
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
-            async updateShoppingCart() {
+            async updateShoppingCartAsync() {
                 this.$store.commit("startCartLoad");
 
-                const CART_FOUND = 200;
-                const CART_NOT_FOUND = 400;
+                let response = await Requests.getShoppingCartAsync();
 
-                let call = new APICall(RequestType.GET, "carts/mine", null, [CART_FOUND, CART_NOT_FOUND]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case CART_FOUND: {
-                                this.$store.commit("setShoppingCart", response.data);
-                                this.$store.commit("stopCartLoad");
-                            } break;
-                            case CART_NOT_FOUND: {
-                                this.$store.commit("stopCartLoad");
-                            } break;
-                        }
-                    });
+                if (!response.error) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
+                        this.$store.commit("setShoppingCart", response.data);
+                    }
+                    this.$store.commit("stopCartLoad");
+                }
             },
-            updateCartQuantity(item, newQuantity) {
+            async updateCartQuantityAsync(item, newQuantity) {
                 this.$store.commit("startCartLoad");
-
-                const SUCCESS = 200;
-                const FAIL = 400;
 
                 let jsonData = {
                     productId: item.product.id,
                     quantity: Number(newQuantity)
-                }
+                };
 
-                let call = new APICall(RequestType.PUT, "carts/mine/items", jsonData, [SUCCESS, FAIL]);
-                call.performRequest()
-                    .then(() => {
-                        this.updateShoppingCart();
-                    });
+                let response = await Requests.updateCartLineAsync(jsonData);
+                if (!response.error) {
+                    await this.updateShoppingCartAsync();
+                }
             }
         },
 

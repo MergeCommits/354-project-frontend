@@ -80,8 +80,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
-    import Requests from "../components/common/requests.js"
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests.js"
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     export default {
@@ -91,7 +90,7 @@
             validLogin: true,
             lazyValidation: true,
             email: null,
-            password: null,
+            password: "",
             isPasswordVisible: false,
             pwError: "",
             loading: false,
@@ -110,30 +109,31 @@
             }
         },
         methods: {
-            // Return to requested redirect, otherwise homepage.
             validate() {
-                this.loading = true;
-                Requests.loginPostRequest(this.$refs.form.validate() ? {
+                if (this.$refs.form.validate()) {
+                    this.loading = true;
+                    this.validateAsync();
+                }
+            },
+            async validateAsync() {
+                let data = {
                     email: this.email,
                     password: this.password
-                } : null)
-                    .then(loginRequestResponse => {
-                        if (loginRequestResponse.status === this.HttpStatus.LOGIN) {
-                            this.$store.commit("login", loginRequestResponse.data);
-                            this.return();
-                        } else if (loginRequestResponse.status === this.HttpStatus.ALREADY_LOGIN) {
-                            this.return();
-                        } else {
-                            this.pwError = [loginRequestResponse.data.message];
-                        }
-                    })
-            },
-            return() {
-                let retPath = this.$route.query.redirect;
-                if (!Utilities.isEmpty(retPath)) {
-                    this.$router.push("/" + retPath);
+                };
+                let response = await Requests.loginAsync(data);
+
+                if (!response.error) {
+                    if (response.status === this.HttpStatus.LOGIN) {
+                        this.$store.commit("login", response.data);
+                        this.returnToRedirect();
+                    } else if (response.status === this.HttpStatus.ALREADY_LOGIN) {
+                        this.returnToRedirect();
+                    } else {
+                        this.pwError = [response.data.message];
+                        this.loading = false;
+                    }
                 } else {
-                    this.$router.push("/home");
+                    alert("An error occurred while trying to login. Please try again in a moment.");
                 }
             }
         }
