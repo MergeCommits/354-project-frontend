@@ -85,5 +85,11 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async removeItemFromCartAsync(url) {
+        let call = new APICall(RequestType.DELETE, url, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 
