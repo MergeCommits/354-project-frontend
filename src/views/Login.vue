@@ -20,16 +20,18 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR" outlined
+                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR"
+                                                      outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field v-model="password" required @keyup.enter="validate" outlined label="Password"
                                                   :error-messages="pwError"
-                                                  :append-icon="pwVisible ? 'visibility' : 'visibility_off'"
-                                                  :type="pwVisible ? 'text' : 'password'"
-                                                  @click:append="pwVisible = !pwVisible"
+                                                  :rules="passwordRules"
+                                                  :append-icon="isPasswordVisible? 'visibility' : 'visibility_off'"
+                                                  :type="isPasswordVisible ? 'text' : 'password'"
+                                                  @click:append="isPasswordVisible = ! isPasswordVisible"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
@@ -79,7 +81,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue"
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests.js"
 
     const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     export default {
@@ -89,14 +91,17 @@
             validLogin: true,
             lazyValidation: true,
             email: null,
-            password: "",
-            pwVisible: false,
+            password: null,
+            isPasswordVisible: false,
             pwError: "",
             loading: false,
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
+            passwordRules: [
+                value => !Utilities.isEmpty(value) || "A password is required."
+            ]
         }),
         watch: {
             // Wipe server response errors.
@@ -109,42 +114,33 @@
         },
         methods: {
             validate() {
-                // Are the fields filled in?
                 if (this.$refs.form.validate()) {
                     this.loading = true;
+                    this.validateAsync();
+                }
+            },
+            async validateAsync() {
+                let data = {
+                    email: this.email,
+                    password: this.password
+                };
+                let response = await Requests.loginAsync(data);
 
-                    let jsonData = {
-                        email: this.email,
-                        password: this.password
-                    };
-
-                    const LOGIN = 200;
-                    const ALREADY_LOGIN = 401;
-                    const INVALID_INFO = 400;
-
-                    let call = new APICall(RequestType.POST, "auth/login", jsonData, [LOGIN, ALREADY_LOGIN, INVALID_INFO]);
-                    call.performRequest()
-                        .then(response => {
-                            switch (response.status) {
-                                case LOGIN: {
-                                    this.$store.commit("login", response.data);
-                                    this.returnToRedirect();
-                                } break;
-
-                                case ALREADY_LOGIN: {
-                                    this.returnToRedirect();
-                                } break;
-
-                                case INVALID_INFO: {
-                                    this.pwError = [response.data.message];
-                                    this.loading = false;
-                                } break;
-                            }
-                        });
+                if (!response.error) {
+                    if (response.status === this.HttpStatus.LOGIN) {
+                        this.$store.commit("login", response.data);
+                        this.returnToRedirect();
+                    } else if (response.status === this.HttpStatus.ALREADY_LOGIN) {
+                        this.returnToRedirect();
+                    } else {
+                        this.pwError = [response.data.message];
+                        this.loading = false;
+                    }
+                } else {
+                    alert("An error occurred while trying to login. Please try again in a moment.");
                 }
             }
         }
-
     }
 </script>
 

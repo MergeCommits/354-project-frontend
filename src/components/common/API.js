@@ -52,6 +52,9 @@ export const RequestType = {
 };
 
 export class APICall {
+    error = false;
+    data = null;
+
     constructor(requestType, path, json, validResponses) {
         this.requestType = requestType;
         this.path = path;
@@ -59,27 +62,35 @@ export class APICall {
         this.validResponses = validResponses;
     }
 
-    performRequest() {
-        let promiseRequest;
+    async performRequestAsync() {
+        let request;
         if (Utilities.isEmpty(this.json)) {
             // Do we have any JSON data to send?
-            promiseRequest = axiosRequestNoJSON(this.requestType, this.path);
+            request = axiosRequestNoJSON(this.requestType, this.path);
         } else if (this.requestType === RequestType.GET || this.requestType === RequestType.HEAD) {
             // These request types take URL queries instead of JSON data.
-            promiseRequest = axiosRequestNoJSON(this.requestType, this.path + jsonToUrl(this.json));
+            request = axiosRequestNoJSON(this.requestType, this.path + jsonToUrl(this.json));
         } else {
-            promiseRequest = axiosRequest(this.requestType, this.path, this.json);
+            request = axiosRequest(this.requestType, this.path, this.json);
         }
 
-        return promiseRequest.then(response => {
-                if (!this.validResponses.includes(response.status)) {
-                    console.error("Unexpected Response Code:" +
-                        "\nCode:" + response.status +
-                        "\nData:" + JSON.stringify(response));
-                }
-                return response;
-            }).catch(error => {
-                console.error(error);
-            });
+        try {
+            const response = await request;
+
+            if (!this.validResponses.includes(response.status)) {
+                console.error("Unexpected Response Code:" +
+                    "\nCode:" + response.status +
+                    "\nData:" + JSON.stringify(response));
+
+                this.error = true;
+                return;
+            }
+
+            this.status = response.status;
+            this.data = response.data;
+            this.error = false;
+        } catch (error) {
+            this.error = true;
+        }
     }
 }

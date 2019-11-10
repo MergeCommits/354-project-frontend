@@ -1,12 +1,14 @@
 <script>
     import {APICall, RequestType} from "./API";
+    import Requests from "./Requests";
 
     const utils = {
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: "#00838F",
             ACCENT_COLOR: "#FF8F00",
-            BASIC_GREY: "#9E9E9E"
+            BASIC_GREY: "#9E9E9E",
+            HttpStatus: {FOUND: 200, LOGIN: 200, SUCCESS: 200, INVALID_INFO: 400, ALREADY_LOGIN: 401, NOT_FOUND: 404}
         }),
         methods: {
             // Return to the previous page if one existed.
@@ -37,42 +39,30 @@
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
-            async updateShoppingCart() {
+            async updateShoppingCartAsync() {
                 this.$store.commit("startCartLoad");
 
-                const CART_FOUND = 200;
-                const CART_NOT_FOUND = 400;
+                let response = await Requests.getShoppingCartAsync();
 
-                let call = new APICall(RequestType.GET, "carts/mine", null, [CART_FOUND, CART_NOT_FOUND]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case CART_FOUND: {
-                                this.$store.commit("setShoppingCart", response.data);
-                                this.$store.commit("stopCartLoad");
-                            } break;
-                            case CART_NOT_FOUND: {
-                                this.$store.commit("stopCartLoad");
-                            } break;
-                        }
-                    });
+                if (!response.error) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
+                        this.$store.commit("setShoppingCart", response.data);
+                    }
+                    this.$store.commit("stopCartLoad");
+                }
             },
-            updateCartQuantity(item, newQuantity) {
+            async updateCartQuantityAsync(item, newQuantity) {
                 this.$store.commit("startCartLoad");
-
-                const SUCCESS = 200;
-                const FAIL = 400;
 
                 let jsonData = {
                     productId: item.product.id,
                     quantity: Number(newQuantity)
-                }
+                };
 
-                let call = new APICall(RequestType.PUT, "carts/mine/items", jsonData, [SUCCESS, FAIL]);
-                call.performRequest()
-                    .then(() => {
-                        this.updateShoppingCart();
-                    });
+                let response = await Requests.updateCartLineAsync(jsonData);
+                if (!response.error) {
+                    await this.updateShoppingCartAsync();
+                }
             }
         },
 

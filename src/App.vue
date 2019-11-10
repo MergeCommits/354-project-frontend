@@ -17,7 +17,7 @@
     import Utilities from "./components/common/Utilities"
 
     import NavigationBars from "./components/NavigationBars";
-    import {RequestType, APICall} from "./components/common/API";
+    import Requests from "./components/common/Requests";
 
     export default {
         mixins: [Utilities],
@@ -29,28 +29,18 @@
         }),
         methods: {
             // Update our login status.
-            updateSelf() {
-                const LOGGED_IN = 200;
-                const NO_AUTH = 400;
+            async checkLoginStatusAsync() {
+                let response = await Requests.checkSelfAsync();
 
-                let call = new APICall(RequestType.GET, "users/self", null, [LOGGED_IN, NO_AUTH]);
-                call.performRequest()
-                    .then(response => {
-                        switch (response.status) {
-                            case LOGGED_IN: {
-                                // Send the user data to the store.
-                                this.$store.commit("login", response.data);
-                                this.beforeRouteEnterCallback();
-                                this.$store.commit("selfChecked");
-                            } break;
-
-                            case NO_AUTH: {
-                                this.$store.commit("logout");
-                                this.beforeRouteEnterCallback();
-                                this.$store.commit("selfChecked");
-                            } break;
-                        }
-                    });
+                if (!response.error) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
+                        this.$store.commit("login", response.data);
+                    } else if (response.status === Requests.HttpStatus.BAD_REQUEST) {
+                        this.$store.commit("logout");
+                    }
+                    this.beforeRouteEnterCallback();
+                    this.$store.commit("selfChecked");
+                }
             },
             beforeRouteEnterCallback() {
                 let currRoute = this.$route;
@@ -64,8 +54,8 @@
             }
         },
         created: function () {
-            this.updateSelf();
-            this.updateShoppingCart();
+            this.checkLoginStatusAsync();
+            this.updateShoppingCartAsync();
         },
         watch: {
             $route() {

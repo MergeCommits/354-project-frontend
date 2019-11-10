@@ -74,7 +74,7 @@
 
 <script>
     import Utilities from "../components/common/Utilities.vue";
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests";
 
     const PRICE_PATTERN = /^\d+[.]?(|\d\d)$/; // At least one digit that can be followed by a period and 0 or 2 digits.
 
@@ -125,64 +125,47 @@
                 value => !Utilities.isEmpty(value) && !value.toString().includes(".") || "Quantity must be an integer value."
             ]
         }),
-        created: function() {
-            const FOUND = 200;
+        created: async function() {
+            let response = await Requests.queryCategoriesAsync();
 
-            let categoryQuery = new APICall(RequestType.GET, "categories", null, [FOUND]);
-            categoryQuery.performRequest()
-                .then(response => {
-                    switch (response.status) {
-                        case FOUND: {
-                            this.categories = response.data.categories;
-                            this.categoryDataLoaded = true;
-                        } break;
-                    }
-                });
+            if (!response.error) {
+                this.categories = response.data["categories"];
+                this.categoryDataLoaded = true;
+            }
 
-            let brandQuery = new APICall(RequestType.GET, "brands", null, [FOUND]);
-            brandQuery.performRequest()
-                .then(response => {
-                    switch (response.status) {
-                        case FOUND: {
-                            this.brands = response.data.brands;
-                            this.brandDataLoaded = true;
-                        } break;
-                    }
-                });
+            response = await Requests.queryBrandsAsync();
+
+            if (!response.error) {
+                this.brands = response.data["brands"];
+                this.brandDataLoaded = true;
+            }
         },
         methods: {
             validate() {
                 if (this.$refs.form.validate()) {
                     this.loading = true;
+                    this.validateAsync();
+                }
+            },
+            async validateAsync() {
+                let jsonData = {
+                    name: this.name,
+                    description: this.description,
+                    stockQuantity: Number(this.quantity),
+                    categoryId: this.selectedCategory.id,
+                    taxId: 1, // Hardcoded for the time being.
+                    brandId: this.selectedBrand.id,
+                    price: Number(this.price),
+                    condition: this.selectedCondition
+                };
 
-                    let jsonData = {
-                        name: this.name,
-                        description: this.description,
-                        stockQuantity: Number(this.quantity),
-                        categoryId: this.selectedCategory.id,
-                        taxId: 1, // Hardcoded for the time being.
-                        brandId: this.selectedBrand.id,
-                        price: Number(this.price),
-                        condition: this.selectedCondition
-                    };
-
-                    const CREATED = 200;
-                    const FAILED = 400;
-
-                    let call = new APICall(RequestType.POST, "products", jsonData, [ CREATED, FAILED ]);
-                    call.performRequest()
-                        .then(response => {
-                            switch (response.status) {
-                                case CREATED: {
-                                    this.$router.push("/" + this.selectedCategory["permalink"] + "/"
-                                        + response.data["permalink"]);
-                                } break;
-                                case FAILED: {
-                                    alert("There was an error creating the product listing.");
-                                    this.loading = false;
-                                }
-                            }
-                        });
+                let response = await Requests.createProductAsync(jsonData);
+                if (!response.error) {
+                    await this.$router.push("/" + this.selectedCategory["permalink"] + "/"
+                        + response.data["permalink"]);
+                } else {
+                    alert("There was an error creating the product listing.");
+                    this.loading = false;
                 }
             },
             returnConfirmation() {

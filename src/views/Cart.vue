@@ -108,10 +108,9 @@
 
 <script>
     import Utilities from "../components/common/Utilities"
-    import {APICall, RequestType} from "../components/common/API";
+    import Requests from "../components/common/Requests";
 
     const TAX_SCALE = 0.15;
-    const SITE_USAGE_INTEREST = 0.08;
 
     export default {
         name: "Cart",
@@ -141,18 +140,17 @@
                         return "https://picsum.photos/id/1055/500";
                 }
             },
-            removeItemFromCart(item) {
+            async removeItemFromCart(item) {
                 this.$store.commit("startCartLoad");
-                const SUCCESS = 200;
-                const url = "carts/mine/items/" + item.product.id;
 
-                let createCartCall = new APICall(RequestType.DELETE, url, null, [SUCCESS]);
-                createCartCall.performRequest()
-                    .then(response => {
-                        if (response.status === SUCCESS) {
-                            this.updateShoppingCart();
-                        }
-                    });
+                const url = "carts/mine/items/" + item.product.id;
+                let response = await Requests.removeItemFromCartAsync(url);
+
+                if (!response.error) {
+                    await this.updateShoppingCartAsync();
+                } else {
+                    alert("An error occurred while trying to remove an item. Please refresh the page.");
+                }
             }
 
         },
