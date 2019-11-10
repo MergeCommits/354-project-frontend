@@ -129,11 +129,12 @@
                 if (!response.error) {
                     if (response.status === this.HttpStatus.LOGIN) {
                         this.$store.commit("login", response.data);
+                        await this.updateShoppingCartAsync();
                         this.returnToRedirect();
                     } else if (response.status === this.HttpStatus.ALREADY_LOGIN) {
                         this.returnToRedirect();
                     } else {
-                        this.pwError = [response.data.message];
+                        this.pwError = [response.data["message"]];
                         this.loading = false;
                     }
                 } else {

@@ -183,6 +183,7 @@
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
+                        await this.updateShoppingCartAsync();
                         await this.$router.push("/home");
                         return;
                     }
