@@ -162,21 +162,34 @@
             passwordMatchRules() {
                 this.passwordConfirmErrors = this.password !== this.passwordConfirm ? ["Passwords must match"] : [];
             },
-            async validate() {
+            validate() {
                 if (this.$refs.form.validate()) {
                     this.loading = true;
-                    await Requests.registrationHeadRequest({username: this.username}, "username").then(errors => this.usernameErrors = errors);
-                    await Requests.registrationHeadRequest({email: this.email}, "email").then(errors => this.emailErrors = errors);
-                    if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
-                        Requests.registrationPostRequest({
-                            firstName: this.firstName,
-                            lastName: this.lastName,
-                            email: this.email,
-                            username: this.username,
-                            password: this.password
-                        }).then(isSuccess => isSuccess ? this.$router.push('/home') : null);
-                    }
+                    this.validateAsync();
                 }
+            },
+            async validateAsync() {
+                this.usernameErrors = await Requests.registrationHeadAsync({username: this.username}, "username");
+                this.emailErrors = await Requests.registrationHeadAsync({email: this.email}, "email");
+                if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
+                    let data = {
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        username: this.username,
+                        password: this.password
+                    };
+                    let response = await Requests.registrationPostAsync(data);
+
+                    if (!response.error) {
+                        this.$store.commit("login", response.data);
+                        await this.$router.push("/home");
+                        return;
+                    }
+                    alert("There was an error registering your account. Please try again in a moment.");
+                }
+
+                this.loading = false;
             }
         }
     };

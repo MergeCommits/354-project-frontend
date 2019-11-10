@@ -28,6 +28,7 @@
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: -1%">
                                     <v-text-field v-model="password" required @keyup.enter="validate" outlined label="Password"
                                                   :error-messages="pwError"
+                                                  :rules="passwordRules"
                                                   :append-icon="isPasswordVisible? 'visibility' : 'visibility_off'"
                                                   :type="isPasswordVisible ? 'text' : 'password'"
                                                   @click:append="isPasswordVisible = ! isPasswordVisible"
@@ -90,7 +91,7 @@
             validLogin: true,
             lazyValidation: true,
             email: null,
-            password: "",
+            password: null,
             isPasswordVisible: false,
             pwError: "",
             loading: false,
@@ -98,6 +99,9 @@
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
                 value => EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
+            passwordRules: [
+                value => !Utilities.isEmpty(value) || "A password is required."
+            ]
         }),
         watch: {
             // Wipe server response errors.

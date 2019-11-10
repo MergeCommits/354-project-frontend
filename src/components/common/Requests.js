@@ -11,14 +11,19 @@ export default class Requests {
         return call;
     }
 
-    static async registrationHeadRequest(Object, objectName) {
-        return await new APICall(RequestType.HEAD, "users", Object, [this.HttpStatus.FOUND, this.HttpStatus.NOT_FOUND]).performRequest()
-            .then(requestResponse => requestResponse.status === this.HttpStatus.FOUND ? ["This " + objectName + " is taken."] : [])
+    static async registrationHeadAsync(jsonData, dataName) {
+        let call = new APICall(RequestType.HEAD, "users", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.NOT_FOUND]);
+        await call.performRequestAsync();
+        if (call.status === this.HttpStatus.SUCCESS) {
+            return ["This " + dataName + " is taken."];
+        }
+        return [];
     }
 
-    static async registrationPostRequest(Object) {
-        return await new APICall(RequestType.POST, "users", Object, [this.HttpStatus.SUCCESS]).performRequest()
-            .then(requestResponse => requestResponse.status === this.HttpStatus.SUCCESS);
+    static async registrationPostAsync(Object) {
+        let call = new APICall(RequestType.POST, "users", Object, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
     }
 
     static async loginAsync(jsonData) {
