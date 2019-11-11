@@ -25,19 +25,19 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="5">
-                                            <v-text-field v-model="firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                            <v-text-field v-model="jsonProfile.firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
                                         </v-col>
                                         <v-col md="6">
-                                            <v-text-field v-model="lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                            <v-text-field v-model="jsonProfile.lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="7">
-                                            <v-text-field v-model="email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                            <v-text-field v-model="jsonProfile.email" :error-messages="emailErr" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
                                         </v-col>
-                                        <v-col md="4">
-                                            <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>
-                                        </v-col>
+<!--                                        <v-col md="4">-->
+<!--                                            <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>-->
+<!--                                        </v-col>-->
                                     </v-row>
                                     <v-row>
                                         <v-col md="11">
@@ -129,12 +129,12 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                            <v-text-field type="password" v-model="password" :error-messages="passwordErr" :rules="[rules.fieldRequired]" label="Current Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" v-model="newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
+                                            <v-text-field type="password" v-model="jsonData.newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
                                         </v-col>
                                         <v-col md="4">
                                             <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
@@ -174,26 +174,21 @@
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
-            // jsonData: {
-            //     firstName: null,
-            //     lastName: null,
-            //     email: null,             //Thinking about having everything stored like this to begin with
-            //     phoneNumber: null,
-            //     shippingAddress: null,
-            //     newPassword: null
-            // },
-            firstName: null,
-            lastName: null,           //
-            email: null,              //
-            phoneNumber: null,        //TODO: Add default values from back-end
-            shippingAddress: null,    //
+            jsonProfile: {
+                 firstName: null,
+                 lastName: null,
+                 email: null,
+            },
+            password: null,
             newPassword: null,
             passwordConfirm: null,
+            passwordErr: "",
+            emailErr: "",
             rules: {
                 fieldRequired: v => !!v || "Required",
                 maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
                 validEmail: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "E-mail must be valid",
-                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
+                //validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
                 validPassword: v => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(v) || "Needs to include a letter, a number and a symbol",
                 passwordLength: v => !!v && (v.length >= 8 || "Password must be at least 8 characters long")
             }
@@ -204,23 +199,17 @@
             },
             validate() {
                 // TODO: Deactivate the form while it's doing the API call.
-                this.validateAsync();
+                // TODO: Check email conflicts
+                // TODO: Reset button for address fields
+                if (this.$refs.form.validate()) {
+                    this.loading = true;
+                    this.validateAsync();
+                }
             },
             async validateAsync() {
                 if (this.$refs.form.validate()) {
-                    let jsonData = {};
 
-                    if (this.firstName !== this.getUserData("firstName")) {
-                        jsonData.firstName = this.firstName;
-                    }
-                    if (this.lastName !== this.getUserData("lastName")) {
-                        jsonData.lastName = this.lastName;
-                    }
-                    if (this.email !== this.getUserData("email")) {
-                        jsonData.email = this.email;
-                    }
-
-                    let response = await Requests.updateSelfAsync(jsonData);
+                    let response = await Requests.updateSelfAsync(this.jsonProfile);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
@@ -239,7 +228,7 @@
             }
         },
         watch: {
-            menuPosition: function(v) {
+            menuPosition: v => {
                 if (this.$refs.form) {
                     this.$refs.form.resetValidation();
                     if (v === "editProfile") {
@@ -252,7 +241,9 @@
                         this.passwordConfirm = null;
                     }
                 }
-            }
+            },
+            password: () => {passwordErr},
+            email: () => {emailErr}
         },
         mounted() {
             this.firstName = this.getUserData("firstName");
