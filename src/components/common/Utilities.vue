@@ -40,7 +40,7 @@
             },
 
             hashString(plainText) {
-                return pbkdf2Sync(plainText, 'SaltCanBeVariableOrConstant', 10000, 64, 'sha512')
+                return pbkdf2Sync(plainText, 'SaltCanBeVariableOrConstant', 1000, 32, 'sha512')
             },
 
             async updateShoppingCartAsync() {
