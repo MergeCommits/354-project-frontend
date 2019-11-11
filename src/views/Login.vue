@@ -121,15 +121,12 @@
                 }
             },
             async validateAsync() {
+                const hashedPassword = this.hashString(this.password);
+
                 let data = {
                     email: this.email,
-                    password: this.password
+                    password: hashedPassword
                 };
-
-                await this.hashIt(this.password)
-                        .then(response => jsonData.password = response)
-                        .catch(error => alert("An error occurred during password creation. " + error));
-
                 let response = await Requests.loginAsync(data);
 
                 if (!response.error) {
@@ -145,6 +142,7 @@
                     }
                 } else {
                     alert("An error occurred while trying to login. Please try again in a moment.");
+                    this.loading = false;
                 }
             }
         }

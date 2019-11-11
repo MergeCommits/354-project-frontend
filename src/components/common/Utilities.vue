@@ -1,7 +1,7 @@
 <script>
     import Requests from "./Requests";
-    // const bcrypt = require('bcrypt');
-    const SALT_ROUNDS = 10;
+    const bcrypt = require("bcryptjs");
+    const BCRYPT_SALT = "$2a$10$ssTHsnejHc6RrlyVbiNQ/O";
 
     const utils = {
         name: "Utilities",
@@ -41,9 +41,11 @@
             },
 
             hashString(plainText) {
-                const salt = bcrypt.genSaltSync(SALT_ROUNDS);
-                alert("SALT: " + salt);
-                return bcrypt.hashSync(plainText, salt);
+                try {
+                    return bcrypt.hashSync(plainText, BCRYPT_SALT);
+                } catch (error) {
+                    return "";
+                }
             },
 
             async updateShoppingCartAsync() {
