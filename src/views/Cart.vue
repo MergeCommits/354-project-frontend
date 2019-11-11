@@ -8,11 +8,11 @@
                 GO back
             </v-btn>
         </v-row>
-        <v-row style="padding-left: 15px">
+        <v-row style="padding-left: 15px; margin-left: 15%">
             <span class="title font-weight-regular" style="font-size: 25px!important; color: #424242">Shopping Cart</span>
         </v-row>
-        <v-row>
-            <v-col style="min-width: 50%">
+        <v-row style="margin-left: 15%">
+            <v-col style="min-width: 50%;">
                 <v-container fluid>
                     <v-row style="margin-top: 10px">
                         <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
