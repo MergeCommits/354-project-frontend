@@ -1,16 +1,25 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh; margin-bottom: 5vh">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; width: 40%; margin-top: 5vh; margin-bottom: 5vh">
             <v-container v-if="categoryDataLoaded && brandDataLoaded">
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
                         <v-row style="padding-bottom: 5%">
-                            <span style="font-size: 30px; width: 100%; text-align: center" class="font-weight-regular">Create a new product</span>
+                            <v-layout justify-center>
+                                <span style="font-size: 25px !important;  color:#616161; text-align: center"
+                                      class="title font-weight-medium">Create a new product listing</span>
+                            </v-layout>
                         </v-row>
                         <v-row class="productRow">
-                            <v-col>
+                            <v-col style="">
                                 <v-text-field v-model="name" required :rules="nameRules" :color="ACCENT_COLOR"
-                                              outlined label="Product Name" />
+                                              filled solo label="Product Name"/>
+                            </v-col>
+                            <v-col style="max-width: 25%">
+                                <v-text-field v-model="price" required type="number"
+                                              :rules="priceRules" :color="ACCENT_COLOR"
+                                              rounded append-icon="attach_money"
+                                              filled outlined label="Price"/>
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
@@ -21,42 +30,38 @@
                         </v-row>
                         <v-row class="productRow">
                             <v-col>
-                                <v-text-field v-model="price" required type="number"
-                                              :rules="priceRules" :color="ACCENT_COLOR"
-                                              filled label="Price"/>
-                            </v-col>
-                        </v-row>
-                        <v-row class="productRow">
-                            <v-col>
                                 <v-select v-model="selectedCategory" :items="categories" label="Category"
-                                          item-text="name" return-object
+                                          item-text="name" return-object outlined :color="ACCENT_COLOR"
                                           :rules="categoryRules" />
                             </v-col>
                             <v-col>
                                 <v-select v-model="selectedBrand" :items="brands" label="Brand"
-                                          item-text="name" return-object
+                                          item-text="name" return-object outlined
                                           :rules="brandRules" />
                             </v-col>
                         </v-row>
-                        <v-row class="productRow">
-                            <v-col>
-                                <v-select v-model="selectedCondition" :items="conditions" label="Condition"
+                        <v-row class="productRow" style="margin-left: 15%; margin-right: 15%">
+                            <v-layout justify-center style="margin-top: -2%">
+                                <v-col style="max-width: 40%">
+                                    <v-select v-model="selectedCondition" :items="conditions" label="Condition" outlined
                                           :rules="conditionRules" />
                             </v-col>
-                            <v-col>
+                                <v-col style="max-width: 27%">
                                 <v-text-field v-model="quantity"
+                                              outlined
                                               type="number"
                                               label="Quantity"
                                               :rules="quantityRules" />
                             </v-col>
+                            </v-layout>
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-layout justify-end style="margin-right: 7%">
+                                <v-layout justify-end style="margin-right: 7%" pt-4>
                                     <v-btn class="no-highlight" style="margin-right: 5%; color: #fff; background-color: #777"
                                            @click="returnConfirmation()">Cancel
                                     </v-btn>
-                                    <v-btn :disabled="!validProduct" :color="PRIMARY_COLOR"
+                                    <v-btn :disabled="!validProduct" :color="ACCENT_COLOR"
                                            style="color: #ffffff" :loading="loading" @click="validate()">Create
                                     </v-btn>
                                 </v-layout>
