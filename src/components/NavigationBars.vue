@@ -129,18 +129,18 @@
                 </v-list-item>
                 <v-list-item router to="/settings">
                     <v-list-item-action>
-                        <v-icon>person</v-icon>
+                        <v-icon>settings</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title class="grey--text">Manage Account</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item router to="/settings">
+                <v-list-item router to="/add-product">
                     <v-list-item-action>
-                        <v-icon>settings</v-icon>
+                        <v-icon>fa-blender-phone</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title class="grey--text">Settings</v-list-item-title>
+                        <v-list-item-title class="grey--text">Create Listing</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
