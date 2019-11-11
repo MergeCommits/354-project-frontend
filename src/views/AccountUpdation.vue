@@ -192,9 +192,9 @@
             rules: {
                 fieldRequired: v => !!v || "Required",
                 maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
-                validEmail: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "E-mail must be valid",
+                validEmail: v => Utilities.EMAIL_PATTERN.test(v) || "E-mail must be valid",
                 validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
-                validPassword: v => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(v) || "Needs to include a letter, a number and a symbol",
+                validPassword: v => Utilities.PASSWORD_PATTERN.test(v) || "Needs to include a letter, a number and a symbol",
                 passwordLength: v => !!v && (v.length >= 8 || "Password must be at least 8 characters long")
             }
         }),
