@@ -130,11 +130,11 @@
                 let response = await Requests.loginAsync(data);
 
                 if (!response.error) {
-                    if (response.status === this.HttpStatus.LOGIN) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
                         this.$store.commit("login", response.data);
                         await this.updateShoppingCartAsync();
                         this.returnToRedirect();
-                    } else if (response.status === this.HttpStatus.ALREADY_LOGIN) {
+                    } else if (response.status === Requests.HttpStatus.UNAUTHORIZED) {
                         this.returnToRedirect();
                     } else {
                         this.pwError = [response.data["message"]];
