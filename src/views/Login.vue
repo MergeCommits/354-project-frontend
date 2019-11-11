@@ -121,7 +121,7 @@
                 }
             },
             async validateAsync() {
-                const hashedPassword = this.hashString(this.password).toString('hex');
+                const hashedPassword = this.hashString(this.password);
 
                 let data = {
                     email: this.email,
