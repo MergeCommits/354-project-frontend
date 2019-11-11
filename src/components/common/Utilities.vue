@@ -1,7 +1,6 @@
 <script>
     import Requests from "./Requests";
-    const bcrypt = require("bcryptjs");
-    const BCRYPT_SALT = "$2a$10$ssTHsnejHc6RrlyVbiNQ/O";
+    import {pbkdf2Sync} from "pbkdf2";
 
     const utils = {
         name: "Utilities",
@@ -41,11 +40,7 @@
             },
 
             hashString(plainText) {
-                try {
-                    return bcrypt.hashSync(plainText, BCRYPT_SALT);
-                } catch (error) {
-                    return "";
-                }
+                return pbkdf2Sync(plainText, 'SaltCanBeVariableOrConstant', 10000, 64, 'sha512')
             },
 
             async updateShoppingCartAsync() {
