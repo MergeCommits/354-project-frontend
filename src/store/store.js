@@ -25,7 +25,7 @@ export default new Vuex.Store({
 
             if (!response.error) {
                 context.commit('setProducts', response.data["products"]);
-                context.commit('setProductsCount', response.data["count"]);
+                context.commit('setProductsCount', response.data["products"].length);
             }
         }
     },
