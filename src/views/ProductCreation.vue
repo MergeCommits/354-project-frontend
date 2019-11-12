@@ -15,7 +15,7 @@
                                 <v-text-field v-model="name" required :rules="nameRules" :color="ACCENT_COLOR"
                                               filled solo label="Product Name"/>
                             </v-col>
-                            <v-col style="max-width: 25%">
+                            <v-col style="max-width: 30%; min-width: 90px">
                                 <v-text-field v-model="price" required type="number"
                                               :rules="priceRules" :color="ACCENT_COLOR"
                                               rounded append-icon="attach_money"
@@ -46,7 +46,7 @@
                                     <v-select v-model="selectedCondition" :items="conditions" label="Condition" outlined
                                           :rules="conditionRules" />
                             </v-col>
-                                <v-col style="max-width: 27%">
+                                <v-col style="max-width: 33%">
                                 <v-text-field v-model="quantity"
                                               outlined
                                               type="number"
