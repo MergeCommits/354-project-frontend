@@ -172,7 +172,7 @@
                         this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({
                             ...this.$route.query,
                             page: 0,
-                            limit: 4
+                            ITEMS_PER_PAGE_LIMIT: 4
                         }));
                     }
                 }

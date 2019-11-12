@@ -61,7 +61,7 @@
                 <v-col style="width: 45%; margin-right: -2%">
                     <v-container fluid>
                         <v-layout justify-center v-for="item in items.slice(0,4)" v-bind:key="item.name">
-                            <v-card @mouseover="hoverItem = item"
+                            <v-card @mouseover="hoverItem = item" :color="itemCardColor(item)"
                                     outlined width="100%" height="10em" class="mb-3"
                                     style="border: solid #E0E0E0 1px!important; border-radius: 10px">
                                 <v-row>
@@ -171,7 +171,8 @@
                                             <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
                                                       pt-3>
                                                 <v-select dense :color="ACCENT_COLOR" solo rounded
-                                                          label="Quantity" :items="hoverItemQuantities"></v-select>
+                                                          label="Quantity"
+                                                          :items="Array.from(Array(10).keys())"></v-select>
                                             </v-layout>
                                         </v-row>
                                         <v-row>
@@ -221,38 +222,38 @@
             items() {
                 return this.$store.state.inputItems;
             },
-            hoverItemQuantities() {
-                let quantities = [];
-                for (let i = 1; i <= this.hoverItem.quantity; i++) {
-                    quantities.push(i);
-                }
-                return quantities;
-            },
             queryString() {
-                return Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: this.limit});
+                return Utilities.dictToQueryString({
+                    ...this.$route.query,
+                    page: this.page - 1,
+                    limit: this.ITEMS_PER_PAGE_LIMIT
+                });
             },
             paginationLength() {
-                let paginationLength = Math.ceil(this.$store.state.productsCount / this.limit);
+                let paginationLength = Math.ceil(this.$store.state.productsCount / this.ITEMS_PER_PAGE_LIMIT);
+                alert(this.$store.state.productsCount)
                 return (paginationLength === 0) ? 1 : paginationLength;
             }
         },
         created() {
             let query = this.$route.query;
-            
             if ("page" in query) {
                 this.page = this.$route.query["page"];
             }
-
-            this.$store.dispatch("fetchProducts", Utilities.dictToQueryString({...this.$route.query, page: this.page - 1, limit: 4}))
+            this.$store.dispatch("fetchProducts", Utilities.dictToQueryString({
+                ...this.$route.query,
+                page: this.page - 1,
+                limit: this.ITEMS_PER_PAGE_LIMIT
+            }))
         },
         data: () => ({
+            ITEMS_PER_PAGE_LIMIT: 4,
             priceRangeFilter: {
                 low: null,
                 high: null
             },
             hoverItem: null,
             page: 1,
-            limit: 4,
             priceOrderFilter: null,
             filters: [{text: "Highest to Lowest", value: "highToLow"}, {text: "Lowest to Highest", value: "lowToHigh"}],
         }),

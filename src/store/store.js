@@ -16,7 +16,7 @@ export default new Vuex.Store({
 
         categorySelected: null,
         inputItems: [],
-        productsCount: 0
+        productsCount: null
     },
 
     actions: {
@@ -73,14 +73,10 @@ export default new Vuex.Store({
             }
         },
         setProductsCount(state, productsCount) {
-            if (productsCount > -1) {
-                state.productsCount = productsCount
-            } else {
-                state.productsCount = 0
-            }
+            state.productsCount = productsCount > -1 ? productsCount : 0
         },
         setCategories(state, categories) {
-            state.categories.splice(0, state.categories.length)
+            state.categories.splice(0, state.categories.length);
             for(let category of categories){
                 state.categories.push(category)
             }
