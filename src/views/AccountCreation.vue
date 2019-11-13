@@ -127,10 +127,12 @@
             passwordConfirmErrors: [],
             isPasswordVisible: false,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required."
+                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             usernameRules: [
-                value => !Utilities.isEmpty(value) || "A username is required."
+                value => !Utilities.isEmpty(value) || "A username is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",

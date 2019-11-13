@@ -80,6 +80,7 @@
     import Requests from "../components/common/Requests";
 
     const PRICE_PATTERN = /^\d+[.]?(|\d\d)$/; // At least one digit that can be followed by a period and 0 or 2 digits.
+    const MAX_PRICE = 10000;
 
     export default {
         name: 'AccountCreation',
@@ -91,7 +92,8 @@
             loading: false,
             name: null,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required."
+                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             description: null,
             descriptionRules: [
@@ -101,7 +103,8 @@
             price: null,
             priceRules: [
                 value => !Utilities.isEmpty(value) || "A price is required.",
-                value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number."
+                value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number.",
+                value => !Utilities.isEmpty(value) && Number(value) <= MAX_PRICE || "Maximum allowed price is $" + MAX_PRICE.toString() + "."
             ],
             categories: [],
             selectedCategory: null,
