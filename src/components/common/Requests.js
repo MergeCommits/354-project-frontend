@@ -91,5 +91,11 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async checkoutAsync(jsonData) {
+        let call = new APICall(RequestType.POST, "orders", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 

@@ -52,7 +52,7 @@
                         <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                             <v-container fluid>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%">
-                                    <v-btn large block :color="ACCENT_COLOR" dark>Checkout</v-btn>
+                                    <v-btn large block :disabled="!validPhone || !validAddress" :color="ACCENT_COLOR" :loading="loading" dark @click="validate">Checkout</v-btn>
                                 </v-row>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-row v-bind:key="index" class="itemCheckoutBox">
@@ -96,6 +96,60 @@
                                 </v-row>
                             </v-container>
                         </v-card>
+                        <v-card class="font-weight-regular" width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
+                            <v-container class="px-6" fluid>
+<!--                                <v-radio-group v-model="selectedAddress">-->
+                                    <v-row style="min-height: 50px;">
+<!--                                        <v-radio value="newAddress">-->
+<!--                                            <template v-slot:label>-->
+<!--                                                <div>-->
+                                                    <v-form v-model="validAddress" ref="addressForm" lazy-validation>
+<!--                                                        <v-expansion-panels focusable>-->
+<!--                                                            <v-expansion-panel style="border-radius: 20px;">-->
+<!--                                                                <v-expansion-panel-header>New Address</v-expansion-panel-header>-->
+<!--                                                                <v-expansion-panel-content>-->
+                                                                    <v-text-field class="my-0" v-model="jsonData.line1" label="Line 1" :rules="[rules.fieldRequired]" />
+                                                                    <v-text-field class="my-0 py-0" v-model="jsonData.line2" label="Line 2"/>
+                                                                    <v-row>
+                                                                        <v-col md="6" class="my-0 py-0">
+                                                                            <v-text-field class="my-0 py-0" v-model="jsonData.country" label="Country" :rules="[rules.fieldRequired]" />
+                                                                        </v-col>
+                                                                        <v-col md="6" class="my-0 py-0">
+                                                                            <v-text-field class="my-0 py-0" v-model="jsonData.province" label="State/Province" :rules="[rules.fieldRequired]" />
+                                                                        </v-col>
+                                                                    </v-row>
+                                                                    <v-row>
+                                                                        <v-col md="6" class="my-0 py-0">
+                                                                            <v-text-field class="my-0 py-0" v-model="jsonData.city" label="City" :rules="[rules.fieldRequired]" />
+                                                                        </v-col>
+                                                                        <v-col md="6" class="my-0 py-0">
+                                                                            <v-text-field class="my-0 py-0" v-model="jsonData.postalCode" label="Postal Code" :rules="[rules.fieldRequired]" />
+                                                                        </v-col>
+                                                                    </v-row>
+<!--                                                                </v-expansion-panel-content>-->
+<!--                                                            </v-expansion-panel>-->
+<!--                                                        </v-expansion-panels>-->
+                                                    </v-form>
+<!--                                                </div>-->
+<!--                                            </template>-->
+<!--                                        </v-radio>-->
+                                    </v-row>
+<!--                                    <v-row style="min-height: 50px;">-->
+<!--                                        <v-radio label="Saved 1" value="address1" />-->
+<!--                                    </v-row>-->
+<!--                                    <v-row style="min-height: 50px;">-->
+<!--                                        <v-radio label="Saved 2" value="address2" />-->
+<!--                                    </v-row>-->
+<!--                                    <v-row style="min-height: 50px;">-->
+<!--                                        <v-radio label="Saved 3" value="address3" />-->
+<!--                                    </v-row>-->
+<!--                                </v-radio-group>-->
+<!--                                <v-divider />-->
+                                <v-form v-model="validPhone" ref="phoneForm" lazy-validation>
+                                    <v-text-field v-model="jsonData.phone" label="Phone number" :rules="[rules.fieldRequired]" />
+                                </v-form>
+                            </v-container>
+                        </v-card>
                     </v-row>
                 </v-container>
             </v-col>
@@ -116,7 +170,25 @@
         name: "Cart",
         mixins: [Utilities],
         data: () => ({
-            updatedQuantities: []
+            updatedQuantities: [],
+            loading: false,
+            //selectedAddress: null,    //TODO: Use when there will be a selection of saved addresses
+            validAddress: true,
+            validPhone: true,
+            jsonData: {
+                fullName: null,
+                phone: null,
+                line1: null,
+                line2: "",
+                city: null,
+                province: null,
+                country: null,
+                postalCode: null,
+                isExpressShipping: false,
+            },
+            rules: {
+                fieldRequired: v => !!v || "Required"
+            }
         }),
         methods: {
             getRandomInt(max) {
@@ -151,8 +223,27 @@
                 } else {
                     alert("An error occurred while trying to remove an item. Please refresh the page.");
                 }
-            }
+            },
+            validate() {
+                if (this.$refs.addressForm.validate() && this.$refs.phoneForm.validate()) {
+                    this.loading = true;
+                    this.validateAsync();
+                }
+            },
+            async validateAsync() {
+                let response = await Requests.checkoutAsync(this.jsonData);
 
+                if (!response.error) {
+                    if (response.status !== this.HttpStatus.SUCCESS) {
+                        alert(response.data["message"]);
+                        this.loading = false;
+                    }
+                    /*else {        //TODO: Switch if body with else body when we want to do something on success
+                    }*/
+                } else {
+                    alert("An error occurred while trying to checkout. Please try again in a moment.");
+                }
+            }
         },
         computed: {
             cartCount: {
@@ -190,6 +281,10 @@
                     return cost.toFixed(2);
                 }
             }
+        },
+        mounted: function() {
+            this.jsonData.fullName = this.getUserData("firstName") + " " + this.getUserData("lastName");
+            //this.jsonData.phone = this.getUserData("phone");  //TODO: When the phone number will become part of currUser
         }
     }
 </script>
