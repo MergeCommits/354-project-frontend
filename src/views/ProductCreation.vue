@@ -1,6 +1,6 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; width: 40%; margin-top: 5vh; margin-bottom: 5vh">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; width: 80%; max-width: 700px; margin-top: 5vh; margin-bottom: 5vh">
             <v-container v-if="categoryDataLoaded && brandDataLoaded">
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
@@ -11,11 +11,11 @@
                             </v-layout>
                         </v-row>
                         <v-row class="productRow">
-                            <v-col style="">
+                            <v-col style="min-width: 162px">
                                 <v-text-field v-model="name" required :rules="nameRules" :color="ACCENT_COLOR"
                                               filled solo label="Product Name"/>
                             </v-col>
-                            <v-col style="max-width: 30%; min-width: 90px">
+                            <v-col style="min-width: 160px">
                                 <v-text-field v-model="price" required type="number"
                                               :rules="priceRules" :color="ACCENT_COLOR"
                                               rounded append-icon="attach_money"
@@ -29,31 +29,29 @@
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
-                            <v-col>
+                            <v-col style="min-width: 130px">
                                 <v-select v-model="selectedCategory" :items="categories" label="Category"
                                           item-text="name" return-object outlined :color="ACCENT_COLOR"
                                           :rules="categoryRules" />
                             </v-col>
-                            <v-col>
+                            <v-col style="min-width: 130px">
                                 <v-select v-model="selectedBrand" :items="brands" label="Brand"
                                           item-text="name" return-object outlined
                                           :rules="brandRules" />
                             </v-col>
                         </v-row>
-                        <v-row class="productRow" style="margin-left: 15%; margin-right: 15%">
-                            <v-layout justify-center style="margin-top: -2%">
-                                <v-col style="max-width: 40%">
-                                    <v-select v-model="selectedCondition" :items="conditions" label="Condition" outlined
-                                          :rules="conditionRules" />
+                        <v-row class="productRow" style="margin-top: -2%">
+                            <v-col style="min-width: 130px">
+                                <v-select v-model="selectedCondition" :items="conditions" label="Condition" outlined
+                                      :rules="conditionRules" />
                             </v-col>
-                                <v-col style="max-width: 33%">
+                            <v-col style="min-width: 130px">
                                 <v-text-field v-model="quantity"
                                               outlined
                                               type="number"
                                               label="Quantity"
                                               :rules="quantityRules" />
                             </v-col>
-                            </v-layout>
                         </v-row>
                         <v-row>
                             <v-col>
