@@ -15,7 +15,7 @@
             <v-col style="min-width: 50%;">
                 <v-container fluid>
                     <v-row style="margin-top: 10px">
-                        <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
+                        <v-card width="100%" min-height="13.5em" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                             <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
@@ -52,7 +52,7 @@
                         <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                             <v-container fluid>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%">
-                                    <v-btn large block :disabled="!validPhone || !validAddress" :color="ACCENT_COLOR" :loading="loading" dark @click="validate">Checkout</v-btn>
+                                    <v-btn large block :disabled="!validPhone || !validAddress" :color="ACCENT_COLOR" :loading="loading" dark @click="validate">{{checkoutButton}}</v-btn>
                                 </v-row>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-row v-bind:key="index" class="itemCheckoutBox">
@@ -96,7 +96,7 @@
                                 </v-row>
                             </v-container>
                         </v-card>
-                        <v-card class="font-weight-regular" width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
+                        <v-card v-if="this.$store.state.isLoggedIn" class="font-weight-regular" width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                             <v-container class="px-6" fluid>
 <!--                                <v-radio-group v-model="selectedAddress">-->
                                     <v-row style="min-height: 50px;">
@@ -104,6 +104,7 @@
 <!--                                            <template v-slot:label>-->
 <!--                                                <div>-->
                                                     <v-form v-model="validAddress" ref="addressForm" lazy-validation>
+                                                        <span class="font-weight-regular">Shipping Address</span>
 <!--                                                        <v-expansion-panels focusable>-->
 <!--                                                            <v-expansion-panel style="border-radius: 20px;">-->
 <!--                                                                <v-expansion-panel-header>New Address</v-expansion-panel-header>-->
@@ -175,6 +176,7 @@
             //selectedAddress: null,    //TODO: Use when there will be a selection of saved addresses
             validAddress: true,
             validPhone: true,
+            checkoutButton: null,
             jsonData: {
                 fullName: null,
                 phone: null,
@@ -225,7 +227,12 @@
                 }
             },
             validate() {
-                if (this.$refs.addressForm.validate() && this.$refs.phoneForm.validate()) {
+                let address = this.$refs.addressForm.validate(), phone = this.$refs.phoneForm.validate();
+
+                if (!this.$store.state.isLoggedIn) {
+                    this.$router.push("/login?redirect=cart")
+                }
+                else if (address && phone) {
                     this.loading = true;
                     this.validateAsync();
                 }
@@ -234,12 +241,14 @@
                 let response = await Requests.checkoutAsync(this.jsonData);
 
                 if (!response.error) {
-                    if (response.status !== this.HttpStatus.SUCCESS) {
+                    if (response.status === this.HttpStatus.SUCCESS) {
+                        //window.location.reload();     //We reload the cart after order because it's empty now
+                        this.$router.go(1); //Waiting on unwanted side-effects on this to use previous
+                    }
+                    else {
                         alert(response.data["message"]);
                         this.loading = false;
                     }
-                    /*else {        //TODO: Switch if body with else body when we want to do something on success
-                    }*/
                 } else {
                     alert("An error occurred while trying to checkout. Please try again in a moment.");
                 }
@@ -283,8 +292,14 @@
             }
         },
         mounted: function() {
-            this.jsonData.fullName = this.getUserData("firstName") + " " + this.getUserData("lastName");
-            //this.jsonData.phone = this.getUserData("phone");  //TODO: When the phone number will become part of currUser
+            if (this.$store.state.isLoggedIn) {
+                this.jsonData.fullName = this.getUserData("firstName") + " " + this.getUserData("lastName");
+                //this.jsonData.phone = this.getUserData("phone");  //TODO: When the phone number will become part of currUser
+                this.checkoutButton = "Checkout";
+            }
+            else {
+                this.checkoutButton = "Log In";
+            }
         }
     }
 </script>
