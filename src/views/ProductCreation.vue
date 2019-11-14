@@ -80,6 +80,7 @@
     import Requests from "../components/common/Requests";
 
     const PRICE_PATTERN = /^\d+[.]?(|\d\d)$/; // At least one digit that can be followed by a period and 0 or 2 digits.
+    const MIN_PRICE = 1;
     const MAX_PRICE = 10000;
 
     export default {
@@ -104,6 +105,7 @@
             priceRules: [
                 value => !Utilities.isEmpty(value) || "A price is required.",
                 value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number.",
+                value => !Utilities.isEmpty(value) && Number(value) >= MIN_PRICE || "Minimum allowed price is $" + MIN_PRICE.toString() + ".",
                 value => !Utilities.isEmpty(value) && Number(value) <= MAX_PRICE || "Maximum allowed price is $" + MAX_PRICE.toString() + "."
             ],
             categories: [],
