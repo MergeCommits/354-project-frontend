@@ -4,7 +4,7 @@
         <v-container fluid style="margin-left: 2%; margin-right: 2%">
             <v-row style="min-height: 40em!important; margin-top: -1em">
                 <v-col style="max-width: 17.50%; margin-right: -2%">
-                    <v-container fluid style="margin-right: -1%; margin-left: -1%">
+                    <v-container fluid style="min-width: 250px">
                     <v-layout justify-center>
                         <v-card flat outlined min-width="100%"
                                 style="border-radius:5px; min-height: 42.2em!important; margin-bottom: 11px; padding: 10px">
@@ -66,12 +66,12 @@
                                     style="border: solid #E0E0E0 1px!important; border-radius: 10px">
                                 <v-row>
                                     <v-col style="max-width:26% !important;">
-                                        <!--<v-img class="white&#45;&#45;text"-->
-                                        <!--style="border-radius: 10%; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"-->
-                                        <!--min-height="20%"-->
-                                        <!--min-width="20%"-->
-                                        <!--:src="item.photos[0]">-->
-                                        <!--</v-img>-->
+                                        <v-img class="white--text"
+                                        style="border-radius: 10%; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
+                                        min-height="80px"
+                                        min-width="80px"
+                                        src="https://media.brandonsun.com/images/180525+sunrisephotocontest.jpg">
+                                        </v-img>
                                     </v-col>
                                     <v-col>
                                         <v-layout pt-1 style="min-height: 65px">
@@ -126,12 +126,12 @@
                                 </v-row>
                                 <v-row style="margin-top: 10px">
                                     <v-col style="width: 50%">
-                                        <!--<v-img class="white&#45;&#45;text"-->
-                                        <!--style="border-radius: 10%; margin-top: 4px"-->
-                                        <!--height="90%"-->
-                                        <!--width="99%"-->
-                                        <!--:src="hoverItem.photos[0]">-->
-                                        <!--</v-img>-->
+                                        <v-img class="white--text"
+                                        style="border-radius: 10%; margin-top: 4px"
+                                        height="90%"
+                                        width="99%"
+                                        src="https://media.brandonsun.com/images/180525+sunrisephotocontest.jpg">
+                                        </v-img>
                                     </v-col>
                                     <v-col style="width: 50%">
                                         <v-layout justify-left pt-2>
@@ -169,41 +169,41 @@
                                         </v-icon>
                                     </v-layout>
                                 </v-row>
-                                <v-layout justify-center>
-                                    <v-card flat outlined rounded
-                                            style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%;
-                                                    margin-top: 10px; min-width: 280px">
-                                        <v-row>
-                                            <v-layout justify-center style="margin-left: 25%; margin-right: 25%"
-                                                      pt-3>
-                                                <v-select dense :color="ACCENT_COLOR" solo rounded
-                                                          label="Quantity"
-                                                          :items="Array.from(Array(10).keys())"></v-select>
-                                            </v-layout>
-                                        </v-row>
-                                        <v-row>
-                                            <v-layout justify-center
-                                                      style="margin-left: 15%; margin-right: 15%">
-                                                <v-btn :color="ACCENT_COLOR" dark block>
-                                                    <v-icon color="white" style="margin-right: 5px">play_arrow
-                                                    </v-icon>
-                                                    Buy now
-                                                </v-btn>
-                                            </v-layout>
-                                        </v-row>
+<!--                                <v-layout justify-center>-->
+<!--                                    <v-card flat outlined rounded-->
+<!--                                            style="padding: 10px; border-radius: 10px; margin-right: 25%; margin-left: 25%;-->
+<!--                                                    margin-top: 10px; min-width: 280px">-->
+<!--                                        <v-row>-->
+<!--                                            <v-layout justify-center style="margin-left: 25%; margin-right: 25%"-->
+<!--                                                      pt-3>-->
+<!--                                                <v-select dense :color="ACCENT_COLOR" solo rounded-->
+<!--                                                          label="Quantity"-->
+<!--                                                          :items="Array.from(Array(10).keys())"></v-select>-->
+<!--                                            </v-layout>-->
+<!--                                        </v-row>-->
+<!--                                        <v-row>-->
+<!--                                            <v-layout justify-center-->
+<!--                                                      style="margin-left: 15%; margin-right: 15%">-->
+<!--                                                <v-btn :color="ACCENT_COLOR" dark block>-->
+<!--                                                    <v-icon color="white" style="margin-right: 5px">play_arrow-->
+<!--                                                    </v-icon>-->
+<!--                                                    Buy now-->
+<!--                                                </v-btn>-->
+<!--                                            </v-layout>-->
+<!--                                        </v-row>-->
 
-                                        <v-row>
-                                            <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
-                                                      pt-3 pb-3>
-                                                <v-btn block :color="ACCENT_COLOR" dark outlined
-                                                       @click="addItemToCart(hoverItem)">
-                                                    <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                    Add to cart
-                                                </v-btn>
-                                            </v-layout>
-                                        </v-row>
-                                    </v-card>
-                                </v-layout>
+<!--                                        <v-row>-->
+<!--                                            <v-layout justify-center style="margin-left: 15%; margin-right: 15%"-->
+<!--                                                      pt-3 pb-3>-->
+<!--                                                <v-btn block :color="ACCENT_COLOR" dark outlined-->
+<!--                                                       @click="addItemToCart(hoverItem)">-->
+<!--                                                    <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>-->
+<!--                                                    Add to cart-->
+<!--                                                </v-btn>-->
+<!--                                            </v-layout>-->
+<!--                                        </v-row>-->
+<!--                                    </v-card>-->
+<!--                                </v-layout>-->
                             </v-container>
                         </v-card>
                     </v-layout>
