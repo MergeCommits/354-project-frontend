@@ -94,7 +94,7 @@
             name: null,
             nameRules: [
                 value => !Utilities.isEmpty(value) || "A name is required.",
-                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
+                value => !Utilities.isEmpty(value) && value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             description: null,
             descriptionRules: [
@@ -134,15 +134,16 @@
             ]
         }),
         created: async function() {
-            let response = await Requests.queryCategoriesAsync();
+            let categoryRequest = Requests.queryCategoriesAsync();
+            let brandRequest = Requests.queryBrandsAsync();
 
+            let response = await categoryRequest;
             if (!response.error) {
                 this.categories = response.data["categories"];
                 this.categoryDataLoaded = true;
             }
 
-            response = await Requests.queryBrandsAsync();
-
+            response = await brandRequest;
             if (!response.error) {
                 this.brands = response.data["brands"];
                 this.brandDataLoaded = true;

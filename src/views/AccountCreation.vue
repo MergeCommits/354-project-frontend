@@ -171,8 +171,10 @@
                 }
             },
             async validateAsync() {
-                this.usernameErrors = await Requests.registrationHeadAsync({username: this.username}, "username");
-                this.emailErrors = await Requests.registrationHeadAsync({email: this.email}, "email");
+                let usernameRequest = Requests.registrationHeadAsync({username: this.username}, "username");
+                let emailRequest = Requests.registrationHeadAsync({email: this.email}, "email");
+                this.usernameErrors = await usernameRequest;
+                this.emailErrors = await emailRequest;
                 if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
                     let data = {
                         firstName: this.firstName,
