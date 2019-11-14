@@ -14,8 +14,8 @@
         <v-row style="margin-left: 15%">
             <v-col style="min-width: 50%;">
                 <v-container fluid>
-                    <v-row style="margin-top: 10px">
-                        <v-card width="100%" min-height="13.5em" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
+                    <v-row>
+                        <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                             <v-list v-if="this.cartCount > 0" two-line>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
@@ -227,7 +227,8 @@
                 }
             },
             validate() {
-                let address = this.$refs.addressForm.validate(), phone = this.$refs.phoneForm.validate();
+                let address = this.$refs.addressForm.validate();
+                let phone = this.$refs.phoneForm.validate();
 
                 if (!this.$store.state.isLoggedIn) {
                     this.$router.push("/login?redirect=cart")
@@ -238,20 +239,19 @@
                 }
             },
             async validateAsync() {
-                let response = await Requests.checkoutAsync(this.jsonData);
+                this.$store.commit("startCartLoad");
 
+                let response = await Requests.checkoutAsync(this.jsonData);
                 if (!response.error) {
-                    if (response.status === this.HttpStatus.SUCCESS) {
-                        //window.location.reload();     //We reload the cart after order because it's empty now
-                        this.$router.go(1); //Waiting on unwanted side-effects on this to use previous
-                    }
-                    else {
+                    if (response.status !== this.HttpStatus.SUCCESS) {
                         alert(response.data["message"]);
-                        this.loading = false;
                     }
                 } else {
                     alert("An error occurred while trying to checkout. Please try again in a moment.");
                 }
+
+                await this.updateShoppingCartAsync();
+                this.loading = false;
             }
         },
         computed: {
