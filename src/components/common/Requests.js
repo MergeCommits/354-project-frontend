@@ -97,5 +97,11 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async searchQueryAsync(queryString) {
+        let call = new APICall(RequestType.GET, 'products' + queryString, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 
