@@ -3,6 +3,7 @@
     import Requests from "./Requests";
 
     const utils = {
+        MAX_NAME_CHARACTERS: 30,
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: "#00838F",

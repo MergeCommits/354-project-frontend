@@ -11,51 +11,51 @@
                             <v-layout justify-center>
                             <span class="headline font-weight-regular"
                                   style="color:#424242">Filters</span>
-                            </v-layout>
-                            <v-layout justify-center pt-5>
-                                <v-select
-                                        style="margin-left: 5%; margin-right: 5%; max-width: 80%!important;"
-                                        label="Sort by price"
-                                        :background-color="isFilterActive(priceOrderFilter)"
-                                        outlined filled dense clearable :color="this.PRIMARY_COLOR" rounded
-                                        v-model="priceOrderFilter"
-                                        :items="filters">
-                                    Sort by
-                                </v-select>
-                            </v-layout>
-                            <v-layout justify-center style="margin-top: -5%">
-                                <v-container fluid>
-                                    <v-row>
-                                        <v-layout justify-center>
-                                            <span class="title font-weight-light">Price range</span>
-                                        </v-layout>
-                                    </v-row>
-                                    <v-row style="margin-left: -20px; margin-right: -20px">
-                                        <v-col style="max-width: 55%!important;">
-                                            <v-text-field
-                                                    style="min-width: 105%!important;"
-                                                    label="From"
-                                                    :background-color="isFilterActive(priceRangeFilter.low)"
-                                                    filled outlined dense clearable :color="this.PRIMARY_COLOR"
-                                                    v-model="priceRangeFilter.low">
-                                                Sort by
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col style="max-width: 55%!important;">
-                                            <v-text-field
-                                                    style="max-width: 105%!important;"
-                                                    label="To"
-                                                    :background-color="isFilterActive(priceRangeFilter.high)"
-                                                    filled outlined dense clearable :color="this.PRIMARY_COLOR"
-                                                    v-model="priceRangeFilter.high">
-                                                Sort by
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-layout>
-                        </v-card>
-                    </v-layout>
+                                </v-layout>
+                                <v-layout justify-center pt-5>
+                                    <v-select
+                                            style="margin-left: 5%; margin-right: 5%; max-width: 80%!important;"
+                                            label="Sort by price"
+                                            :background-color="isFilterActive(priceOrderFilter)"
+                                            outlined filled dense clearable :color="this.PRIMARY_COLOR" rounded
+                                            v-model="priceOrderFilter"
+                                            :items="filters">
+                                        Sort by
+                                    </v-select>
+                                </v-layout>
+                                <v-layout justify-center style="margin-top: -5%">
+                                    <v-container fluid>
+                                        <v-row>
+                                            <v-layout justify-center>
+                                                <span class="title font-weight-light">Price range</span>
+                                            </v-layout>
+                                        </v-row>
+                                        <v-row style="margin-left: -20px; margin-right: -20px">
+                                            <v-col style="max-width: 55%!important;">
+                                                <v-text-field
+                                                        style="min-width: 105%!important;"
+                                                        label="From"
+                                                        :background-color="isFilterActive(priceRangeFilter.low)"
+                                                        filled outlined dense clearable :color="this.PRIMARY_COLOR"
+                                                        v-model="priceRangeFilter.low">
+                                                    Sort by
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col style="max-width: 55%!important;">
+                                                <v-text-field
+                                                        style="max-width: 105%!important;"
+                                                        label="To"
+                                                        :background-color="isFilterActive(priceRangeFilter.high)"
+                                                        filled outlined dense clearable :color="this.PRIMARY_COLOR"
+                                                        v-model="priceRangeFilter.high">
+                                                    Sort by
+                                                </v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-layout>
+                            </v-card>
+                        </v-layout>
                     </v-container>
                 </v-col>
                 <v-col style="width: 45%; margin-right: -2%" v-if="areProductsReady">
@@ -115,11 +115,11 @@
                 <v-col style="width: 33%; margin-right: 3%" v-if="areProductsReady">
                     <v-container fluid>
                         <v-layout fluid justify-center style=" height: 42.28em;" v-if="hoverItem">
-                        <v-card style="width: 100%; padding:10px; border-radius: 10px" flat outlined>
-                            <v-container fluid>
-                                <v-row>
-                                    <v-layout justify-center class="ml-2"
-                                              style="min-height: 40px; max-height: 40px">
+                            <v-card style="width: 100%; padding:10px; border-radius: 10px" flat outlined>
+                                <v-container fluid>
+                                    <v-row>
+                                        <v-layout justify-center class="ml-2"
+                                                  style="min-height: 40px; max-height: 40px">
                                     <span class="headline font-weight-regular"
                                           style="color:#424242">{{hoverItem.name}}</span>
                                     </v-layout>
@@ -149,10 +149,10 @@
                                         <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Status: </span>
-                                            <span class="headliner font-weight-regular"
-                                                  style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
-                                        </v-layout>
-                                        <v-layout justify-center pt-2>
+                                                <span class="headliner font-weight-regular"
+                                                      style="font-size: 20px!important;margin-left: 5px; color: #4CAF50">In Stock</span>
+                                            </v-layout>
+                                            <v-layout justify-center pt-2>
                                         <span class="headline font-weight-regular"
                                               style="font-size: 20px!important;">Description: <span
                                                 class="headline font-weight-light"
