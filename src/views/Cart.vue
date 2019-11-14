@@ -52,7 +52,7 @@
                         <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                             <v-container fluid>
                                 <v-row style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%">
-                                    <v-btn large block :disabled="!validPhone || !validAddress" :color="ACCENT_COLOR" :loading="loading" dark @click="validate">{{checkoutButton}}</v-btn>
+                                    <v-btn class="white--text" large block :disabled="this.cartCount < 1 || !validPhone || !validAddress" :color="ACCENT_COLOR" :loading="loading" @click="validate">{{checkoutButton}}</v-btn>
                                 </v-row>
                                 <template v-for="(item, index) in this.cartItems">
                                     <v-row v-bind:key="index" class="itemCheckoutBox">
@@ -227,15 +227,18 @@
                 }
             },
             validate() {
-                let address = this.$refs.addressForm.validate();
-                let phone = this.$refs.phoneForm.validate();
 
                 if (!this.$store.state.isLoggedIn) {
-                    this.$router.push("/login?redirect=cart")
+                    this.$router.push("/login?redirect=cart");
                 }
-                else if (address && phone) {
-                    this.loading = true;
-                    this.validateAsync();
+                else {
+                    let address = this.$refs.addressForm.validate();
+                    let phone = this.$refs.phoneForm.validate();
+
+                    if (address && phone) {
+                        this.loading = true;
+                        this.validateAsync();
+                    }
                 }
             },
             async validateAsync() {
