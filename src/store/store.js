@@ -21,12 +21,12 @@ export default new Vuex.Store({
 
     actions: {
         async fetchProducts(context, queryString) {
-            let response = await Requests.searchQueryAsync(queryString);
-
-            if (!response.error) {
-                context.commit('setProducts', response.data["products"]);
-                context.commit('setProductsCount', response.data["products"].length);
-            }
+            return await Requests.searchQueryAsync(queryString).then(response => {
+                if (!response.error) {
+                    context.commit('setProducts', response.data["products"]);
+                    context.commit('setProductsCount', response.data["count"]);
+                }
+            });
         }
     },
 
