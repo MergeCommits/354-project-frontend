@@ -99,7 +99,7 @@
             description: null,
             descriptionRules: [
                 value => !Utilities.isEmpty(value) || "A description is required.",
-                value => !Utilities.isEmpty(value) && value.length <= 1000 || "Description exceeds 1000 character limit."
+                value => !Utilities.isEmpty(value) && value.length <= 1000 || "Description exceeds 1000 character ITEMS_PER_PAGE_LIMIT."
             ],
             price: null,
             priceRules: [
