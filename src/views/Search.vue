@@ -249,7 +249,8 @@
                 ...this.$route.query,
                 page: this.page - 1,
                 limit: this.ITEMS_PER_PAGE_LIMIT
-            })).then(p => this.areProductsReady = true);
+            }));
+            this.areProductsReady = true;
         },
         data: () => ({
             ITEMS_PER_PAGE_LIMIT: 4,
