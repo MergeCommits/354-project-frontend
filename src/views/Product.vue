@@ -10,7 +10,7 @@
                                 {{product.name}}
                             </v-card-title>
                             <v-img style="margin: 10px"
-                                   src="https://cdn.discordapp.com/attachments/334105851411431424/642069656948965426/10888893.jpg"
+                                   src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Anatomy_of_a_Sunset-2.jpg"
                                    class="grey lighten-2" />
                         </v-card>
 
