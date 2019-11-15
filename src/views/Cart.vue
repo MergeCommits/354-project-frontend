@@ -21,7 +21,7 @@
                                     <v-divider v-bind:key="index" v-if="index !== 0" />
                                     <v-list-item :key="item.product.name">
                                         <v-list-item-avatar>
-                                            <v-img height="70" min-width="70" :src="randURL()" />
+                                            <v-img height="70" min-width="70" :src="randURL(item.product.name)" />
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title><router-link :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</router-link></v-list-item-title>
@@ -196,8 +196,8 @@
             getRandomInt(max) {
                 return Math.floor(Math.random() * Math.floor(max));
             },
-            randURL() {
-                switch (this.getRandomInt(6)) {
+            randURL(string) {
+                switch (string.length % 7) {
                     case 0:
                         return "https://picsum.photos/id/1013/500";
                     case 1:
