@@ -48,6 +48,8 @@
                 if (!response.error) {
                     if (response.status === Requests.HttpStatus.SUCCESS) {
                         this.$store.commit("setShoppingCart", response.data);
+                    } else if (response.status === Requests.HttpStatus.BAD_REQUEST) {
+                        this.$store.commit("setShoppingCart", null);
                     }
                     this.$store.commit("stopCartLoad");
                 }
