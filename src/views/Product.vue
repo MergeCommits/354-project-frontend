@@ -1,8 +1,10 @@
 <template>
-    <v-container fluid v-if="productValidated">
+    <div>
+        <titlebar></titlebar>
+        <v-container style="margin-top: -33px" fluid v-if="productValidated">
         <v-row>
             <v-layout justify-center fill-height pt-5 wrap>
-                <v-card>
+                <v-card flat outlined>
                     <v-layout wrap justify-center style="padding: 30px;">
                         <!-- Main product window. -->
                         <v-card class="productWindow">
@@ -11,7 +13,7 @@
                             </v-card-title>
                             <v-img style="margin: 10px"
                                    src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Anatomy_of_a_Sunset-2.jpg"
-                                   class="grey lighten-2" />
+                                   class="grey lighten-2"></v-img>
                         </v-card>
 
                         <!-- Purchase bar. -->
@@ -69,14 +71,19 @@
     <v-container v-else style="text-align: center">
         <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
     </v-container>
+    </div>
 </template>
 
 <script>
     import Utilities from "../components/common/Utilities";
     import Requests from "../components/common/Requests";
+    import TitleBar from "../components/TitleBar";
 
     export default {
         name: "Product",
+        components: {
+            'titlebar': TitleBar,
+        },
         mixins: [Utilities],
         data: () => ({
             productValidated: null,
