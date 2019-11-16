@@ -8,7 +8,7 @@
                         <v-container fluid>
                             <v-row>
                                 <!-- Main product window. -->
-                                <v-col style="width: 60%">
+                                <v-col md="7">
                                     <v-layout justify-center fill-height>
                                         <v-card class="productWindow" flat style="border-radius: 10px; width: 80%">
                                             <v-layout justify-start pl-3 style="height: 30px;">
@@ -27,7 +27,7 @@
                                 </v-col>
 
                                 <!-- Purchase bar. -->
-                                <v-col class="purchaseBar" style="width: 40%">
+                                <v-col md="5" class="purchaseBar">
                                     <v-container fluid>
                                         <v-row style="margin-top: 30px">
                                             <v-card style="width: 70%; min-width: 300px; padding: 10px; border-radius: 10px" elevation="5">
