@@ -1,76 +1,111 @@
 <template>
     <div>
         <titlebar></titlebar>
-        <v-container style="margin-top: -33px" fluid v-if="productValidated">
-        <v-row>
-            <v-layout justify-center fill-height pt-5 wrap>
-                <v-card flat outlined>
-                    <v-layout wrap justify-center style="padding: 30px;">
-                        <!-- Main product window. -->
-                        <v-card class="productWindow">
-                            <v-card-title>
-                                {{product.name}}
-                            </v-card-title>
-                            <v-img style="margin: 10px"
-                                   src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Anatomy_of_a_Sunset-2.jpg"
-                                   class="grey lighten-2"></v-img>
-                        </v-card>
+        <v-container style="margin-top: -33px; min-height: 150em" fluid v-if="productValidated">
+            <v-row style="height: 100%">
+                <v-layout justify-center fill-height pt-5 wrap>
+                    <v-card flat outlined style="min-height: 50em">
+                        <v-container fluid>
+                            <v-row>
+                                <!-- Main product window. -->
+                                <v-col style="width: 60%">
+                                    <v-layout justify-end fill-height>
+                                        <v-card class="productWindow" flat style="border-radius: 10px; width: 80%">
+                                            <v-layout justify-start pl-3 style="height:30px;">
+                                                <span style="font-size: 25px !important;  color:#616161; text-align: center"
+                                                      class="title font-weight-medium">{{product.name}}</span>
+                                            </v-layout>
+                                            <v-layout justify-start pt-1 fill-height pb-5>
+                                                <v-img style="margin: 10px; border-radius: 10px;"
+                                                       src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Anatomy_of_a_Sunset-2.jpg"
+                                                       class="grey lighten-2"></v-img>
+                                            </v-layout>
+                                        </v-card>
+                                    </v-layout>
+                                </v-col>
 
-                        <!-- Purchase bar. -->
-                        <v-card class="purchaseBar animated fadeIn"
-                                tile elevation="14" v-bind:style="{border: PRIMARY_COLOR}">
-                            <v-card-title style="width: 100%">${{product.price.amount}}</v-card-title>
+                                <!-- Purchase bar. -->
+                                <v-col style="width: 40%">
+                                    <v-container fluid>
+                                        <v-row style="margin-top: 30px">
+                                            <v-card style="width:70%; padding: 10px; border-radius: 10px" elevation="5">
+                                                <v-layout style="height:43px" justify-center>
+                                        <span class="headline font-weight-regular"
+                                              style="font-size: 20px!important;">Your price <span>${{product.price.amount}}</span></span>
+                                                    <v-icon style="margin-top: -5px; margin-left: 5px" large
+                                                            :color="ACCENT_COLOR">fas fa-meteor
+                                                    </v-icon>
+                                                </v-layout>
+                                                <v-container>
+                                                    <v-row>
+                                                        <v-layout justify-center
+                                                                  style="margin-left: 35%; margin-right: 35%">
+                                                            <v-form v-model="validQuantity">
+                                                                <v-text-field v-model="quantity" type="number"
+                                                                              label="Quantity"
+                                                                              :color="ACCENT_COLOR"
+                                                                              solo rounded
+                                                                              :rules="quantityRules"
+                                                                              :error-messages="quantityExceedError">
+                                                                </v-text-field>
+                                                            </v-form>
+                                                        </v-layout>
+                                                    </v-row>
+                                                    <v-row>
+                                                        <v-layout justify-center pl-5 pr-5>
+                                                            <v-btn class="no-highlight" block :color="ACCENT_COLOR"
+                                                                   width="100%" outlined
+                                                                   :loading="this.$store.state.loadingShoppingCart"
+                                                                   :disabled="this.$store.state.loadingShoppingCart || !this.validQuantity"
+                                                                   @click="cartButtonPressed()">
+                                                                <v-icon style="margin-right: 5px">
+                                                                    add_shopping_cart
+                                                                </v-icon>
+                                                                {{addToCartLabel}}
+                                                            </v-btn>
+                                                        </v-layout>
+                                                    </v-row>
+                                                </v-container>
+                                            </v-card>
+                                        </v-row>
+                                        <v-row style="margin-top: 20px">
+                                            <v-card class="purchaseBar animated fadeIn"
+                                                    style="border-radius: 10px; width: 70%"
+                                                    tile elevation="5" v-bind:style="{border: PRIMARY_COLOR}">
+                                                <v-layout wrap pt-3>
+                                                    <v-container>
+                                                        <h2>Description:</h2>
+                                                        {{product.description}}
+                                                    </v-container>
 
-                            <v-col>
-                                <v-form v-model="validQuantity">
-                                    <v-text-field v-model="quantity"
-                                                  type="number"
-                                                  label="Quantity"
-                                                  :rules="quantityRules"
-                                                  :error-messages="quantityExceedError" />
-                                </v-form>
-                            </v-col>
-
-                            <v-card-actions>
-                                <v-btn class="no-highlight" block :color="ACCENT_COLOR" width="100%" outlined
-                                       :loading="this.$store.state.loadingShoppingCart"
-                                       :disabled="this.$store.state.loadingShoppingCart || !this.validQuantity"
-                                       @click="cartButtonPressed()">
-                                    <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                    {{addToCartLabel}}
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-
-                        <!-- Product description. -->
-                        <v-layout wrap>
-                            <v-container>
-                                <h2>Description:</h2>
-                                {{product.description}}
-                            </v-container>
-
-                            <v-container>
-                                <h2>Specification:</h2>
-                                <v-data-table
-                                        :headers="specificationHeader"
-                                        :items="specData"
-                                        :items-per-page="50"
-                                        hide-default-header
-                                        hide-default-footer
-                                        class="elevation-1" />
-                            </v-container>
-                        </v-layout>
-                    </v-layout>
-                </v-card>
-            </v-layout>
-        </v-row>
-    </v-container>
-    <v-container v-else-if="productValidated !== null && !productValidated">
-        <p v-html="errorMessage" style="text-align: center"></p>
-    </v-container>
-    <v-container v-else style="text-align: center">
-        <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
-    </v-container>
+                                                    <v-container>
+                                                        <h2>Specification:</h2>
+                                                        <v-data-table
+                                                                :headers="specificationHeader"
+                                                                :items="specData"
+                                                                :items-per-page="50"
+                                                                hide-default-header
+                                                                hide-default-footer
+                                                                class="elevation-0">
+                                                        </v-data-table>
+                                                    </v-container>
+                                                </v-layout>
+                                            </v-card>
+                                        </v-row>
+                                    </v-container>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card>
+                </v-layout>
+            </v-row>
+        </v-container>
+        <v-container v-else-if="productValidated !== null && !productValidated">
+            <p v-html="errorMessage" style="text-align: center"></p>
+        </v-container>
+        <v-container v-else style="text-align: center">
+            <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR"></v-progress-circular>
+        </v-container>
     </div>
 </template>
 
@@ -188,8 +223,8 @@
                 }
             }
         },
-        props: [ "categoryPermalink", "productPermalink" ],
-        created: async function() {
+        props: ["categoryPermalink", "productPermalink"],
+        created: async function () {
             let url = "categories/" + this.categoryPermalink + "/products";
             let response = await Requests.queryProductAsync(url);
 

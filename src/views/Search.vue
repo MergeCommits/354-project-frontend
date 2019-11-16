@@ -209,12 +209,13 @@
                                                 </v-layout>
                                             </v-row>
                                             <v-row>
-                                                <v-layout justify-center style="margin-left: 15%; margin-right: 15%"
-                                                          pb-3>
-                                                    <v-btn block :color="ACCENT_COLOR" dark outlined
+                                                <v-layout justify-center pb-3>
+                                                    <v-btn color="grey darken-2" dark text style="margin-left: 10%"
                                                            :to="{ name: 'product', params: { categoryPermalink: hoverItem.category.permalink, productPermalink: hoverItem.permalink }}">
-                                                        <v-icon style="margin-right: 5px">add_shopping_cart</v-icon>
-                                                        Add to cart
+                                                        Details
+                                                        <v-icon style="margin-left: 5px; margin-right: 10px; font-size: 12px!important;"
+                                                                :color="ACCENT_COLOR">arrow_forward_ios
+                                                        </v-icon>
                                                     </v-btn>
                                                 </v-layout>
                                             </v-row>
