@@ -4,19 +4,21 @@
         <v-container style="margin-top: -33px; min-height: 150em" fluid v-if="productValidated">
             <v-row style="height: 100%">
                 <v-layout justify-center fill-height pt-5 wrap>
-                    <v-card flat outlined style="min-height: 50em">
+                    <v-card flat outlined>
                         <v-container fluid>
                             <v-row>
                                 <!-- Main product window. -->
                                 <v-col style="width: 60%">
-                                    <v-layout justify-end fill-height>
+                                    <v-layout justify-center fill-height>
                                         <v-card class="productWindow" flat style="border-radius: 10px; width: 80%">
-                                            <v-layout justify-start pl-3 style="height:30px;">
+                                            <v-layout justify-start pl-3 style="height: 30px;">
                                                 <span style="font-size: 25px !important;  color:#616161; text-align: center"
                                                       class="title font-weight-medium">{{product.name}}</span>
                                             </v-layout>
                                             <v-layout justify-start pt-1 fill-height pb-5>
                                                 <v-img style="margin: 10px; border-radius: 10px;"
+                                                       min-width="300px"
+                                                       contain
                                                        src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Anatomy_of_a_Sunset-2.jpg"
                                                        class="grey lighten-2"></v-img>
                                             </v-layout>
@@ -25,13 +27,13 @@
                                 </v-col>
 
                                 <!-- Purchase bar. -->
-                                <v-col style="width: 40%">
+                                <v-col class="purchaseBar" style="width: 40%">
                                     <v-container fluid>
                                         <v-row style="margin-top: 30px">
-                                            <v-card style="width:70%; padding: 10px; border-radius: 10px" elevation="5">
-                                                <v-layout style="height:43px" justify-center>
-                                        <span class="headline font-weight-regular"
-                                              style="font-size: 20px!important;">Your price <span>${{product.price.amount}}</span></span>
+                                            <v-card style="width: 70%; min-width: 300px; padding: 10px; border-radius: 10px" elevation="5">
+                                                <v-layout style="height: 43px" justify-center>
+                                                    <span class="headline font-weight-regular"
+                                                          style="font-size: 20px!important;">Your price <span>${{product.price.amount}}</span></span>
                                                     <v-icon style="margin-top: -5px; margin-left: 5px" large
                                                             :color="ACCENT_COLOR">fas fa-meteor
                                                     </v-icon>
@@ -42,6 +44,7 @@
                                                                   style="margin-left: 35%; margin-right: 35%">
                                                             <v-form v-model="validQuantity">
                                                                 <v-text-field v-model="quantity" type="number"
+                                                                              style="min-width: 150px"
                                                                               label="Quantity"
                                                                               :color="ACCENT_COLOR"
                                                                               solo rounded
@@ -69,8 +72,8 @@
                                             </v-card>
                                         </v-row>
                                         <v-row style="margin-top: 20px">
-                                            <v-card class="purchaseBar animated fadeIn"
-                                                    style="border-radius: 10px; width: 70%"
+                                            <v-card class="animated fadeIn"
+                                                    style="border-radius: 10px; width: 70%; min-width: 300px"
                                                     tile elevation="5" v-bind:style="{border: PRIMARY_COLOR}">
                                                 <v-layout wrap pt-3>
                                                     <v-container>
@@ -277,20 +280,21 @@
     }
 
     .purchaseBar {
-        min-width: 250px;
+        min-width: 300px;
         width: 30%;
     }
 
-    @media screen and (max-width: 650px) {
+    @media screen and (max-width: 800px) {
         .productWindow {
-            min-width: 0;
-            width: 350px;
+            min-width: 300px;
+            width: 100%;
             margin: 0;
         }
 
         .purchaseBar {
             margin: 40px 0;
-            width: 350px;
+            min-width: 350px;
+            width: 100%;
         }
     }
 

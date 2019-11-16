@@ -69,10 +69,9 @@
                                     style="border: solid #E0E0E0 1px!important; border-radius: 10px">
                                 <v-row>
                                     <v-col style="max-width:26% !important; min-height:100%;">
-                                        <v-img class="white--text"
-                                               style="border-radius: 10px; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
-                                               min-height="96%" max-height="96%"
-                                               min-width="100%" max-width="100%"
+                                        <v-img sclass="white--text"
+                                               style="width: 100%; height: 96%; border-radius: 10px; margin-left: 8.5%; margin-top: 2%; margin-bottom: 2%"
+                                               max-width="300px"
                                                src="https://media.brandonsun.com/images/180525+sunrisephotocontest.jpg">
                                         </v-img>
                                     </v-col>
@@ -135,8 +134,8 @@
                                         <v-col style="width: 50%; height: 250px">
                                             <v-img class="white--text"
                                                    style="border-radius: 10px; margin-top: 4px"
-                                                   height="100%"
                                                    width="99%"
+                                                   max-width="300px"
                                                    src="https://media.brandonsun.com/images/180525+sunrisephotocontest.jpg">
                                             </v-img>
                                         </v-col>
