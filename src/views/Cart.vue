@@ -9,7 +9,8 @@
             </v-btn>
         </v-row>
         <v-row style="padding-left: 15px; margin-left: 15%">
-            <span class="title font-weight-regular" style="font-size: 25px!important; color: #424242">Shopping Cart</span>
+             <span style="font-size: 25px !important;  color:#616161; text-align: center"
+                   class="title font-weight-medium">Shopping Cart</span>
         </v-row>
         <v-row style="margin-left: 15%">
             <v-col style="min-width: 50%;">
@@ -96,7 +97,9 @@
                                 </v-row>
                             </v-container>
                         </v-card>
-                        <v-card v-if="this.$store.state.isLoggedIn" class="font-weight-regular" width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
+                        <v-card v-if="this.$store.state.isLoggedIn" class="font-weight-regular" width="25em"
+                                min-height="13.5em" height="fit-content"
+                                style="border-radius: 20px; margin-top: 10px; padding: 10px">
                             <v-container class="px-6" fluid>
 <!--                                <v-radio-group v-model="selectedAddress">-->
                                     <v-row style="min-height: 50px;">
