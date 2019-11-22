@@ -176,12 +176,14 @@
                 this.usernameErrors = await usernameRequest;
                 this.emailErrors = await emailRequest;
                 if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
+                    const hashedPassword = this.hashString(this.password);
+
                     let data = {
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,
                         username: this.username,
-                        password: this.password
+                        password: hashedPassword
                     };
                     let response = await Requests.registrationPostAsync(data);
 
