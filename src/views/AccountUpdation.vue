@@ -25,18 +25,18 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="5">
-                                            <v-text-field v-model="jsonProfile.firstName" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                            <v-text-field v-model="jsonProfileData.first_name" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
                                         </v-col>
                                         <v-col md="6">
-                                            <v-text-field v-model="jsonProfile.lastName" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                            <v-text-field v-model="jsonProfileData.last_name" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="7">
-                                            <v-text-field v-model="jsonProfile.email" :error-messages="emailErr" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                            <v-text-field v-model="jsonProfileData.email" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
                                         </v-col>
 <!--                                        <v-col md="4">-->
-<!--                                            <v-text-field v-model="phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>-->
+<!--                                            <v-text-field v-model="jsonProfileData.phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>-->
 <!--                                        </v-col>-->
                                     </v-row>
                                     <v-row>
@@ -129,15 +129,15 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" v-model="password" :error-messages="passwordErr" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                            <v-text-field v-model="jsonProfileData.current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" v-model="jsonData.newPassword" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
+                                            <v-text-field type="password" v-model="jsonProfileData.password" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
                                         </v-col>
                                         <v-col md="4">
-                                            <v-text-field :disabled="!newPassword" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
+                                            <v-text-field :disabled="!jsonProfileData.password || loading" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
@@ -165,31 +165,31 @@
         name: "AccountUpdation",
         mixins:[Utilities],
         data: () => ({
+            loading: false,
             menuPosition: null,
             validProfile: false,
             validPassword: false,
+            passwordConfirm: null,
             links: [
                 { icon: 'edit', text: 'Edit profile', strVal: 'editProfile' },
                 { icon: 'far fa-user-circle', text: 'Manage password', strVal: 'managePassword' },
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
-            jsonProfile: {
-                 firstName: null,
-                 lastName: null,
-                 email: null,
+            jsonProfileData: {
+                first_name: null,
+                last_name: null,
+                email: null,
+                // phoneNumber: null,
+                current_password: null,
+                password: null
             },
-            password: null,
-            newPassword: null,
-            passwordConfirm: null,
-            passwordErr: "",
-            emailErr: "",
             rules: {
                 fieldRequired: v => !!v || "Required",
-                maxLength: v => !!v && (v.length <= 26 || "Must be less than 26 characters"),
-                validEmail: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "E-mail must be valid",
-                //validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
-                validPassword: v => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(v) || "Needs to include a letter, a number and a symbol",
+                maxLength: v => !!v && (v.length <= Utilities.MAX_NAME_CHARACTERS || "Must be less than 26 characters"),
+                validEmail: v => Utilities.EMAIL_PATTERN.test(v) || "E-mail must be valid",
+                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
+                validPassword: v => Utilities.PASSWORD_PATTERN.test(v) || "Needs to include at least one lowercase and uppercase letter, a number and a symbol",
                 passwordLength: v => !!v && (v.length >= 8 || "Password must be at least 8 characters long")
             }
         }),
@@ -199,17 +199,23 @@
             },
             validate() {
                 // TODO: Deactivate the form while it's doing the API call.
-                // TODO: Check email conflicts
-                // TODO: Reset button for address fields
-                if (this.$refs.form.validate()) {
-                    this.loading = true;
-                    this.validateAsync();
-                }
+                this.validateAsync();
             },
             async validateAsync() {
                 if (this.$refs.form.validate()) {
+                    let jsonData = {};
 
-                    let response = await Requests.updateSelfAsync(this.jsonProfile);
+                    if (this.firstName !== this.getUserData("firstName")) {
+                        jsonData.firstName = this.firstName;
+                    }
+                    if (this.lastName !== this.getUserData("lastName")) {
+                        jsonData.lastName = this.lastName;
+                    }
+                    if (this.email !== this.getUserData("email")) {
+                        jsonData.email = this.email;
+                    }
+
+                    let response = await Requests.updateSelfAsync(jsonData);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
@@ -228,27 +234,27 @@
             }
         },
         watch: {
-            menuPosition: v => {
+            menuPosition: function(v) {
                 if (this.$refs.form) {
                     this.$refs.form.resetValidation();
                     if (v === "editProfile") {
-                        this.firstName = this.getUserData("firstName");
-                        this.lastName = this.getUserData("lastName");
-                        this.email = this.getUserData("email");
+                        this.jsonProfileData.first_name = this.getUserData("firstName");
+                        this.jsonProfileData.last_name = this.getUserData("lastName");
+                        this.jsonProfileData.email = this.getUserData("email");
+                        // this.jsonProfileData.phoneNumber = this.getUserData("phoneNumber");
                     }
                     else if (v === "managePassword") {
-                        this.newPassword = null;
+                        this.jsonProfileData.current_password = null;
+                        this.jsonProfileData.password = null;
                         this.passwordConfirm = null;
                     }
                 }
-            },
-            password: () => {passwordErr},
-            email: () => {emailErr}
+            }
         },
         mounted() {
-            this.firstName = this.getUserData("firstName");
-            this.lastName = this.getUserData("lastName");
-            this.email = this.getUserData("email");
+            this.jsonProfileData.first_name = this.getUserData("firstName");
+            this.jsonProfileData.last_name = this.getUserData("lastName");
+            this.jsonProfileData.email = this.getUserData("email");
         }
     }
 </script>

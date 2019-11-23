@@ -1,16 +1,25 @@
 <template>
     <v-layout justify-center class="makeProduct" v-bind:style="{backgroundColor: PRIMARY_COLOR}">
-        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; min-width: 80%; margin-top: 5vh; margin-bottom: 5vh">
+        <v-card style="border-radius: 15px; height: fit-content; padding: 1vh 1%; width: 80%; max-width: 700px; margin-top: 5vh; margin-bottom: 5vh">
             <v-container v-if="categoryDataLoaded && brandDataLoaded">
                 <v-row>
                     <v-form ref="form" style="width: 100%" v-model="validProduct" :lazy-validation="true">
                         <v-row style="padding-bottom: 5%">
-                            <span style="font-size: 30px; width: 100%; text-align: center" class="font-weight-regular">Create a new product</span>
+                            <v-layout justify-center>
+                                <span style="font-size: 25px !important;  color:#616161; text-align: center"
+                                      class="title font-weight-medium">Create a new product listing</span>
+                            </v-layout>
                         </v-row>
                         <v-row class="productRow">
-                            <v-col>
+                            <v-col style="min-width: 162px">
                                 <v-text-field v-model="name" required :rules="nameRules" :color="ACCENT_COLOR"
-                                              outlined label="Product Name" />
+                                              filled solo label="Product Name"/>
+                            </v-col>
+                            <v-col style="min-width: 160px">
+                                <v-text-field v-model="price" required type="number"
+                                              :rules="priceRules" :color="ACCENT_COLOR"
+                                              rounded append-icon="attach_money"
+                                              filled outlined label="Price"/>
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
@@ -20,31 +29,25 @@
                             </v-col>
                         </v-row>
                         <v-row class="productRow">
-                            <v-col>
-                                <v-text-field v-model="price" required type="number"
-                                              :rules="priceRules" :color="ACCENT_COLOR"
-                                              filled label="Price"/>
-                            </v-col>
-                        </v-row>
-                        <v-row class="productRow">
-                            <v-col>
+                            <v-col style="min-width: 130px">
                                 <v-select v-model="selectedCategory" :items="categories" label="Category"
-                                          item-text="name" return-object
+                                          item-text="name" return-object outlined :color="ACCENT_COLOR"
                                           :rules="categoryRules" />
                             </v-col>
-                            <v-col>
+                            <v-col style="min-width: 130px">
                                 <v-select v-model="selectedBrand" :items="brands" label="Brand"
-                                          item-text="name" return-object
+                                          item-text="name" return-object outlined
                                           :rules="brandRules" />
                             </v-col>
                         </v-row>
-                        <v-row class="productRow">
-                            <v-col>
-                                <v-select v-model="selectedCondition" :items="conditions" label="Condition"
-                                          :rules="conditionRules" />
+                        <v-row class="productRow" style="margin-top: -2%">
+                            <v-col style="min-width: 130px">
+                                <v-select v-model="selectedCondition" :items="conditions" label="Condition" outlined
+                                      :rules="conditionRules" />
                             </v-col>
-                            <v-col>
+                            <v-col style="min-width: 130px">
                                 <v-text-field v-model="quantity"
+                                              outlined
                                               type="number"
                                               label="Quantity"
                                               :rules="quantityRules" />
@@ -52,11 +55,11 @@
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-layout justify-end style="margin-right: 7%">
+                                <v-layout justify-end style="margin-right: 7%" pt-4>
                                     <v-btn class="no-highlight" style="margin-right: 5%; color: #fff; background-color: #777"
                                            @click="returnConfirmation()">Cancel
                                     </v-btn>
-                                    <v-btn :disabled="!validProduct" :color="PRIMARY_COLOR"
+                                    <v-btn :disabled="!validProduct" :color="ACCENT_COLOR"
                                            style="color: #ffffff" :loading="loading" @click="validate()">Create
                                     </v-btn>
                                 </v-layout>
@@ -77,6 +80,8 @@
     import Requests from "../components/common/Requests";
 
     const PRICE_PATTERN = /^\d+[.]?(|\d\d)$/; // At least one digit that can be followed by a period and 0 or 2 digits.
+    const MIN_PRICE = 1;
+    const MAX_PRICE = 10000;
 
     export default {
         name: 'AccountCreation',
@@ -88,17 +93,20 @@
             loading: false,
             name: null,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required."
+                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => !Utilities.isEmpty(value) && value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             description: null,
             descriptionRules: [
                 value => !Utilities.isEmpty(value) || "A description is required.",
-                value => !Utilities.isEmpty(value) && value.length <= 1000 || "Description exceeds 1000 character limit."
+                value => !Utilities.isEmpty(value) && value.length <= 1000 || "Description exceeds 1000 character ITEMS_PER_PAGE_LIMIT."
             ],
             price: null,
             priceRules: [
                 value => !Utilities.isEmpty(value) || "A price is required.",
-                value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number."
+                value => PRICE_PATTERN.test(value) || "Invalid price format. Should be \"X.XX\" where 'X' is a number.",
+                value => !Utilities.isEmpty(value) && Number(value) >= MIN_PRICE || "Minimum allowed price is $" + MIN_PRICE.toString() + ".",
+                value => !Utilities.isEmpty(value) && Number(value) <= MAX_PRICE || "Maximum allowed price is $" + MAX_PRICE.toString() + "."
             ],
             categories: [],
             selectedCategory: null,
@@ -126,15 +134,16 @@
             ]
         }),
         created: async function() {
-            let response = await Requests.queryCategoriesAsync();
+            let categoryRequest = Requests.queryCategoriesAsync();
+            let brandRequest = Requests.queryBrandsAsync();
 
+            let response = await categoryRequest;
             if (!response.error) {
                 this.categories = response.data["categories"];
                 this.categoryDataLoaded = true;
             }
 
-            response = await Requests.queryBrandsAsync();
-
+            response = await brandRequest;
             if (!response.error) {
                 this.brands = response.data["brands"];
                 this.brandDataLoaded = true;

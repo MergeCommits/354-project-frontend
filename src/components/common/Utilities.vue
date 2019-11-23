@@ -1,8 +1,11 @@
 <script>
-    import {APICall, RequestType} from "./API";
+    import {APICall, RequestType} from "./API";     //TODO: Is this still necessary?
     import Requests from "./Requests";
 
     const utils = {
+        EMAIL_PATTERN: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        PASSWORD_PATTERN: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/,
+        MAX_NAME_CHARACTERS: 30,
         name: "Utilities",
         data: () => ({
             PRIMARY_COLOR: "#00838F",
@@ -47,6 +50,8 @@
                 if (!response.error) {
                     if (response.status === Requests.HttpStatus.SUCCESS) {
                         this.$store.commit("setShoppingCart", response.data);
+                    } else if (response.status === Requests.HttpStatus.BAD_REQUEST) {
+                        this.$store.commit("setShoppingCart", null);
                     }
                     this.$store.commit("stopCartLoad");
                 }
@@ -72,6 +77,9 @@
         },
         isEmpty(object) {
             return object === undefined || object === null || object.length === 0 || object === "";
+        },
+        dictToQueryString(object) {
+            return "?" + Object.keys(object).map(key => key + "=" + object[key]).join("&");
         }
     };
 

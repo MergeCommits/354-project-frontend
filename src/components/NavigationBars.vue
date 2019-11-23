@@ -41,6 +41,7 @@
                     label="Search"
                     @focus="isSearchActive = true"
                     @blur="isSearchActive = false"
+                    @keydown.enter="searchProducts()"
                     prepend-inner-icon="search">
             </v-text-field>
             <v-menu bottom
@@ -159,9 +160,24 @@
             search: null
         }),
         created: function () {
-
+            if ("q" in this.$route.query) {
+                this.search = this.$route.query["q"];
+            }
         },
-
+        methods: {
+            searchProducts() {
+                if (this.search !== null && this.search.length > 0) {
+                    if (this.search !== this.$route.query["q"]) {
+                        this.$router.push({name: 'search', query: {...this.$route.query, 'q': this.search}});
+                        this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({
+                            ...this.$route.query,
+                            page: 0,
+                            limit: 4
+                        }));
+                    }
+                }
+            }
+        },
         computed: {
             cartCount: {
                 get() {

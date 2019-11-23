@@ -107,40 +107,39 @@
     import Utilities from "../components/common/Utilities.vue";
     import Requests from "../components/common/Requests.js"
 
-    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/;
-
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
         data: () => ({
             isRegistrationValid: true,
             loading: false,
-            firstName: null,
-            lastName: null,
+            firstName: "",
+            lastName: "",
             email: null,
             emailErrors: [],
-            username: null,
+            username: "",
             usernameErrors: [],
             password: null,
             passwordConfirm: null,
             passwordConfirmErrors: [],
             isPasswordVisible: false,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required."
+                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             usernameRules: [
-                value => !Utilities.isEmpty(value) || "A username is required."
+                value => !Utilities.isEmpty(value) || "A username is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
                 value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
                 value => !Utilities.isEmpty(value) && value.length <= 32 || "Password exceeds 32 characters.",
-                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
+                value => Utilities.PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An email is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid."
+                value => Utilities.EMAIL_PATTERN.test(value) || "Email is not valid."
             ]
         }),
         watch: {
@@ -169,8 +168,10 @@
                 }
             },
             async validateAsync() {
-                this.usernameErrors = await Requests.registrationHeadAsync({username: this.username}, "username");
-                this.emailErrors = await Requests.registrationHeadAsync({email: this.email}, "email");
+                let usernameRequest = Requests.registrationHeadAsync({username: this.username}, "username");
+                let emailRequest = Requests.registrationHeadAsync({email: this.email}, "email");
+                this.usernameErrors = await usernameRequest;
+                this.emailErrors = await emailRequest;
                 if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
                     let data = {
                         firstName: this.firstName,
