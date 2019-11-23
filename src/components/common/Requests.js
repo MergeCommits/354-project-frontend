@@ -97,5 +97,17 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async checkoutAsync(jsonData) {
+        let call = new APICall(RequestType.POST, "orders", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async searchQueryAsync(queryString) {
+        let call = new APICall(RequestType.GET, 'products' + queryString, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 

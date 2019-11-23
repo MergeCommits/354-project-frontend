@@ -18,6 +18,7 @@
             } else {
                 alert("There was an error logging you out. Please try again in a moment.");
             }
+            await this.updateShoppingCartAsync();
             this.returnToRedirect();
         }
     }

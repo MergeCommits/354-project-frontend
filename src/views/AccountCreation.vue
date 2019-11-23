@@ -113,21 +113,23 @@
         data: () => ({
             isRegistrationValid: true,
             loading: false,
-            firstName: null,
-            lastName: null,
+            firstName: "",
+            lastName: "",
             email: null,
             emailErrors: [],
-            username: null,
+            username: "",
             usernameErrors: [],
             password: null,
             passwordConfirm: null,
             passwordConfirmErrors: [],
             isPasswordVisible: false,
             nameRules: [
-                value => !Utilities.isEmpty(value) || "A name is required."
+                value => !Utilities.isEmpty(value) || "A name is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             usernameRules: [
-                value => !Utilities.isEmpty(value) || "A username is required."
+                value => !Utilities.isEmpty(value) || "A username is required.",
+                value => value.length <= Utilities.MAX_NAME_CHARACTERS || "A maximum of " + Utilities.MAX_NAME_CHARACTERS.toString() + " characters is allowed."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required.",
@@ -166,8 +168,10 @@
                 }
             },
             async validateAsync() {
-                this.usernameErrors = await Requests.registrationHeadAsync({username: this.username}, "username");
-                this.emailErrors = await Requests.registrationHeadAsync({email: this.email}, "email");
+                let usernameRequest = Requests.registrationHeadAsync({username: this.username}, "username");
+                let emailRequest = Requests.registrationHeadAsync({email: this.email}, "email");
+                this.usernameErrors = await usernameRequest;
+                this.emailErrors = await emailRequest;
                 if (this.emailErrors.length <= 0 && this.usernameErrors.length <= 0) {
                     let data = {
                         firstName: this.firstName,

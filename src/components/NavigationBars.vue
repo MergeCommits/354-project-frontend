@@ -41,6 +41,7 @@
                     label="Search"
                     @focus="isSearchActive = true"
                     @blur="isSearchActive = false"
+                    @keydown.enter="searchProducts()"
                     prepend-inner-icon="search">
             </v-text-field>
             <v-menu bottom
@@ -129,18 +130,18 @@
                 </v-list-item>
                 <v-list-item router to="/settings">
                     <v-list-item-action>
-                        <v-icon>person</v-icon>
+                        <v-icon>settings</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title class="grey--text">Manage Account</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item router to="/settings">
+                <v-list-item router to="/add-product">
                     <v-list-item-action>
-                        <v-icon>settings</v-icon>
+                        <v-icon>fa-blender-phone</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title class="grey--text">Settings</v-list-item-title>
+                        <v-list-item-title class="grey--text">Create Listing</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -159,9 +160,24 @@
             search: null
         }),
         created: function () {
-
+            if ("q" in this.$route.query) {
+                this.search = this.$route.query["q"];
+            }
         },
-
+        methods: {
+            searchProducts() {
+                if (this.search !== null && this.search.length > 0) {
+                    if (this.search !== this.$route.query["q"]) {
+                        this.$router.push({name: 'search', query: {...this.$route.query, 'q': this.search}});
+                        this.$store.dispatch('fetchProducts', Utilities.dictToQueryString({
+                            ...this.$route.query,
+                            page: 0,
+                            limit: 4
+                        }));
+                    }
+                }
+            }
+        },
         computed: {
             cartCount: {
                 get() {
