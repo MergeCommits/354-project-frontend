@@ -20,7 +20,7 @@
                                 </v-row>
                                 <v-row style="margin-right: 9%; margin-left: 9%; margin-top: 1%">
                                     <v-layout justify-center pt-3>
-                                        <v-text-field v-model="email" required :rules="emailRules" :color="ACCENT_COLOR"
+                                        <v-text-field v-model="email" required :disabled="loading" :rules="emailRules" :color="ACCENT_COLOR"
                                                       outlined
                                                       label="Email"></v-text-field>
                                     </v-layout>
@@ -32,6 +32,7 @@
                                                   :append-icon="isPasswordVisible? 'visibility' : 'visibility_off'"
                                                   :type="isPasswordVisible ? 'text' : 'password'"
                                                   @click:append="isPasswordVisible = ! isPasswordVisible"
+                                                  :disabled="loading"
                                                   :color="ACCENT_COLOR"
                                                   style="margin-bottom: -5%">
                                     </v-text-field>
@@ -119,18 +120,20 @@
                 }
             },
             async validateAsync() {
+                const hashedPassword = this.hashString(this.password);
+
                 let data = {
                     email: this.email,
-                    password: this.password
+                    password: hashedPassword
                 };
                 let response = await Requests.loginAsync(data);
 
                 if (!response.error) {
-                    if (response.status === this.HttpStatus.LOGIN) {
+                    if (response.status === Requests.HttpStatus.SUCCESS) {
                         this.$store.commit("login", response.data);
                         await this.updateShoppingCartAsync();
                         this.returnToRedirect();
-                    } else if (response.status === this.HttpStatus.ALREADY_LOGIN) {
+                    } else if (response.status === Requests.HttpStatus.UNAUTHORIZED) {
                         this.returnToRedirect();
                     } else {
                         this.pwError = [response.data["message"]];
@@ -138,6 +141,7 @@
                     }
                 } else {
                     alert("An error occurred while trying to login. Please try again in a moment.");
+                    this.loading = false;
                 }
             }
         }

@@ -1,6 +1,7 @@
 <script>
-    import {APICall, RequestType} from "./API";     //TODO: Is this still necessary?
     import Requests from "./Requests";
+    const bcrypt = require("bcryptjs");
+    const BCRYPT_SALT = "$2a$10$ssTHsnejHc6RrlyVbiNQ/O";
 
     const utils = {
         EMAIL_PATTERN: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -10,8 +11,7 @@
         data: () => ({
             PRIMARY_COLOR: "#00838F",
             ACCENT_COLOR: "#FF8F00",
-            BASIC_GREY: "#9E9E9E",
-            HttpStatus: {FOUND: 200, LOGIN: 200, SUCCESS: 200, INVALID_INFO: 400, ALREADY_LOGIN: 401, NOT_FOUND: 404}
+            BASIC_GREY: "#9E9E9E"
         }),
         methods: {
             // Return to the previous page if one existed.
@@ -42,6 +42,15 @@
             getUserData(key) {
                 return this.$store.state.currUser[key];
             },
+
+            hashString(plainText) {
+                try {
+                    return bcrypt.hashSync(plainText, BCRYPT_SALT);
+                } catch (error) {
+                    return "";
+                }
+            },
+
             async updateShoppingCartAsync() {
                 this.$store.commit("startCartLoad");
 

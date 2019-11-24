@@ -66,7 +66,7 @@ export default new Vuex.Store({
         },
 
         setProducts(state, products) {
-            state.inputItems.splice(0, state.inputItems.length);
+            state.inputItems.splice(0, state.inputItems.length)
             for(let product of products){
                 state.inputItems.push(product)
             }
