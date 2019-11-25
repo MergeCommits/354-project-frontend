@@ -112,19 +112,19 @@ export default class Requests {
     }
 
     static async addShippingAddress(jsonData) {
-        let call = new APICall(RequestType.PUT, "addresses", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        let call = new APICall(RequestType.PUT, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
         return call;
     }
 
     static async updateShippingAddress(jsonData) {
-        let call = new APICall(RequestType.PATCH, "addresses", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        let call = new APICall(RequestType.PATCH, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
         return call;
     }
 
     static async deleteShippingAddress(jsonData) {
-        let call = new APICall(RequestType.DELETE, "addresses", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        let call = new APICall(RequestType.DELETE, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
         return call;
     }

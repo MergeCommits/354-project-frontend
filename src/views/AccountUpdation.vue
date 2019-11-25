@@ -25,23 +25,28 @@
                                 <v-form ref="form" v-model="validProfile">
                                     <v-row>
                                         <v-col md="5">
-                                            <v-text-field v-model="jsonProfileData.first_name" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
+                                            <v-text-field v-model="first_name" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.maxLength]" label="First name"/>
                                         </v-col>
                                         <v-col md="6">
-                                            <v-text-field v-model="jsonProfileData.last_name" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
+                                            <v-text-field v-model="last_name" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.maxLength]" label="Last name"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="7">
-                                            <v-text-field v-model="jsonProfileData.email" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                            <v-text-field v-model="email" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
                                         </v-col>
 <!--                                        <v-col md="4">-->
 <!--                                            <v-text-field v-model="jsonProfileData.phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>-->
 <!--                                        </v-col>-->
                                     </v-row>
                                     <v-row>
+                                        <v-col md="4">
+                                            <v-text-field v-model="current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
                                         <v-col>
-                                            <v-btn :disabled="!validProfile || profileChangeCheck" @click="validate">
+                                            <v-btn :disabled="!validProfile || profileChangeCheck" :loading="mainLoading" @click="validate">
                                                 Save
                                             </v-btn>
                                         </v-col>
@@ -162,15 +167,15 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field v-model="jsonProfileData.current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                            <v-text-field v-model="current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" v-model="jsonProfileData.password" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
+                                            <v-text-field type="password" v-model="password" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
                                         </v-col>
                                         <v-col md="4">
-                                            <v-text-field :disabled="!jsonProfileData.password || mainLoading" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
+                                            <v-text-field :disabled="!password || mainLoading" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
@@ -199,7 +204,7 @@
         mixins:[Utilities],
         data: () => ({
             mainLoading: false,
-            addressesLoading: [false, false, false],
+            addressesLoading: [false, false, false],    //TODO:Fix Reactivity
             menuPosition: null,
             validProfile: false,
             validPassword: false,
@@ -211,15 +216,13 @@
                 { icon: 'security', text: 'Security', strVal: 'security' },
                 { icon: 'info', text: 'About', strVal: 'about' }
             ],
-            jsonProfileData: {
-                first_name: null,
-                last_name: null,
-                email: null,
-                // phoneNumber: null,
-                current_password: null,
-                password: null
-            },
-            addresses: [
+            first_name: null,
+            last_name: null,
+            email: null,
+            // phoneNumber: null,
+            current_password: null,
+            password: null,
+            addresses: [        //TODO:Fix reactivity
                 {
                     line1: null,
                     line2: "",
@@ -264,13 +267,33 @@
             },
             async validateAsync() {
                 if (this.$refs.form.validate()) {
+                    let jsonData;
 
-                    let response = await Requests.updateSelfAsync(this.jsonProfileData);
+                    if (!this.password) {
+                        jsonData = {
+                            first_name: this.first_name,
+                            last_name: this.last_name,
+                            email: this.email,
+                            current_password: Utilities.methods.hashString(this.current_password)
+                        }
+                    }
+                    else
+                        {
+                        jsonData = {
+                            current_password: Utilities.hashString(this.current_password),
+                            password: Utilities.methods.hashString(this.password)
+                        }
+                    }
+
+                    let response = await Requests.updateSelfAsync(jsonData);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
+                        this.current_password = null;
+                        this.$refs.form.resetValidation();
                         this.mainLoading = false;
-                    } else {
+                    }
+                    else {
                         this.mainLoading = false;
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
@@ -278,6 +301,7 @@
             },
             saveAddress(index, address) {
                 this.addressesLoading[index] = true;
+                alert(this.addressesLoading[index]);
                 this.saveAddressAsync(index, address);
             },
             async saveAddressAsync(index, address) {
@@ -289,7 +313,8 @@
                     if (!response.error) {
                         this.$store.commit("login", response.data);
                         this.addressesLoading[index] = false;
-                    } else {
+                    }
+                    else {
                         this.addressesLoading[index] = false;
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
@@ -299,8 +324,10 @@
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
+                        this.importUserAddresses(addr);
                         this.addressesLoading[index] = false;
-                    } else {
+                    }
+                    else {
                         this.addressesLoading[index] = false;
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
@@ -308,18 +335,22 @@
             },
             deleteAddress(index) {
                 this.addressesLoading[index] = true;
+                alert(this.addressesLoading[index]);
                 this.deleteAddressAsync(index);
             },
             async deleteAddressAsync(index) {
                 let addr = this.getUserData("addresses");
 
                 if (addr[index]) {
-                    let response = await Requests.deleteShippingAddress(index);
+                    let response = await Requests.deleteShippingAddress([index]);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
+                        this.clearForm(index);
+                        this.importUserAddresses(addr);
                         this.addressesLoading[index] = false;
-                    } else {
+                    }
+                    else {
                         this.addressesLoading[index] = false;
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
@@ -343,7 +374,7 @@
 
                 while(addr[i]) {
                     this.addresses[i].line1 = addr[i].line1;
-                    this.addresses[i].line2 = addr[i].line2 ? addr[i].line2 : null;
+                    this.addresses[i].line2 = addr[i].line2 ? addr[i].line2 : "";
                     this.addresses[i].country = addr[i].country;
                     this.addresses[i].state = addr[i].state;
                     this.addresses[i].city = addr[i].city;
@@ -355,12 +386,12 @@
             addressChangeCheck(index, address) {
                 let addr = this.getUserData("addresses");
 
-                if (addr) {
-                    return (address.line1 !== addr[index].line1 || address.line2 !== addr[index].line2 || address.country !== addr[index].country
+                if (addr && addr[index]) {
+                    return (address.line1 !== addr[index].line1 || address.line2 !== (addr[index].line2 ? addr[index].line2 : "") || address.country !== addr[index].country
                         || address.state !== addr[index].state || address.city !== addr[index].city || address.postalCode !== addr[index].postalCode);
                 }
                 else {
-                    return false;
+                    return true;
                 }
             },
             clearCheck(index) {
@@ -373,10 +404,10 @@
         },
         computed: {
             passwordCheck() {
-                return v => (v === this.jsonProfileData.password) || "Passwords do not match";
+                return v => (v === this.password) || "Passwords do not match";
             },
             profileChangeCheck() {
-                return (this.jsonProfileData.first_name === this.getUserData("firstName") && this.jsonProfileData.last_name === this.getUserData("lastName") && this.jsonProfileData.email === this.getUserData("email"))
+                return (this.first_name === this.getUserData("firstName") && this.last_name === this.getUserData("lastName") && this.email === this.getUserData("email"))
             }
         },
         watch: {
@@ -384,24 +415,24 @@
                 if (this.$refs.form) {
                     this.$refs.form.resetValidation();
                     if (v === "editProfile") {
-                        this.jsonProfileData.first_name = this.getUserData("firstName");
-                        this.jsonProfileData.last_name = this.getUserData("lastName");
-                        this.jsonProfileData.email = this.getUserData("email");
+                        this.first_name = this.getUserData("firstName");
+                        this.last_name = this.getUserData("lastName");
+                        this.email = this.getUserData("email");
                         // this.jsonProfileData.phoneNumber = this.getUserData("phoneNumber");
                     }
                     else if (v === "managePassword") {
-                        /*this.jsonProfileData.current_password = null;
-                        this.jsonProfileData.password = null;
-                        this.passwordConfirm = null;*/
+                        this.current_password = null;
+                        this.password = null;
+                        this.passwordConfirm = null;
                         this.$refs.form.reset();
                     }
                 }
             }
         },
         mounted() {
-            this.jsonProfileData.first_name = this.getUserData("firstName");
-            this.jsonProfileData.last_name = this.getUserData("lastName");
-            this.jsonProfileData.email = this.getUserData("email");
+            this.first_name = this.getUserData("firstName");
+            this.last_name = this.getUserData("lastName");
+            this.email = this.getUserData("email");
 
             if (this.getUserData("addresses")) {
                 this.importUserAddresses(this.getUserData("addresses"));
