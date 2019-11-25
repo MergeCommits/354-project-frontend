@@ -14,3 +14,299 @@ INSERT INTO category (id, section_id, name, permalink, icon) VALUES (21, 7, Spor
 INSERT INTO category (id, section_id, name, permalink, icon) VALUES (22, 8, Dry Foods, dry-foods, https://image.shutterstock.com/image-photo/composition-dried-fruits-assorted-nuts-260nw-393497851.jpg)
 INSERT INTO category (id, section_id, name, permalink, icon) VALUES (23, 8, Drinks, drinks, https://www.fodors.com/wp-content/uploads/2019/03/HERO_Worlds_Best_Soda_Bundaberg_shutterstock_679079920.jpg)
 INSERT INTO category (id, section_id, name, permalink, icon) VALUES (24, 8, Spices, spices, https://www.readersdigest.ca/wp-content/uploads/sites/14/2018/09/healing-herbs-and-spices.jpg)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (1, Ford Focus 2020, Experience The Beauty of Change with the All-New Focus - a completely new car that has changed in every single way.  Inspired by a new human-centric design philosophy with class-leading aerodynamics and a sophisticated range of Ford driver assistance and connectivity technologies.  It’s been totally transformed to take you further than ever before.
+About US:
+The best dealer! 440 Ford,
+the best Ford dealer in Laval! Located exclusively at 354TheStars our dealership offers you a large selection of new models and pre-owned Ford. We deliver your order for free in Laval and West Island area.
+Don't wait, place your order now by mail., 1, 1, ford-focus-2020, {"0": "https://cdn.vox-cdn.com/thumbor/nJpMIsNkrxPc_u7shWsXXRfsi5U=/0x0:2900x1589/1520x1013/filters:focal(1218x563:1682x1027):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/59353671/global_Asia_Focus_FourDoor.0.jpg", "1": "https://cdn.vox-cdn.com/thumbor/TbvB_nSTOJ2BdzOWczMKG8t4Amw=/0x0:2900x2167/1320x0/filters:focal(0x0:2900x2167):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/10632145/1546253_FORD_2018_FOCUS_ACTIVE__11.jpg", "2": "https://cdn.vox-cdn.com/thumbor/qItn7RP9VzzmgrYnYR1OJBU7SiI=/0x0:2900x2176/1320x0/filters:focal(0x0:2900x2176):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/10632147/1546248_FORD_2018_FOCUS_ACTIVE_STUDIO_11.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (2, 2009 Honda Civic DX-A Berline, Power steering
+Remote unlocking
+Tilt steering wheel
+Rear defroster
+CD reader
+Airbag: driver
+Airbag: passenger
+Electric glass
+Alloy wheels ++++++++
+2009 HONDA CIVIC AUTOMATIC CLEAN .... AIR CONDITIONING, ELECTRIC WINDOWS, RADIO CD, ALLOY WHEELS +++++.
+FOR INQUIRIES OR OTHER SEND ME A MAIL.
+YOU CAN PAY NOW BY PAYPAL AND WE DISCUSS THE DELIVERY OPTIONS AFTERWARDS, 5, 1, 2009-honda-civic-dx-a-berline, {"0": "https://i.ebayimg.com/00/s/NjAwWDgwMA==/z/XKAAAOSwqCtdq0LM/$_59.JPG", "1": "https://i.ebayimg.com/00/s/NjAwWDgwMA==/z/ySQAAOSwRMBdq0ML/$_59.JPG", "2": "https://i.ebayimg.com/00/s/NjAwWDgwMA==/z/3zwAAOSw4O9dq0Of/$_59.JPG"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (3, 2016 Rolls-Royce Wraith Provenance, The Wraith Package;
+
+ - 21inch five spoke part polished wheels - lambswool footmats - 
+Rolls-Royce bespoke audio - fixed glass roof - active cruise control 
+w/stop&go
+
+ 
+
+ RR Monogram to all Headrests
+
+
+
+ Piano Black Veneer
+
+
+
+ Seat Piping
+
+
+
+ Polished Stainless Steel Package
+
+
+
+ Drivers Assistance 3
+
+I DON'T OFFER INSURANCE; I OFFER LUXURY, 3, 1, 2016-rolls-royce-wraith-provenance, {"0": "https://tdrvehicles.azureedge.net/photos/import/201907/2213/3112/50fcffcc-f0cf-4081-959d-1cac1ae018ad.jpg-1024x786", "1": "https://tdrvehicles.azureedge.net/photos/import/201907/2213/3112/0d55a147-a4eb-47d8-86a1-796c3b511e1e.jpg-1024x786", "2": "https://tdrvehicles.azureedge.net/photos/import/201906/0716/2742/0cdd7b4d-d0cf-4249-a12e-30f6ec63a685.jpg-1024x786"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (4, 2020 Hyundai Santa Fe, This is the Base Model, I got it in bulk so you can save!
+Shoot me a mail for anything you need
+Hurry up click that Buy Now button supplies are limited., 4, 2, 2020-hyundai-santa-fe, {"0": "https://www.hyundaicanada.com/-/media/hyundai/showroom/2020/santa-fe/360/9c1d20/IMG_001.png", "1": "https://www.hyundaicanada.com/-/media/hyundai/showroom/2020/santa-fe/360/9c1d20/IMG_027.png", "2": "https://www.hyundaicanada.com/-/media/hyundai/showroom/2020/santa-fe/360/9c1d20/IMG_006.png"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (5, 2008 Titanium Gray Metallic Volvo XC90 3.2 AWD, ABOUT: Pedal Loud. Its about cars and bike, not bunnies.
+-----INFO BELOW-----
+This is a brief listing of our wonder Volvo XC90. A car that's part 
+of the pedal loud fleet which we really really love. Great driving 
+dynamics. Lots of character and superbly designed for the needs of the 
+modern family. Quite simply it's brilliant!, 3, 2, 2008-titanium-gray-metallic-volvo-xc90-32-awd, {"0": "http://images.gtcarlot.com/pictures/26132362.jpg", "1": "http://images.gtcarlot.com/pictures/26132214.jpg", "2": "http://images.gtcarlot.com/pictures/26132262.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (6, 2020 LINCOLN AVIATOR, The 2020 Lincoln Aviator is a fantastic luxury SUV -- and today I'm 
+selling you the Lincoln Aviator to show you why.When you buy the new Aviator you can enjoy its quirks and features, and then you will be
+ driving the 2020 Lincoln Aviator ..., 3, 2, 2020-lincoln-aviator, {"0": "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/19_LNC_AVT_phevdrivehero.tif?croppathe=1_15x16&wid=720", "1": "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/19_LNC_AVT_intcraft.tif?croppathe=1_15x16&wid=720", "2": "https://ford-h.assetsadobe.com/is/image/content/dam/vdm_ford/live/en_ca/lincoln/nameplate/aviator/2020/collections/dm/20_LNC_AVT_sig_white_grillhero.tif?croppathe=1_16x7&wid=1440"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (7, Triumph Street Twin, Did we mention that throwback bikes are hot? But it might not be just the looks that hook you with Triumph's most modern iteration of its Modern Classics line; for 2019, the already well-regarded Street Twin was bestowed with a fairly comprehensive set of tweaks and updates., 1, 3, triumph-street-twin, {"0": "https://www.cycleworld.com/resizer/wqgNbBjRVkXKHddWi16TVXdv-00=/1199x899/filters:focal(500x375:501x376)/arc-anglerfish-arc2-prod-bonnier.s3.amazonaws.com/public/EYGLUSQWGIXD2ZISTB74OTTV6U.jpg", "1": "https://images.triumphmotorcycles.co.uk/media-library/images/to%206%20october%202019/dp3_2019_b3%20-%20675%20x%20886.jpg", "2": "http://cdnmedia.endeavorsuite.com/images/organizations/19e089d2-5c6e-48ff-be1f-e586704b5e9a/inventory/2634873/2019%20Triumph%20Street%20Twin%201.JPG"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (8, 2019 TMAX DX, Though the reputation of scooters is often devalued by the motorcycle 
+riders who deem them as supposedly not sexy enough, these vehicles 
+remain among the bestselling urban commuters in the world
+Who Dares Wins.
+Buy This scooter TODAY!
+Not sold elswhere in Canada
+UNIQUE DEALERSHIP :::!!!:::, 5, 3, 2019-tmax-dx, {"0": "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Action-004-03.jpg", "1": "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Static-001-03.jpg", "2": "https://cdn2.yamaha-motor.eu/prod/product-assets/2019/XP500ADX/2019-Yamaha-XP500ADX-EU-Ice_Fluo-Static-004-03.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (9, Ducati XDiavel S, Born To Be The Hero
+ Powerful. Muscular. But also agile and effective 
+between the curves for maximum riding enjoyment. The new Diavel 1260 
+combines the performance of a maxi-naked with the ergonomics of a muscle
+ cruiser.
+                , 4, 3, ducati-xdiavel-s, {"0": "https://images.ctfassets.net/x7j9qwvpvr5s/1JeJUs31EQsYeUw0q4oioG/05edb4b18ea5257dc5bc06662de02ada/XDiavel-Matt-Grey-MY19-Carousel-Design-01-677x740.jpg", "1": "https://images.ctfassets.net/x7j9qwvpvr5s/5OsZ0v9GiAgCYgsEyqSkYw/6957f1847d4122403275dd2e1348517a/XDiavel-Matt-Liquid-Concrete-Grey-MY19-02-Gallery-906x510.jpg", "2": "https://images.ctfassets.net/x7j9qwvpvr5s/3R9a8g2lyEaeqaYGSO0oQS/cc34a643d1f985e27538feb185d93d39/XDiavel-Matt-Liquid-Concrete-Grey-MY19-06-Gallery-1920x1080.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (10, Nagano Bonzai, Welcome To George Nagano Bonzi Store,
+Made In Japan with Love and Care.
+Stay tuned for more items coming.
+
+For inquiry e-mail my wife, Kondo Mari, using the link below,
+
+Thank you for trusting us to provide Zenness to your life , 1, 4, nagano-bonzai, {"0": "https://www.easternleaf.com/v/vspfiles/photos/801460-03-2T.jpg?v-cache=1474457230", "1": "https://www.easternleaf.com/v/vspfiles/photos/801460-03-3T.jpg?v-cache=1474457230", "2": "https://www.easternleaf.com/v/vspfiles/photos/801460-03-4T.jpg?v-cache=1474457230"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (11, Ali Baba's Authentic Persian Rugs LIQUIDATION, Hand-Made Persian Rug,
+On fire sale
+Hurry!
+e-mail Gilgamesh for bulk orders,click below, 2, 4, ali-babas-authentic-persian-rugs-liquidation, {"0": "https://secure.img1-ag.wfcdn.com/im/95093930/resize-h800-w800%5Ecompr-r85/5431/54311140/Sackett+Light+Grey+Area+Rug.jpg", "1": "https://secure.img1-ag.wfcdn.com/im/29146669/resize-h800-w800%5Ecompr-r85/5431/54311143/Sackett+Light+Grey+Area+Rug.jpg", "2": "https://secure.img1-ag.wfcdn.com/im/05062512/resize-h800-w800%5Ecompr-r85/5431/54311135/Sackett+Light+Grey+Area+Rug.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (12, Blackout Curtain - Chita, Take control over the light in your home with these stylish blackout curtains. With maximum light-filtering properties, they're great for blocking out daylight so you can get your beauty sleep or for keeping the sun's glare off your TV .
+Life Garantee From Will,
+
+Will Garante Beleive-me., 1, 4, blackout-curtain-chita, {"0": "https://www.bouclair.com/dw/image/v2/BBWQ_PRD/on/demandware.static/-/Sites-masterCatalog_bouclair/default/dw8ce66cc4/images/highres/9389860.jpg?sw=1250&sh=1250&sm=fit&q=70", "1": "https://www.bouclair.com/dw/image/v2/BBWQ_PRD/on/demandware.static/-/Sites-masterCatalog_bouclair/default/dwd7fe0b6c/images/highres/9389860_1.jpg?sw=1250&sh=1250&sm=fit&q=70", "2": "https://www.tomadamswc.com/wp-content/uploads/2018/09/guarantee.png"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (13, FoodCycler FC-30, FoodCycler
+
+
+
+
+Reduce food waste and transform fruit cores, veggie peels, and other leftovers from your favorite recipes into fertilizer. It’s easy! And Washable!
+
+Put all your kitchen organic matters in the bucket, press the start button, and your home will be refreshed by the delicate scent of freshly made compost!
+
+Mrs. Rose, 4, 5, foodcycler-fc-30, {"0": "https://www.vitamix.com/media/other/images/pdp-foodcycler-01-combo-on_gray.jpg.pagespeed.ce.dHKOwN1vk6.jpg", "1": "https://www.vitamix.com/media/other/images/620x620xpdp-foodcycler-04-bucket-on_gray.jpg.pagespeed.ic._E3WMcG4Vu.jpg", "2": "https://www.vitamix.com/media/other/images/620x620xpdp-foodcycler-03-open-on_gray.jpg.pagespeed.ic.3VLp3IRqVP.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (14, Panasonic Microwave, 50$ like new. Cost me over 100$. it’s a Panasonic Microwave. I have the bill: reason for sale moved to a new condo that already has one., 3, 5, panasonic-microwave, {"0": "https://i.ebayimg.com/00/s/NTUxWDgwMA==/z/VVsAAOSwZ15dve0C/$_59.JPG", "1": "https://i.ebayimg.com/00/s/NTY1WDgwMA==/z/EQcAAOSwXrldve0K/$_59.JPG", "2": "https://i.ebayimg.com/00/s/MTIwMFgxNjAw/z/QDwAAOSwPjZdtcST/$_59.JPG"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (15, Danby Countertop Dishwasher, Washing has never been easier as it is with this stylish counter-top 
+dishwasher. It comes with six different settings which can easily be 
+programmed and monitored via the electronic LED display. Keeping the 
+appliance clean is a breeze due to its durable stainless-steel interior.
+ There is an auto detergent and rinse agent dispenser for your 
+convenience , 2, 5, danby-countertop-dishwasher, {"0": "https://richmedia.channeladvisor.com/ImageDelivery/imageService?profileId=12026539&id=1077469&recipeId=496", "1": "https://richmedia.channeladvisor.com/ImageDelivery/imageService?profileId=12026539&id=1077474&recipeId=496", "2": "https://richmedia.channeladvisor.com/ImageDelivery/imageService?profileId=12026539&id=1077471&recipeId=496"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (16, 48 in. 940 CFM External Insert Range Hood with Light in Stainless Steel, 
+940 CFM vertical exhaust with dual blowers
+Variable speed control effectively pulls out smoke and vapors
+Equipped with 3 halogen cooktop lights
+   One look at the GE Cafe kitchen and you’ll feel as if you’ve been transported behind the scenes of your favorite casual dining experience.
+  Each appliance has been meticulously designed to create an atmosphere where people like to gather and love to cook.
+Taht is Why tis hood sells A lot., 4, 6, 48-in-940-cfm-external-insert-range-hood-with-light-in-stainless-steel, {"0": "https://images.homedepot-static.com/productImages/d44fa45a-7056-4004-b09f-675712e565cd/svn/stainless-steel-cafe-wall-mount-range-hoods-cv48sslss-64_1000.jpg", "1": "https://images.homedepot-static.com/productImages/073eb711-34c7-422f-8176-b1a39d4b8cb6/svn/stainless-steel-cafe-wall-mount-range-hoods-cv48sslss-e1_1000.jpg", "2": "https://images.homedepot-static.com/productImages/9be5cf75-3fff-4251-8802-b1cbcbfe7047/svn/stainless-steel-cafe-wall-mount-range-hoods-cv48sslss-a0_1000.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (17,  Whirlpool top load washer WTW4616FW, Save $320.00
+Appliance Clearance Center - Up to 50% Off - 254TheStars EXCLUSIVE!!
+Take on dirt with this washer thanks to the Deep Water Wash option that 
+fills the white porcelain tub wash basket with more water to help break 
+down loose soils. , 1, 6, whirlpool-top-load-washer-wtw4616fw, {"0": "https://imgres.tailbase.com/rzdimg/prods/800/326995_1.jpg", "1": "https://imgres.tailbase.com/rzdimg/prods/800/326995_5.jpg", "2": "https://www.bonprixelectromenagers.com/www/clients/bonprixelectromenagersinc/clientfiles/home-page-ads/home-page-ad-1.jpg?E3DC316FD7A2883D39BB569C94C27F56"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (18, Koolatron 20 Bottle Tempered Mirror Glass Door Wine Cellar, Wine Storage Meets StyleThe WC 20 Mirrored Glass Door 20 
+Bottle Wine Cooler combines elegant design with state-of-the-art thermoelectric cooling technology. This model boasts a larger capacity dual thermoelectric unit for premium cooling performance. This performance wine cooler is designed with a unique tempered mirror glass door and soft interior lighting, which makes it a great show piece in any room and suitable for any décor., 4, 6, koolatron-20-bottle-tempered-mirror-glass-door-wine-cellar, {"0": "https://a.sellpoint.net/a/yoN172kK_M.jpg", "1": "https://a.sellpoint.net/a/4YVvy4Ya_M.jpg", "2": "https://a.sellpoint.net/a/JYX570GE_M.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (19, RX 580 O8G Gaming Graphics Card: Nguyen Computer Store, Mr. Nguyen computer Shop is now selling on 354Thestars!
+We are shipping allover Quebec Province. Through the 354Thestars e-mail service, you still get the invaluble guidance that you are used to when you visit our store, just send me an email and I will personally look into it promptly.
+I am listing this graphics card at a really good price.
+I am looking forwards to ship it to you. This is not a premium card but it is fantastic value. Great for the occasional gamer and for personal non-professional use.
+
+Thanks for stopping by!, 3, 7, rx-580-o8g-gaming-graphics-card-nguyen-computer-store, {"0": "https://i5.walmartimages.com/asr/b2de68c6-5e51-423b-a943-a36946be99ce_1.690f764075bd100a5fd7446f98038121.jpeg?odnHeight=450&odnWidth=450&odnBg=ffffff", "1": "https://i5.walmartimages.com/asr/8c7a2820-789e-41a1-b7f4-bcfc9df1fa4f_1.01c930c6260f0fbf9f0bf7ab073a5ebe.jpeg?odnHeight=450&odnWidth=450&odnBg=ffffff", "2": "https://upload.wikimedia.org/wikipedia/commons/0/04/Dang_Le_Nguyen_Vu_the1.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (20, Cheap Mouse, VicTsing MM057 2.4G Wireless Portable Mobile Mouse Optical Mice with USB Receiver, 5 Adjustable DPI Levels, 6 Buttons for Notebook, PC, Laptop, Computer, MacBook - Wine Red, 1, 7, cheap-mouse, {"0": "https://images-na.ssl-images-amazon.com/images/I/71yTTE2gmlL._SL1280_.jpg", "1": "https://images-na.ssl-images-amazon.com/images/I/61iRFnFLq3L._SL1280_.jpg", "2": "https://images-na.ssl-images-amazon.com/images/I/61HIRgv77XL._SL1280_.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (21, Yubico - YubiKey 5C Nano - Two Factor Authentication USB Security Key, Fits USB-C Ports - Protect Your Online Accounts with More Than a Password, FIDO Certified USB Password Key, 4, 7, yubico-yubikey-5c-nano-two-factor-authentication-usb-security-key, {"0": "https://images-na.ssl-images-amazon.com/images/I/41jTxfZ0atL._AC_SL1000_.jpg", "1": "https://images-na.ssl-images-amazon.com/images/I/518AzytQQSL._AC_SL1000_.jpg", "2": "https://images-na.ssl-images-amazon.com/images/I/51N4w10MzKL._AC_SL1000_.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (22, Galaxy Note10+, All Day Intelligent battery has the power to outlast your day.
+
+Laptop storage that puts a hard drive in your palm.
+
+Control your device through clicks and gestures with the Intelligent S Pen.
+
+The pro-grade camera that turns everyday photos and videos into epic moments.
+
+Best Phone On The Market!!!
+E-mail Patel Rakesh For More Infos (USE LINK BELOW), 3, 8, galaxy-note10, {"0": "https://images.samsung.com/ca/smartphones/galaxy-note10/buy/m-img-note10p-aurawhite-05.png?$PD_GALLERY_L_JPG$", "1": "https://images.samsung.com/ca/smartphones/galaxy-note10/buy/m-img-note10p-aurawhite-04.png?$PD_GALLERY_L_JPG$", "2": "https://images.samsung.com/ca/smartphones/galaxy-note10/buy/m-img-note10p-aurawhite-03.png?$PD_GALLERY_L_JPG$"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (23, Nokia 4.2 - Black - Unlocked, Overview
+
+Accomplish more with your phone with the Nokia 4.2. Featuring a dedicated Google Assistant button that responds to your voice in an instant, plus a stunning HD+ display with dual-camera imaging and a wide-angle selfie camera, this smartphone unlocks more possibilities than you ever imagined.
+
+Store Information
+Arthur Holmes at you service. My goal is to offer you quality goods at a modest cost., 1, 8, nokia-42-black-unlocked, {"0": "https://multimedia.bbycastatic.ca/multimedia/products/100x100/138/13807/13807361.jpg", "1": "https://multimedia.bbycastatic.ca/multimedia/products/100x100/138/13807/13807361_3.jpg", "2": "https://multimedia.bbycastatic.ca/multimedia/products/100x100/138/13807/13807361_4.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (24, MoKo Phone/Tablet Stand, Foldable Desktop Holder for Devices(6-11"), Extremely lightweight (1.76oz) and pocket-sized (4.05*3.34*0.27in), folds up to a completely flat shape, easily thrown onto a rucksack/bag.
+
+Six fully adjustable slots, easily adjusts stand angle, supporting both vertical and horizontal viewing, displaying portrait and landscape modes.
+
+Strong and durable ABS and rubber ensures stability, holds devices up to 11 inch.
+
+Well placed rubber pads for surface protection protects tablet from scratches and sliding., 2, 8, moko-phonetablet-stand-foldable-desktop-holder-for-devices6-11, {"0": "https://images-na.ssl-images-amazon.com/images/I/71uH4hyhBPL._AC_SL1500_.jpg", "1": "https://images-na.ssl-images-amazon.com/images/I/61WWNCPCVaL._AC_SL1500_.jpg", "2": "https://images-na.ssl-images-amazon.com/images/I/71O4oOYfA0L._AC_SL1001_.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (25, Tennis for Two (REPRODUCTION), Tennis for Two (also known as Computer Tennis) is a sports video game, which simulates a game of tennis, and was one of the first games developed. American physicist William Higinbotham designed the game in 1958 for display at the Brookhaven National Laboratory's annual public exhibition. The game was very popular during the three-day exhibition, with players lining up to see the game, especially high school students.
+
+This reproduction was made in 1995. The reconstruction took about three months, partially because the parts were not readily available., 2, 9, tennis-for-two-reproduction, {"0": "https://upload.wikimedia.org/wikipedia/commons/5/50/Tennis_For_Two_on_a_DuMont_Lab_Oscilloscope_Type_304-A.jpg", "1": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Tennis_For_Two_re-created_in_1997.png", "2": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Tennis_for_Two_-_Modern_recreation.jpg/1707px-Tennis_for_Two_-_Modern_recreation.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (26, The Retropie Arcade - Portable & Hooks up to any HDMI TV - Plays thousands of games - Made by hand in Canada! 2 Player Unit, Product Details
+
+Made by Hand
+
+3/4″ wood
+
+Zippy Joysticks
+
+Happ Arcade Buttons
+
+Authentic Arcade Vinyl Look
+
+Plays thousands of games (more can be easily loaded)
+
+Built in Wi-fi
+
+USB port (more joysticks, mouse, keyboard)
+
+Low Voltage Power Supply (5V 2.5A)
+
+64GB Micro SD Card Included
+
+Powerful Raspberry Pi 4 Computer Inside
+
+HDMI out to any TV or Monitor
+
+About Us
+
+David Jollymore & Alexander Serra have alongcombined 50 years experience in arcade making, they have worked for many companies in North America & Japan. They teamed up to offer people stunning arcade experience inthe comfort and safety of theire home, 4, 9, the-retropie-arcade-portable-hooks-up-to-any-hdmi-tv-plays-thousands-of-games-made-by-hand-in-canada-2-player-unit, {"0": "https://s3.amazonaws.com/images.ecwid.com/images/wysiwyg/product/19064376/152874404/1570399809732-2084471613/23559402_689049191302274_4429571054422459645_n_jpg", "1": "https://retroxcanada.com/wp-content/uploads/2019/10/28577206_736308709909655_2741961217004355198_n.jpg", "2": "https://retroxcanada.com/wp-content/uploads/2019/10/20160125_235125-1024x768.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (27, Left Alive (PS4) - Day One Edition, I bought from bestbuy a week ago. Lightly used, I didn't like this game, I am selling it to you, 4, 9, left-alive-ps4-day-one-edition, {"0": "https://a.sellpoint.net/a/yoN172kK_M.jpg", "1": "https://a.sellpoint.net/a/4YVvy4Ya_M.jpg", "2": "https://a.sellpoint.net/a/JYX570GE_M.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (28, Akris punto Pixelated Print Button-Front Tunic, Akris punto tunic tunic blouse in pixel print cotton poplin.
+
+Kent collar; hidden button front.
+
+Long sleeves.
+
+Relaxed fit.
+
+Back box pleat.
+
+Rounded hem.
+
+Cotton.
+
+Imported.
+
+About Akris Punto:
+Akris Punto focuses exclusively on designer sportswear, combining the exquisite tailoring for which Swiss label Akris is known with accessibility on a broader scale. This independent collection was started in 1996 and is notable for its well-designed separates, which follow the lead of Akris Creative Director Albert Kriemler., 3, 10, akris-punto-pixelated-print-button-front-tunic, {"0": "https://images.neimanmarcus.com/ca/2/product_assets/B/4/X/A/8/NMB4XA8_mz.jpg", "1": "https://images.neimanmarcus.com/ca/2/product_assets/B/4/X/A/8/NMB4XA8_bu.jpg", "2": "https://images.neimanmarcus.com/ca/2/product_assets/B/4/X/A/8/NMB4XA8_au.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (29, RIBBED TOP WITH LACE, Perfect for the women, Chic style Neutral Professional YET CASUAL, 4, 10, ribbed-top-with-lace, {"0": "https://tristanpush-120f.kxcdn.com/image_produit/1000x1500/FV020C1936Z_BE01_1.jpg", "1": "https://tristanpush-120f.kxcdn.com/image_produit/1000x1500/FV020C1936Z_BE01_2.jpg", "2": "https://s3-media4.fl.yelpcdn.com/bphoto/u5_Xp6k3J3CKZqifwZeyzA/o.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (30, Contemporary Stretch-Knit Tee, PRODUCT INFORMATION
+
+Forever 21 Contemporary - A stretch-knit tee featuring a round neckline and short sleeves. 
+
+Content + Care
+
+- 97% modal, 3% spandex
+- Hand wash cold
+- Made in Vietnam
+
+Size + Fit
+
+- Model is 5'7" and wearing a Small
+- Full length: 24"
+- Chest: 28"
+- Waist: 26"
+- Sleeve length: 6", 5, 10, contemporary-stretch-knit-tee, {"0": "https://www.forever21.com/images/1_front_330/00194618-04.jpg", "1": "https://www.forever21.com/images/2_side_750/00194618-04.jpg", "2": "https://www.forever21.com/images/4_full_750/00194618-04.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (31, Burberry Vintage Check Wool Cigarette Trousers, Description 		 		
+
+	
+
+Cigarette trousers tailored from Vintage check wool – inspired by a plaid first seen in the 1960s.
+
+100% wool
+
+Concealed hook-and-eye, button and zip closure
+
+Side slip pockets, back button-through welt pockets
+
+Dry clean
+
+Imported, 5, 11, burberry-vintage-check-wool-cigarette-trousers, {"0": "https://assets.burberry.com/is/image/Burberryltd/8c2bd8592ab2b4ebf503d675221f9a40297c6a04.jpg?$BBY_V2_ML_9X16$&hei=3207&wid=1804", "1": "https://assets.burberry.com/is/image/Burberryltd/4d88053ad6ebb05d59f62602a74a9ed465525940.jpg?$BBY_V2_ML_9X16$&hei=3207&wid=1804", "2": "https://assets.burberry.com/is/image/Burberryltd/2e1c084aa0ff4a0bf84401557a261c6cffa78c21.jpg?$BBY_V2_ML_9X16$&hei=3207&wid=1804"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (32, Lulu Lemon On the Fly 7/8 Pant, Designed for Office Travel Commute
+
+High-coverage, Full-On™ Luxtreme Fabric
+
+Materials
+
+Body: 69% nylon, 31% lycra
+
+Inner waistband: 86% polyester, 14% elastane
+
+Care
+
+Wash with like colours, 4, 11, lulu-lemon-on-the-fly-78-pant, {"0": "https://images.lululemon.com/is/image/lululemon/LW5BPNS_0001_1?$image_carousel$&wid=1600&op_usm=0.5,2,10,0&fmt=webp&qlt=90,1&op_sharpen=0&resMode=sharp2&iccEmbed=0&printRes=72", "1": "https://images.lululemon.com/is/image/lululemon/LW5BPNS_0001_2?$image_carousel$&wid=1600&op_usm=0.5,2,10,0&fmt=webp&qlt=90,1&op_sharpen=0&resMode=sharp2&iccEmbed=0&printRes=72", "2": "https://images.lululemon.com/is/image/lululemon/LW5BPNS_0001_4?$image_carousel$&wid=1600&op_usm=0.5,2,10,0&fmt=webp&qlt=90,1&op_sharpen=0&resMode=sharp2&iccEmbed=0&printRes=72"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (33, Women's High Waisted Leggings - Black, This is a pair of leggings with a difference, they are on offer in three great colors, white, black or gray. You will be able to wear them and look fantastic. They have a high waist, and the legs are very fitted. The material is extremely durable- and high quality. You will look and feel amazing the moment that you put the leggings on. You will be able to wear them with a t-shirt- a shirt- or a dress. It is a fantastic pair of trousers. Gray, white and black will look really lovely with any color- and the price tag is very low, so you will not feel a hole in your wallet whendipping in to purchase them. In-fact, they are so lowly priced that you can afford to get one pair in every color. They are easy to wash and they can be dried very easily too. The material is highly durable though, so providing that you follow the washing instructions you won’t face any issues with maintaining them. Be sure not to miss out on the chance to own a pair of these leggings because stocks are selling out, 5, 11, womens-high-waisted-leggings-black, {"0": "https://images.dresshead.com/images/Black%20Leggings/7670047/large/4.jpg", "1": "https://images.dresshead.com/images/Black%20Leggings/7670047/large/1.jpg", "2": "https://images.dresshead.com/images/Black%20Leggings/7670047/other/large/5.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (34, Valentino Garavani Shoes, Add elegant edge to your evening edit with the Rockstud slingback pumps from Valentino Garavani. Crafted in Italy from grained leather in a gun metal metallic tone, this pointed pair is illuminated by the house's signature pyramidal studs in gleaming tonal hardware. Show yours off with midi dresses and cropped tailoring alike., 3, 12, valentino-garavani-shoes, {"0": "https://img.mytheresa.com/1088/1088/66/jpeg/catalog/product/6d/P00438308.jpg", "1": "https://img.mytheresa.com/1088/1088/66/jpeg/catalog/product/6d/P00438308_b1.jpg", "2": "https://img.mytheresa.com/1088/1088/66/jpeg/catalog/product/6d/P00438308_d2.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (35, Eileen Fisher Rope Ghillie Lace Block Heel, DetailsSlender ghillie lace adorns this d'Orsay block heel.
+ - Almond toe 
+- Ghillie lace vamp 
+- Solid color 
+- Back zip closure 
+- Block heel 
+- Approx. 3" heel 
+- Imported, 2, 12, eileen-fisher-rope-ghillie-lace-block-heel, {"0": "https://www.hautelookcdn.com/resizer/868x1300/products/ROPE-SU/large/11675228.jpg", "1": "https://www.hautelookcdn.com/resizer/71x105/products/ROPE-SU/medium/11615090.jpg", "2": "https://www.hautelookcdn.com/resizer/868x1300/products/ROPE-SU/large/11675231.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (36, madden girl by Steve Madden 
+Riding Boot, Get an effortless chic look with these women's madden girl by Steve Madden black riding boots. Crafted from a smooth textured faux leather upper, these boots feature a side zip closure, buckle strap detailing at the ankle and the top shaft, soft lining, chunky block heel and a patterned outsole.
+
+FEATURES
+
+Round toe 
+
+Faux leather upper 
+
+Side zip closure 
+
+Patterned outsole 
+
+Stacked block heel, 1, 12, madden-girl-by-steve-madden-riding-boot, {"0": "https://images.dsw.ca/is/image/dswca/161101692_120_ss_05?imwidth=2048&impolicy=pdp-image", "1": "https://images.dsw.ca/is/image/dswca/161101692_120_ss_02?imwidth=2048&impolicy=pdp-image", "2": "https://images.dsw.ca/is/image/dswca/161101692_120_ss_07?imwidth=2048&impolicy=pdp-image"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (37, Anna Matuzo Sahariana, HISTORY
+
+Thread. Needle. Dedication.
+A needle and thread. Dedication.
+Tradition and innovation combined by skill and creativity.
+Naples in the heart and hard work.
+This was Mrs Anna Matuozzo, before she became Mrs Anna Matuozzo.
+
+In the seventies, a cute and dynamic woman was practising in the light and shade of a design studio full of sewing machines, where ideas aimed to be transformed into patterns. If you had passed through there and you had asked who she was, almost certainly someone would have answered: “she is a shirt maker…”
+
+Experience. Method. Elegance. A unique style.
+This is Anna Matuozzo. This is our story., 4, 13, anna-matuzo-sahariana, {"0": "https://annamatuozzo.com/wp-content/uploads/2019/01/matuozzo-giacca-jacket-1673.jpg", "1": "https://annamatuozzo.com/wp-content/uploads/2019/01/matuozzo-giacca-jacket-1699.jpg", "2": "https://annamatuozzo.com/wp-content/uploads/2019/01/matuozzo-giacca-jacket-1689.jpg"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (38, H&M Lyocell Shirt, CONSCIOUS
+
+CONSCIOUS. Straight-cut shirt in woven, softly draped Tencel® lyocell fabric. Button-down collar, buttons without placket, and yoke at back with pleat. Open chest pocket, gently shaped waist, and long sleeves with adjustable buttoning at cuffs. Rounded hem.
+
+Composition
+
+ 
+
+Lyocell 100%, 2, 13, hm-lyocell-shirt, {"0": "https://lp2.hm.com/hmgoepprod?set=source[/bf/39/bf397f88263258c8de0a4817ee4e7a808d4ca7fe.jpg],origin[dam],category[men_shirts_longsleeved],type[LOOKBOOK],res[m],hmver[1]&call=url[file:/product/main]", "1": "https://lp2.hm.com/hmgoepprod?set=source[/8d/95/8d9594730c5dd56374224cf4eba205c71cfaa35f.jpg],origin[dam],category[men_shirts_longsleeved],type[LOOKBOOK],res[y],hmver[1]&call=url[file:/product/main]", "2": "https://lp2.hm.com/hmgoepprod?set=source[/48/d3/48d352e904a05e8504ec18ffaf4e62e867cdd704.jpg],origin[dam],category[men_shirts_longsleeved],type[LOOKBOOK],res[y],hmver[1]&call=url[file:/product/main]"}, 1, 1, 2013-06-01)
+INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added) VALUES (39, KIWI - ADULT T-SHIRT 1$ each, First Quality
+Color Kiwi
+Fabric 50% Cotton, 50% Polyester
+
+Must be purchased by the dozen.
+
+CLOSEOUT ALERT: Adult Kiwi t-shirts from Gildan. These dryblend tees are sure to move fast at $1.00 each. Size Small only. Limited quantities available., 4, 13, kiwi-adult-t-shirt-1-each, {"0": "https://www.theadairgroup.com/images/G500Kiwi_thumb.jpg", "1": "https://www.theadairgroup.com/images/tshirt-brands.png", "2": "https://getvectorlogo.com/wp-content/uploads/2018/10/bbb-accredited-business-a-plus-vector-logo.png"}, 1, 1, 2013-06-01)

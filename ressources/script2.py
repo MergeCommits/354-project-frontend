@@ -51,7 +51,7 @@ cursor = connection.cursor()
 
 sql = "INSERT INTO section (id, name, permalink, icon) VALUES (%s, %s, %s, %s)"
 
-with open('SQL_QUERIES.txt', 'w') as f:
+with open('SQL_QUERIES.txt', 'w', encoding="utf-8") as f:
     for k, v in cats_to_add_dat[cats_to_add_dat['label'] != cats_exists].iterrows():
         seq += 1
         cursor.execute(sql, (seq, v['label'], slugify(v['label']), v['imageUrl']))
@@ -72,15 +72,18 @@ with open('SQL_QUERIES.txt', 'w') as f:
     #  'sub_sellerInfo._system_Mail',  'subCategories.label', 'id', 'section_id', 'name', 'description', 'permalink'
     # ['id', 'name', 'description', 'quantity', 'aggragated_review', 'number_of_review', 'category_id', 'user_id',
     #  'tax_id', 'date_added', 'permalink', 'specifications', 'photos', 'brand_id', 'condition']
-    sql = "INSERT INTO product (id, name, description, quantity, category_id, permalink, photos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO product (id, name, description, quantity, category_id, permalink, photos, user_id, brand_id, date_added)" \
+          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     seq=0
     pdTry = pd.merge(prods, cat, left_on='subCategories.label', right_on='name')
     for k, v in pdTry.iterrows():
         seq += 1
-        cursor.execute(sql, (seq, v['sub_label'], v['sub_description'], random.randint(1,5), v['id'],
-                             slugify(v['sub_label']), v['sub_imageUrls']))
-        f.write(sql % (seq, v['sub_label'], v['sub_description'], str(random.randint(1,5)), v['id'],
-                                     slugify(v['sub_label']), str(v['sub_imageUrls'])) + '\n')
+        desc = v['sub_description'][:999] if len(v['sub_description']) > 1000 else v['sub_description']
+        picD = {i:v['sub_imageUrls'][i] for i in range(len(v['sub_imageUrls']))}
+        cursor.execute(sql, (seq, v['sub_label'], desc, random.randint(1,5), v['id'],
+                             slugify(v['sub_label']), json.dumps(picD), 1, 1, '2019-06-01'))
+        f.write(sql % (seq, v['sub_label'], desc, random.randint(1,5), v['id'],
+                                     slugify(v['sub_label']), json.dumps(picD), 1, 1, '2013-06-01') + '\n')
 
 print(cat.columns)
 print(prods.columns)
