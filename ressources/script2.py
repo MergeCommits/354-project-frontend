@@ -37,7 +37,8 @@ cat2all = json_normalize(raw_json['categories'], 'subCategories', 'label', recor
     columns='sub_listings')
 cats2 = psql.read_sql("SELECT * FROM category", connection)
 cats2_to_add = pd.DataFrame(columns=cats2.columns)
-# ['id', 'section_id', 'name', 'description', 'permalink', 'icon']
+prods = json_normalize(raw_json['categories'], ['subCategories', 'listings'], 'label', record_prefix='sub_')
+prods.to_excel('test.xlsx')
 
 # todo replace with sequence and sequence.next()
 seq = int(cats.iloc[-1,:]['id'])
@@ -64,10 +65,10 @@ with open('SQL_QUERIES.txt', 'w') as f:
         cats2_to_add = cats2_to_add.append({'id': seq, 'section_id': v['id'], 'name': v['sub_label'],
                                             'permalink': slugify(v['sub_label']), 'icon': v['sub_imageUrl']}
                                            , ignore_index=True)
+    cat = pd.concat([cats2, cats2_to_add])
 
 
-print(cats2_to_add)
-print(cats2_to_add.columns)
+
 # connection.commit()
 connection.close()
 
