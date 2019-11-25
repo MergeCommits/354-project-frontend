@@ -12,7 +12,7 @@ def slugify(value):
     Normalizes string, converts to lowercase, removes non-alpha characters,
     and converts spaces to hyphens.
     """
-    value = re.sub('[^\w\s-(\'s)]', '', value).strip().lower()
+    value = re.sub('[^\w\s-]', '', value).strip().lower()
     value = re.sub('[-\s]+', '-', value)
     return value
 
@@ -31,16 +31,30 @@ jsonStr = open("json_dat_sample.json", "r", encoding="utf-8").read()
 raw_json = json.loads(jsonStr)
 
 cats_to_add_dat = json_normalize(raw_json['categories']).drop(columns='subCategories')
-cats_exists = i in cats[['name']].values
+cats_exists = [i[0] for i in cats[['name']].values]
 
-print(cats_exists)
-print(cats_to_add_dat)
+# print(cats_exists)
+# print(cats_to_add_dat)
 
 
 # todo replace with sequence and sequence.next()
-seq = (cats.iloc[-1,:]['id'])
-for i in
+seq = int(cats.iloc[-1,:]['id'])
 
+cats_exists.extend(['not_in'] * (len(cats_to_add_dat) - len(cats_exists)))
+# print(cats_to_add_dat[cats_to_add_dat['label'] != cats_exists])
+# [id, name, description, permalink, icon]
+
+cursor = connection.cursor()
+
+sql = "INSERT INTO section (id, name, permalink, icon) VALUES (%s, %s, %s, %s)"
+
+with open('SQL_QUERIES.txt', 'w') as f:
+    for k, v in cats_to_add_dat[cats_to_add_dat['label'] != cats_exists].iterrows():
+        seq += 1
+        cursor.execute(sql, (seq, v['label'], slugify(v['label']), v['imageUrl']))
+        f.write(sql%(seq, v['label'], slugify(v['label']), v['imageUrl'])+'\n')
+
+# connection.commit()
 connection.close()
 
 
