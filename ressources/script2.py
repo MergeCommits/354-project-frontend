@@ -37,7 +37,8 @@ cat2all = json_normalize(raw_json['categories'], 'subCategories', 'label', recor
     columns='sub_listings')
 cats2 = psql.read_sql("SELECT * FROM category", connection)
 cats2_to_add = pd.DataFrame(columns=cats2.columns)
-prods = json_normalize(raw_json['categories'], ['subCategories', 'listings'], 'label', record_prefix='sub_')
+prods = json_normalize(raw_json['categories'], ['subCategories', 'listings'],
+                       [['subCategories', 'label']], record_prefix='sub_')
 prods.to_excel('test.xlsx')
 
 # todo replace with sequence and sequence.next()
