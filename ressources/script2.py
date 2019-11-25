@@ -33,16 +33,16 @@ raw_json = json.loads(jsonStr)
 cats_to_add_dat = json_normalize(raw_json['categories']).drop(columns='subCategories')
 cats_exists = [i[0] for i in cats[['name']].values]
 
-# print(cats_exists)
-# print(cats_to_add_dat)
-
+cat2all = json_normalize(raw_json['categories'], 'subCategories', 'label', record_prefix='sub_').drop(
+    columns='sub_listings')
+cats2 = psql.read_sql("SELECT * FROM category", connection)
+cats2_to_add = pd.DataFrame(columns=cats2.columns)
+# ['id', 'section_id', 'name', 'description', 'permalink', 'icon']
 
 # todo replace with sequence and sequence.next()
 seq = int(cats.iloc[-1,:]['id'])
 
 cats_exists.extend(['not_in'] * (len(cats_to_add_dat) - len(cats_exists)))
-# print(cats_to_add_dat[cats_to_add_dat['label'] != cats_exists])
-# [id, name, description, permalink, icon]
 
 cursor = connection.cursor()
 
@@ -53,13 +53,23 @@ with open('SQL_QUERIES.txt', 'w') as f:
         seq += 1
         cursor.execute(sql, (seq, v['label'], slugify(v['label']), v['imageUrl']))
         f.write(sql%(seq, v['label'], slugify(v['label']), v['imageUrl'])+'\n')
+        cats_to_add=cats_to_add.append({"id": seq, "name": v['label'], "permalink": slugify(v['label']),
+                                        "icon": v['imageUrl']}, ignore_index=True)
+    seq = int(cats2.iloc[-1, :]['id'])
+    sql = "INSERT INTO category (id, section_id, name, permalink, icon) VALUES (%s, %s, %s, %s, %s)"
+    for k, v in pd.merge(cat2all, cats_to_add, left_on='label', right_on='name').iterrows():
+        seq += 1
+        cursor.execute(sql, (seq, v['id'], v['sub_label'], slugify(v['sub_label']), v['sub_imageUrl']))
+        f.write(sql % (seq, v['id'], v['sub_label'], slugify(v['sub_label']), v['sub_imageUrl']) + '\n')
+        cats2_to_add = cats2_to_add.append({'id': seq, 'section_id': v['id'], 'name': v['sub_label'],
+                                            'permalink': slugify(v['sub_label']), 'icon': v['sub_imageUrl']}
+                                           , ignore_index=True)
 
+
+print(cats2_to_add)
+print(cats2_to_add.columns)
 # connection.commit()
 connection.close()
 
-
-#
-# cat3 = json_normalize(raw_json['categories'], ['subCategories', 'listings', 'imageUrls'],
-#                        [['subCategories', 'label'], ['subCategories', 'listings', 'label']])
 
 
