@@ -3,6 +3,7 @@ import re
 import psycopg2 as pg
 import pandas as pd
 import pandas.io.sql as psql
+import random
 
 from pandas.io.json import json_normalize
 
@@ -39,7 +40,7 @@ cats2 = psql.read_sql("SELECT * FROM category", connection)
 cats2_to_add = pd.DataFrame(columns=cats2.columns)
 prods = json_normalize(raw_json['categories'], ['subCategories', 'listings'],
                        [['subCategories', 'label']], record_prefix='sub_')
-prods.to_excel('test.xlsx')
+prodsSQL = psql.read_sql("SELECT * FROM product", connection)
 
 # todo replace with sequence and sequence.next()
 seq = int(cats.iloc[-1,:]['id'])
@@ -67,9 +68,23 @@ with open('SQL_QUERIES.txt', 'w') as f:
                                             'permalink': slugify(v['sub_label']), 'icon': v['sub_imageUrl']}
                                            , ignore_index=True)
     cat = pd.concat([cats2, cats2_to_add])
+    # ['sub_label', 'sub_price', 'sub_imageUrls', 'sub_description', 'sub__references', 'sub_sellerInfo.name',
+    #  'sub_sellerInfo._system_Mail',  'subCategories.label', 'id', 'section_id', 'name', 'description', 'permalink'
+    # ['id', 'name', 'description', 'quantity', 'aggragated_review', 'number_of_review', 'category_id', 'user_id',
+    #  'tax_id', 'date_added', 'permalink', 'specifications', 'photos', 'brand_id', 'condition']
+    sql = "INSERT INTO product (id, name, description, quantity, category_id, permalink, photos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    seq=0
+    pdTry = pd.merge(prods, cat, left_on='subCategories.label', right_on='name')
+    for k, v in pdTry.iterrows():
+        seq += 1
+        cursor.execute(sql, (seq, v['sub_label'], v['sub_description'], random.randint(1,5), v['id'],
+                             slugify(v['sub_label']), v['sub_imageUrls']))
+        f.write(sql % (seq, v['sub_label'], v['sub_description'], str(random.randint(1,5)), v['id'],
+                                     slugify(v['sub_label']), str(v['sub_imageUrls'])) + '\n')
 
-
-
+print(cat.columns)
+print(prods.columns)
+print()
 # connection.commit()
 connection.close()
 
