@@ -47,6 +47,7 @@ export const RequestType = {
     GET: "get",
     POST: "post",
     HEAD: "head",
+    PATCH: "patch",
     PUT: "put",
     DELETE: "delete"
 };

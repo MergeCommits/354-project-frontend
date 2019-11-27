@@ -4,6 +4,8 @@
     const BCRYPT_SALT = "$2a$10$ssTHsnejHc6RrlyVbiNQ/O";
 
     const utils = {
+        EMAIL_PATTERN: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        PASSWORD_PATTERN: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/,
         MAX_NAME_CHARACTERS: 30,
         name: "Utilities",
         data: () => ({

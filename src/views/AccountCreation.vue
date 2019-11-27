@@ -107,9 +107,6 @@
     import Utilities from "../components/common/Utilities.vue";
     import Requests from "../components/common/Requests.js"
 
-    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).*$/;
-
     export default {
         name: 'AccountCreation',
         mixins: [Utilities],
@@ -138,11 +135,11 @@
                 value => !Utilities.isEmpty(value) || "A password is required.",
                 value => !Utilities.isEmpty(value) && value.length >= 8 || "A minimum of 8 characters is required.",
                 value => !Utilities.isEmpty(value) && value.length <= 32 || "Password exceeds 32 characters.",
-                value => PASSWORD_PATTERN.test(value) || "Password content is not valid."
+                value => Utilities.PASSWORD_PATTERN.test(value) || "Password content is not valid."
             ],
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An email is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid."
+                value => Utilities.EMAIL_PATTERN.test(value) || "Email is not valid."
             ]
         }),
         watch: {

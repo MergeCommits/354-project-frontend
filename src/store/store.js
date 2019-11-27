@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import {APICall, RequestType} from '../components/common/API'
+import {APICall, RequestType} from '../components/common/API'       //TODO: Check necessity of this
 import Requests from "../components/common/Requests";
 
 Vue.use(Vuex);

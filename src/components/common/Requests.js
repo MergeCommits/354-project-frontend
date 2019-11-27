@@ -11,6 +11,12 @@ export default class Requests {
         return call;
     }
 
+    static async updateSelfAsync(jsonData) {
+        let call = new APICall(RequestType.PATCH, "users/self", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        await call.performRequestAsync();
+        return call;
+    }
+
     static async registrationHeadAsync(jsonData, dataName) {
         let call = new APICall(RequestType.HEAD, "users", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.NOT_FOUND]);
         await call.performRequestAsync();
@@ -86,6 +92,7 @@ export default class Requests {
         return call;
     }
 
+
     static async removeItemFromCartAsync(url) {
         let call = new APICall(RequestType.DELETE, url, null, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
@@ -100,6 +107,24 @@ export default class Requests {
 
     static async searchQueryAsync(queryString) {
         let call = new APICall(RequestType.GET, 'products' + queryString, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async addShippingAddress(jsonData) {
+        let call = new APICall(RequestType.PUT, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async updateShippingAddress(jsonData) {
+        let call = new APICall(RequestType.PATCH, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async deleteShippingAddress(jsonData) {
+        let call = new APICall(RequestType.DELETE, "addresses", jsonData, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
         return call;
     }

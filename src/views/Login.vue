@@ -84,7 +84,6 @@
     import Utilities from "../components/common/Utilities.vue"
     import Requests from "../components/common/Requests.js"
 
-    const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     export default {
         name: "Login",
         mixins: [Utilities],
@@ -98,7 +97,7 @@
             loading: false,
             emailRules: [
                 value => !Utilities.isEmpty(value) || "An e-mail is required.",
-                value => EMAIL_PATTERN.test(value) || "Email is not valid."
+                value => Utilities.EMAIL_PATTERN.test(value) || "Email is not valid."
             ],
             passwordRules: [
                 value => !Utilities.isEmpty(value) || "A password is required."
