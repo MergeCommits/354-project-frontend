@@ -35,13 +35,10 @@
                                         <v-col md="7">
                                             <v-text-field v-model="email" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
                                         </v-col>
-<!--                                        <v-col md="4">-->
-<!--                                            <v-text-field v-model="jsonProfileData.phoneNumber" :rules="[rules.validPhoneNumber]" label="Phone Number"/>-->
-<!--                                        </v-col>-->
                                     </v-row>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field v-model="current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                            <v-text-field v-model="current_password" :disabled="mainLoading" :loading="mainLoading" type="password" @keyup.enter="validate" :rules="[rules.fieldRequired]" :error-messages="passwordError" label="Current Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
@@ -55,8 +52,8 @@
                                 <v-row>
                                     <v-col md="11">
                                         <span class="caption font-weight-light">Saved shipping addresses</span>
-                                        <v-divider></v-divider>
-                                        <v-expansion-panels class="mt-2" focusable>
+                                        <v-divider/>
+                                        <v-expansion-panels class="mt-2" v-model="addressPanels" focusable>
                                             <v-expansion-panel>
                                                 <v-expansion-panel-header>Address 1</v-expansion-panel-header>
                                                 <v-expansion-panel-content>
@@ -79,19 +76,19 @@
                                                                 <v-text-field v-model="addresses[0].postalCode" :rules="[rules.fieldRequired]" class="my-0 py-0" label="Postal Code" />
                                                             </v-col>
                                                         </v-row>
-                                                        <v-btn :disabled="!validAddress[0] || !addressChangeCheck(0, addresses[0])" :loading="addressesLoading[0]" @click="saveAddress(0, addresses[0])">
+                                                        <v-btn :disabled="!validAddress[0] || addressesLoading[0][1] || !addressChangeCheck(0, addresses[0])" :loading="addressesLoading[0][0]" @click="saveAddress(0, addresses[0])">
                                                             Save
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[0] || addressCheck(0)" class="mx-4" @click="deleteAddress(0)">
+                                                        <v-btn :disabled="addressesLoading[0][0] || addressCheck(0)" :loading="addressesLoading[0][1]" class="mx-4" @click="deleteAddress(0)">
                                                             Delete
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[0] || !clearCheck(0)" @click="clearForm(0)">
+                                                        <v-btn :disabled="addressesLoading[0][0] || addressesLoading[0][1] || !clearCheck(0)" @click="clearForm(0)">
                                                             Clear
                                                         </v-btn>
                                                     </v-form>
                                                 </v-expansion-panel-content>
                                             </v-expansion-panel>
-                                            <v-expansion-panel>
+                                            <v-expansion-panel v-if="getUserData('addresses') && getUserData('addresses')[0]">
                                                 <v-expansion-panel-header>Address 2</v-expansion-panel-header>
                                                 <v-expansion-panel-content>
                                                     <v-form ref="addressForm2" v-model="validAddress[1]">
@@ -113,19 +110,19 @@
                                                                 <v-text-field v-model="addresses[1].postalCode" :rules="[rules.fieldRequired]" class="my-0 py-0" label="Postal Code" />
                                                             </v-col>
                                                         </v-row>
-                                                        <v-btn :disabled="!validAddress[1] || !addressChangeCheck(1, addresses[1])" :loading="addressesLoading[1]" @click="saveAddress(1, addresses[1])">
+                                                        <v-btn :disabled="!validAddress[1] || addressesLoading[1][1] || !addressChangeCheck(1, addresses[1])" :loading="addressesLoading[1][0]" @click="saveAddress(1, addresses[1])">
                                                             Save
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[1] || addressCheck(1)" class="mx-4" @click="deleteAddress(1)">
+                                                        <v-btn :disabled="addressesLoading[1][0] || addressCheck(1)" :loading="addressesLoading[1][1]" class="mx-4" @click="deleteAddress(1)">
                                                             Delete
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[1] || !clearCheck(1)" @click="clearForm(1)">
+                                                        <v-btn :disabled="addressesLoading[1][0] || addressesLoading[1][1] || !clearCheck(1)" @click="clearForm(1)">
                                                             Clear
                                                         </v-btn>
                                                     </v-form>
                                                 </v-expansion-panel-content>
                                             </v-expansion-panel>
-                                            <v-expansion-panel>
+                                            <v-expansion-panel v-if="getUserData('addresses') && getUserData('addresses')[1]">
                                                 <v-expansion-panel-header>Address 3</v-expansion-panel-header>
                                                 <v-expansion-panel-content>
                                                     <v-form ref="addressForm3" v-model="validAddress[2]">
@@ -147,13 +144,13 @@
                                                                 <v-text-field v-model="addresses[2].postalCode" :rules="[rules.fieldRequired]" class="my-0 py-0" label="Postal Code" />
                                                             </v-col>
                                                         </v-row>
-                                                        <v-btn :disabled="!validAddress[2] || !addressChangeCheck(2, addresses[2])" :loading="addressesLoading[2]" @click="saveAddress(2, addresses[2])">
+                                                        <v-btn :disabled="!validAddress[2] || addressesLoading[2][1] || !addressChangeCheck(2, addresses[2])" :loading="addressesLoading[2][0]" @click="saveAddress(2, addresses[2])">
                                                             Save
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[2] || addressCheck(2)" class="mx-4" @click="deleteAddress(2)">
+                                                        <v-btn :disabled="addressesLoading[2][0] || addressCheck(2)" :loading="addressesLoading[2][1]" class="mx-4" @click="deleteAddress(2)">
                                                             Delete
                                                         </v-btn>
-                                                        <v-btn :disabled="addressesLoading[2] || !clearCheck(2)" @click="clearForm(2)">
+                                                        <v-btn :disabled="addressesLoading[2][0] || addressesLoading[2][1] || !clearCheck(2)" @click="clearForm(2)">
                                                             Clear
                                                         </v-btn>
                                                     </v-form>
@@ -167,12 +164,12 @@
                                 <v-container>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field v-model="current_password" type="password" :rules="[rules.fieldRequired]" label="Current Password"/>
+                                            <v-text-field v-model="current_password" :disabled="mainLoading" type="password" :rules="[rules.fieldRequired]" :error-messages="passwordError" label="Current Password"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col md="4">
-                                            <v-text-field type="password" v-model="password" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
+                                            <v-text-field :disabled="mainLoading" type="password" v-model="password" @focus="passwordConfirm = ''" :rules="[rules.fieldRequired, rules.passwordLength, rules.validPassword]" label="New Password"/>
                                         </v-col>
                                         <v-col md="4">
                                             <v-text-field :disabled="!password || mainLoading" type="password" v-model="passwordConfirm" :rules="[rules.fieldRequired, passwordCheck]" label="Confirm Password"/>
@@ -180,7 +177,7 @@
                                     </v-row>
                                     <v-row>
                                         <v-col>
-                                            <v-btn :disabled="!validPassword" class="mt-5" @click="validate">
+                                            <v-btn :disabled="!validPassword" :loading="mainLoading" class="mt-5" @click="validate">
                                                 Submit
                                             </v-btn>
                                         </v-col>
@@ -204,12 +201,14 @@
         mixins:[Utilities],
         data: () => ({
             mainLoading: false,
-            addressesLoading: [false, false, false],    //TODO:Fix Reactivity
+            addressesLoading: [[false, false], [false, false], [false,false]],
             menuPosition: null,
             validProfile: false,
             validPassword: false,
             validAddress: [false, false, false],
             passwordConfirm: null,
+            passwordError: null,
+            addressPanels: [],
             links: [
                 { icon: 'edit', text: 'Edit profile', strVal: 'editProfile' },
                 { icon: 'far fa-user-circle', text: 'Manage password', strVal: 'managePassword' },
@@ -222,7 +221,7 @@
             // phoneNumber: null,
             current_password: null,
             password: null,
-            addresses: [        //TODO:Fix reactivity
+            addresses: [
                 {
                     line1: null,
                     line2: "",
@@ -252,7 +251,6 @@
                 fieldRequired: v => !!v || "Required",
                 maxLength: v => !!v && (v.length <= Utilities.MAX_NAME_CHARACTERS || "Must be less than 26 characters"),
                 validEmail: v => Utilities.EMAIL_PATTERN.test(v) || "E-mail must be valid",
-                validPhoneNumber: v => !!v && (/^(\()?\d{3}(\))?(-|\s)?[2-9]\d{2}(-|\s)\d{4}$/.test(v) || "Phone number must be valid"),
                 validPassword: v => Utilities.PASSWORD_PATTERN.test(v) || "Needs to include at least one lowercase and uppercase letter, a number and a symbol",
                 passwordLength: v => !!v && (v.length >= 8 || "Password must be at least 8 characters long")
             }
@@ -274,13 +272,13 @@
                             first_name: this.first_name,
                             last_name: this.last_name,
                             email: this.email,
-                            current_password: Utilities.methods.hashString(this.current_password)
+                            current_password: Utilities.methods.hashString(this.current_password ? this.current_password : "")
                         }
                     }
                     else
                         {
                         jsonData = {
-                            current_password: Utilities.hashString(this.current_password),
+                            current_password: Utilities.methods.hashString(this.current_password ? this.current_password : ""),
                             password: Utilities.methods.hashString(this.password)
                         }
                     }
@@ -288,10 +286,23 @@
                     let response = await Requests.updateSelfAsync(jsonData);
 
                     if (!response.error) {
-                        this.$store.commit("login", response.data);
-                        this.current_password = null;
-                        this.$refs.form.resetValidation();
-                        this.mainLoading = false;
+                        if (response.status === Requests.HttpStatus.SUCCESS) {
+                            this.$store.commit("login", response.data);
+                            this.current_password = null;
+
+                            if (this.password) {
+                                this.$refs.form.reset();
+                            }
+                            else {
+                                this.$refs.form.resetValidation();
+                            }
+
+                            this.mainLoading = false;
+                        }
+                        else {
+                            this.passwordError = response.data.message;
+                            this.mainLoading = false;
+                        }
                     }
                     else {
                         this.mainLoading = false;
@@ -300,9 +311,17 @@
                 }
             },
             saveAddress(index, address) {
-                this.addressesLoading[index] = true;
-                alert(this.addressesLoading[index]);
-                this.saveAddressAsync(index, address);
+                this.$set(this.addressesLoading[index], 0, true);
+
+                if (!this.duplicateAddress(index)) {
+                    this.saveAddressAsync(index, address);
+                }
+                else {
+                    this.addressPanels = [];
+                    this.clearForm(index);
+                    this.importUserAddresses(this.getUserData("addresses"));
+                    this.$set(this.addressesLoading[index], 0, false);
+                }
             },
             async saveAddressAsync(index, address) {
                 let addr = this.getUserData("addresses");
@@ -312,10 +331,10 @@
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
-                        this.addressesLoading[index] = false;
+                        this.$set(this.addressesLoading[index], 0, false);
                     }
                     else {
-                        this.addressesLoading[index] = false;
+                        this.$set(this.addressesLoading[index], 0, false);
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
                 }
@@ -324,18 +343,18 @@
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
-                        this.importUserAddresses(addr);
-                        this.addressesLoading[index] = false;
+                        this.resetAddressData();
+                        this.importUserAddresses(this.getUserData("addresses"));
+                        this.$set(this.addressesLoading[index], 0, false);
                     }
                     else {
-                        this.addressesLoading[index] = false;
+                        this.$set(this.addressesLoading[index], 0, false);
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
                 }
             },
             deleteAddress(index) {
-                this.addressesLoading[index] = true;
-                alert(this.addressesLoading[index]);
+                this.$set(this.addressesLoading[index], 1, true);
                 this.deleteAddressAsync(index);
             },
             async deleteAddressAsync(index) {
@@ -346,12 +365,23 @@
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
-                        this.clearForm(index);
-                        this.importUserAddresses(addr);
-                        this.addressesLoading[index] = false;
+                        this.resetAddressData();
+                        this.importUserAddresses(this.getUserData("addresses"));
+
+                        if (this.getUserData('addresses') && this.getUserData('addresses')[1] && this.$refs.addressForm3) {
+                            this.$refs.addressForm3.resetValidation();
+                        }
+                        else if (this.getUserData('addresses') && this.getUserData('addresses')[0] && this.$refs.addressForm2) {
+                            this.$refs.addressForm2.resetValidation();
+                        }
+                        else if (this.$refs.addressForm1) {
+                            this.$refs.addressForm1.resetValidation();
+                        }
+
+                        this.$set(this.addressesLoading[index], 1, false);
                     }
                     else {
-                        this.addressesLoading[index] = false;
+                        this.$set(this.addressesLoading[index], 1, false);
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
                 }
@@ -400,6 +430,30 @@
             },
             addressCheck(index) {
                 return !(!!this.getUserData("addresses") && !!this.getUserData("addresses")[index]);
+            },
+            resetAddressData() {
+                for (let i = 0; i < 3; i++) {
+                    this.addresses[i].line1 = null;
+                    this.addresses[i].line2 = "";
+                    this.addresses[i].country = null;
+                    this.addresses[i].state = null;
+                    this.addresses[i].city = null;
+                    this.addresses[i].postalCode = null;
+                }
+            },
+            duplicateAddress(index) {
+                let i = 0, addr = this.getUserData("addresses");
+
+                while(addr && addr[i]) {
+                    if (!(this.addresses[index].line1 !== addr[i].line1 || this.addresses[index].line2 !== addr[i].line2 || this.addresses[index].country !== addr[i].country
+                        || this.addresses[index].state !== addr[i].state || this.addresses[index].city !== addr[i].city || this.addresses[index].postalCode !== addr[i].postalCode)) {
+                        return true;
+                    }
+
+                    i++;
+                }
+
+                return false;
             }
         },
         computed: {
@@ -418,15 +472,24 @@
                         this.first_name = this.getUserData("firstName");
                         this.last_name = this.getUserData("lastName");
                         this.email = this.getUserData("email");
-                        // this.jsonProfileData.phoneNumber = this.getUserData("phoneNumber");
+                        this.addressPanels = [];
+
+                        this.resetAddressData();
+
+                        if (this.getUserData("addresses")) {
+                            this.importUserAddresses(this.getUserData("addresses"));
+                        }
                     }
                     else if (v === "managePassword") {
                         this.current_password = null;
                         this.password = null;
                         this.passwordConfirm = null;
-                        this.$refs.form.reset();
+                        //this.$refs.form.reset();
                     }
                 }
+            },
+            current_password: function() {
+                this.passwordError = null;
             }
         },
         mounted() {
@@ -440,13 +503,3 @@
         }
     }
 </script>
-
-<style>
-    .activeListItem {
-        border-left: solid #FF8F00;
-    }
-
-    .activeListItem .v-list-item__title, .activeListItem .v-list-item__action .v-icon {
-        color: #FF8F00;
-    }
-</style>

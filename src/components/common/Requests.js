@@ -12,7 +12,7 @@ export default class Requests {
     }
 
     static async updateSelfAsync(jsonData) {
-        let call = new APICall(RequestType.PATCH, "users/self", jsonData, [this.HttpStatus.SUCCESS]);
+        let call = new APICall(RequestType.PATCH, "users/self", jsonData, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
         await call.performRequestAsync();
         return call;
     }
