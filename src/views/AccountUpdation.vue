@@ -33,7 +33,7 @@
                                     </v-row>
                                     <v-row>
                                         <v-col md="7">
-                                            <v-text-field v-model="email" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.validEmail]" label="E-mail"/>
+                                            <v-text-field v-model="email" :disabled="mainLoading" :rules="[rules.fieldRequired, rules.validEmail]" :error-messages="emailError" label="E-mail"/>
                                         </v-col>
                                     </v-row>
                                     <v-row>
@@ -53,7 +53,7 @@
                                     <v-col md="11">
                                         <span class="caption font-weight-light">Saved shipping addresses</span>
                                         <v-divider/>
-                                        <v-expansion-panels class="mt-2" v-model="addressPanels" focusable>
+                                        <v-expansion-panels class="mt-2" v-model="addressPanels" :readonly="duringAPICall" focusable>
                                             <v-expansion-panel>
                                                 <v-expansion-panel-header>Address 1</v-expansion-panel-header>
                                                 <v-expansion-panel-content>
@@ -208,6 +208,7 @@
             validAddress: [false, false, false],
             passwordConfirm: null,
             passwordError: null,
+            emailError: null,
             addressPanels: [],
             links: [
                 { icon: 'edit', text: 'Edit profile', strVal: 'editProfile' },
@@ -224,7 +225,7 @@
             addresses: [
                 {
                     line1: null,
-                    line2: "",
+                    line2: null,
                     country: null,
                     state: null,
                     city: null,
@@ -232,7 +233,7 @@
                 },
                 {
                     line1: null,
-                    line2: "",
+                    line2: null,
                     country: null,
                     state: null,
                     city: null,
@@ -240,7 +241,7 @@
                 },
                 {
                     line1: null,
-                    line2: "",
+                    line2: null,
                     country: null,
                     state: null,
                     city: null,
@@ -264,26 +265,30 @@
                 this.validateAsync();
             },
             async validateAsync() {
-                if (this.$refs.form.validate()) {
-                    let jsonData;
+                let jsonData;
 
-                    if (!this.password) {
-                        jsonData = {
-                            first_name: this.first_name,
-                            last_name: this.last_name,
-                            email: this.email,
-                            current_password: Utilities.methods.hashString(this.current_password ? this.current_password : "")
-                        }
+                if (!this.password) {
+                    jsonData = {
+                        first_name: this.first_name,
+                        last_name: this.last_name,
+                        email: this.email,
+                        current_password: Utilities.methods.hashString(this.current_password ? this.current_password : "")
                     }
-                    else
-                        {
-                        jsonData = {
-                            current_password: Utilities.methods.hashString(this.current_password ? this.current_password : ""),
-                            password: Utilities.methods.hashString(this.password)
-                        }
+                }
+                else {
+                    jsonData = {
+                        current_password: Utilities.methods.hashString(this.current_password ? this.current_password : ""),
+                        password: Utilities.methods.hashString(this.password)
                     }
+                }
 
-                    let response = await Requests.updateSelfAsync(jsonData);
+                if (this.email !== this.getUserData("email")) {
+                    const emailRequest = Requests.registrationHeadAsync({email: this.email}, "email");
+                    this.emailError = await emailRequest;
+                }
+
+                if (this.emailError.length === 0) {
+                    const response = await Requests.updateSelfAsync(jsonData);
 
                     if (!response.error) {
                         if (response.status === Requests.HttpStatus.SUCCESS) {
@@ -309,11 +314,18 @@
                         alert("Something went wrong with updating your info. Please try again in a moment.");
                     }
                 }
+                else {
+                    this.mainLoading = false;
+                }
             },
             saveAddress(index, address) {
                 this.$set(this.addressesLoading[index], 0, true);
 
-                if (!this.duplicateAddress(index)) {
+                for (const line in address) {
+                    if (!address[line]) address[line] = "";
+                }
+
+                if (!this.duplicateAddress(address)) {
                     this.saveAddressAsync(index, address);
                 }
                 else {
@@ -324,10 +336,10 @@
                 }
             },
             async saveAddressAsync(index, address) {
-                let addr = this.getUserData("addresses");
+                const addr = this.getUserData("addresses");
 
                 if (addr && addr[index]) {
-                    let response = await Requests.updateShippingAddress([[index, address]]);
+                    const response = await Requests.updateShippingAddress([[index, address]]);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
@@ -339,7 +351,7 @@
                     }
                 }
                 else {
-                    let response = await Requests.addShippingAddress([address]);
+                    const response = await Requests.addShippingAddress([address]);
 
                     if (!response.error) {
                         this.$store.commit("login", response.data);
@@ -361,17 +373,21 @@
                 let addr = this.getUserData("addresses");
 
                 if (addr[index]) {
-                    let response = await Requests.deleteShippingAddress([index]);
+                    const response = await Requests.deleteShippingAddress([index]);
 
                     if (!response.error) {
-                        this.$store.commit("login", response.data);
-                        this.resetAddressData();
-                        this.importUserAddresses(this.getUserData("addresses"));
+                        if (addr[index+1]) this.addressPanels = [];
 
-                        if (this.getUserData('addresses') && this.getUserData('addresses')[1] && this.$refs.addressForm3) {
+                        this.$store.commit("login", response.data);
+                        addr = this.getUserData("addresses");
+                        this.resetAddressData();
+                        this.importUserAddresses(addr);
+
+
+                        if (addr && addr[1] && this.$refs.addressForm3) {
                             this.$refs.addressForm3.resetValidation();
                         }
-                        else if (this.getUserData('addresses') && this.getUserData('addresses')[0] && this.$refs.addressForm2) {
+                        else if (addr && addr[0] && this.$refs.addressForm2) {
                             this.$refs.addressForm2.resetValidation();
                         }
                         else if (this.$refs.addressForm1) {
@@ -400,21 +416,12 @@
                 }
             },
             importUserAddresses(addr) {
-                let i = 0;
-
-                while(addr[i]) {
-                    this.addresses[i].line1 = addr[i].line1;
-                    this.addresses[i].line2 = addr[i].line2 ? addr[i].line2 : "";
-                    this.addresses[i].country = addr[i].country;
-                    this.addresses[i].state = addr[i].state;
-                    this.addresses[i].city = addr[i].city;
-                    this.addresses[i].postalCode = addr[i].postalCode;
-
-                    i++;
+                if (addr) {
+                    addr.forEach((address, index) => Object.assign(this.addresses[index], address));
                 }
             },
             addressChangeCheck(index, address) {
-                let addr = this.getUserData("addresses");
+                const addr = this.getUserData("addresses");
 
                 if (addr && addr[index]) {
                     return (address.line1 !== addr[index].line1 || address.line2 !== (addr[index].line2 ? addr[index].line2 : "") || address.country !== addr[index].country
@@ -432,28 +439,24 @@
                 return !(!!this.getUserData("addresses") && !!this.getUserData("addresses")[index]);
             },
             resetAddressData() {
-                for (let i = 0; i < 3; i++) {
-                    this.addresses[i].line1 = null;
-                    this.addresses[i].line2 = "";
-                    this.addresses[i].country = null;
-                    this.addresses[i].state = null;
-                    this.addresses[i].city = null;
-                    this.addresses[i].postalCode = null;
-                }
+                this.addresses.forEach(address => {
+                    for (const line in address) address[line] = null;
+                })
             },
-            duplicateAddress(index) {
-                let i = 0, addr = this.getUserData("addresses");
+            duplicateAddress(pageAddress) {
+                const addr = this.getUserData("addresses");
+                let verdict = false;
 
-                while(addr && addr[i]) {
-                    if (!(this.addresses[index].line1 !== addr[i].line1 || this.addresses[index].line2 !== addr[i].line2 || this.addresses[index].country !== addr[i].country
-                        || this.addresses[index].state !== addr[i].state || this.addresses[index].city !== addr[i].city || this.addresses[index].postalCode !== addr[i].postalCode)) {
-                        return true;
-                    }
-
-                    i++;
+                if (addr) {
+                    addr.forEach(userAddress => {
+                        if (!(pageAddress.line1 !== userAddress.line1 || pageAddress.line2 !== userAddress.line2 || pageAddress.country !== userAddress.country
+                            || pageAddress.state !== userAddress.state || pageAddress.city !== userAddress.city || pageAddress.postalCode !== userAddress.postalCode)) {
+                            verdict = true;
+                        }
+                    })
                 }
 
-                return false;
+                return verdict;
             }
         },
         computed: {
@@ -462,6 +465,16 @@
             },
             profileChangeCheck() {
                 return (this.first_name === this.getUserData("firstName") && this.last_name === this.getUserData("lastName") && this.email === this.getUserData("email"))
+            },
+            duringAPICall() {
+                let verdict = false;
+
+                this.addressesLoading.forEach(panel => {
+                    panel.forEach(button => {
+                        if (button) verdict = true;})
+                });
+
+                return verdict;
             }
         },
         watch: {
@@ -484,13 +497,15 @@
                         this.current_password = null;
                         this.password = null;
                         this.passwordConfirm = null;
-                        //this.$refs.form.reset();
                     }
                 }
             },
             current_password: function() {
                 this.passwordError = null;
-            }
+            },
+            email() {
+                this.emailError = null;
+            },
         },
         mounted() {
             this.first_name = this.getUserData("firstName");
