@@ -6,15 +6,16 @@
                 <v-layout justify-center pt-5>
                     <v-carousel cycle height="300" style="max-width: 70%; border-radius: 10px!important;"
                                 hide-delimiter-background :show-arrows="false">
-
-                        <v-carousel-item v-for="(category, i) in this.dummyItems" :key="i"
+                        <v-carousel-item v-for="(category, i) in categories.slice(0,10)" :key="i"
                                          :src="category.imageUrl" interval="2s">
                             <v-card height="300" width="30%" color="rgba(255,255,255,0.51)" style="padding: 10px">
                                 <v-container>
                                     <v-row>
                                         <v-layout>
-                                            <span style="color: black; font-size: 30px!important;"
-                                                  class="title font-weight-regular">{{category.name}}</span>
+                                            <v-sheet width="100%" height="140%" elevation="4" color="teal">
+                                                <span style="color: black; font-size: 30px!important;"
+                                                      class="title font-weight-regular">{{category.name}}</span>
+                                            </v-sheet>
                                         </v-layout>
                                     </v-row>
                                     <v-row>
@@ -47,20 +48,22 @@
                         </v-layout>
                         <v-layout justify-center wrap pt-5 style="height: 400px!important;">
                             <!-- TODO: Make this use category.name for key binding when we eventually get unique names for them. -->
-                            <v-card v-for="(category, index) in this.dummyItems" v-bind:key="index"
+                            <v-card v-for="(category, index) in this.categories.slice(13,categories.length)"
+                                    v-bind:key="index"
                                     max-height="100px"
                                     max-width="190px" hover flat outlined
                                     @click="selectedCategory = category; $router.push({ name: 'search'})"
                                     style="margin-right: 3%; margin-top: -10px; border-radius: 10px; "
-                                    class="animated fadeIn">
-                                <v-img class="white--text"
-                                       height="150px"
-                                       :src="category.imageUrl">
+                                    class="animated fadeIn" v-if="categories.length > 0">
+                                <v-img class="white--text" height="150px" :src="category.imageUrl"
+                                       lazy-src="https://picsum.photos/id/11/10/6">
                                     <v-card-title class="align-end fill-height font-weight-regular"
                                                   style="font-size: 18px!important;">Top 10 {{category.name}}
                                     </v-card-title>
                                 </v-img>
                             </v-card>
+                            <v-progress-circular v-else size="30" indeterminate
+                                                 :color="PRIMARY_COLOR"></v-progress-circular>
                         </v-layout>
                     </v-card>
                 </v-layout>
@@ -71,6 +74,7 @@
 <script>
     import Utilities from "../components/common/Utilities"
     import TitleBar from "../components/TitleBar";
+    import Requests from "../components/common/Requests.js"
 
     export default {
         name: 'Main',
@@ -78,86 +82,13 @@
             'titlebar': TitleBar,
         },
         mixins: [Utilities],
+        beforeMount: function () {
+            Requests.getCategories()
+                .then(response => this.categories = response.data.categories)
+                .catch(error => alert("Could not get product categories" + error));
+        },
         data: () => ({
-            categories: [
-                {name: 'Cars', imageUrl: 'https://picsum.photos/id/1013/500'},
-                {name: 'Sports', imageUrl: 'https://picsum.photos/id/1016/500'},
-                {name: 'Kitchen', imageUrl: 'https://picsum.photos/id/1055/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1024/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1029/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/103/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1033/500'},
-                {name: 'Drugs', imageUrl: 'https://picsum.photos/id/1038/500'},
-                {
-                    name: 'Drugs',
-                    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/PM5544_with_non-PAL_signals.png'
-                }
-            ],
-            dummyItems: [
-                {
-                    price: 325,
-                    name: 'Cars',
-                    imageUrl: 'https://picsum.photos/id/1013/500',
-                    title: 'Tufoil Lubit 8 Lubit-8 with PTFE - "It takes few drops" Oil Lock Pen Stylo',
-                    id: 1
-                },
-                {
-                    price: 3,
-                    name: 'Sports',
-                    imageUrl: 'https://picsum.photos/id/1016/500',
-                    title: 'Few Days Left - Scorpio The Man Myth Legend Gildan Hoodie Sweatshirt',
-                    id: 2
-                },
-                {
-                    price: 435,
-                    name: 'Kitchen',
-                    imageUrl: 'https://picsum.photos/id/1055/500',
-                    title: 'Come Back in a Few Beers Patch Beer Iron to Sew on Patch Badge',
-                    id: 3
-                },
-                {
-                    price: 354,
-                    name: 'Drugs',
-                    imageUrl: 'https://picsum.photos/id/1024/500',
-                    title: 'Dior J’Adore - Eau de Perfume 50ml - Used only a few',
-                    id: 4
-                },
-                {
-                    price: 99,
-                    name: 'House',
-                    imageUrl: 'https://picsum.photos/id/1029/500',
-                    title: 'Antminer A3 Very few hours used.',
-                    id: 5
-                },
-                {
-                    price: 27,
-                    name: 'Footwear',
-                    imageUrl: 'https://picsum.photos/id/103/500',
-                    title: 'HE IS LEGEND-FEW (UK IMPORT) VINYL LP NEW',
-                    id: 6
-                },
-                {
-                    price: 12,
-                    name: 'Food',
-                    imageUrl: 'https://picsum.photos/id/1033/500',
-                    title: 'For a Few Dollars More (DVD, 1998, Western Legends) GOOD',
-                    id: 7
-                },
-                {
-                    price: 2344,
-                    name: 'Electronics',
-                    imageUrl: 'https://picsum.photos/id/1038/500',
-                    title: 'ROGER FIDO CANADA IPHONE ULOCK INSTANT TO FEW HRS',
-                    id: 8
-                },
-                {
-                    price: 101,
-                    name: 'Clothing',
-                    imageUrl: 'https://picsum.photos/id/1026/500',
-                    title: '1951 $1.00 MS-63 FEW TONED',
-                    id: 9
-                }
-            ]
+            categories: [],
         })
     }
 </script>
