@@ -1,5 +1,11 @@
 <template>
-    <v-container v-if="canCheckout" fluid>
+    <v-container v-if="this.$store.state.loadingShoppingCart" style="text-align: center">
+        <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
+    </v-container>
+    <v-container v-else-if="this.cartCount < 1" style="text-align: center">
+        <p style="text-align: center">You have no items in your cart!</p>
+    </v-container>
+    <v-container v-else fluid style="justify-content: center">
         <v-row class="checkoutRow">
             <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px">
                 <v-container fluid>
@@ -83,9 +89,6 @@
             </v-card>
         </v-row>
     </v-container>
-    <v-container v-else style="text-align: center">
-        <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
-    </v-container>
 </template>
 
 <script>
@@ -98,7 +101,6 @@
         name: "Checkout",
         mixins: [Utilities],
         data: () => ({
-            canCheckout: true, // TODO: Set to false.
             validAddress: true,
             validPhone: true,
             checkoutData: {
