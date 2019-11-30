@@ -70,7 +70,7 @@
                                 <v-col>
                                     <v-layout justify-end style="margin-right: 7%">
                                         <v-btn style="margin-right: 5%; color: #fff; background-color: #777"
-                                               @click="goBack()">Cancel
+                                               @click="confirmBeforeGoBack()">Cancel
                                         </v-btn>
                                         <v-btn :disabled="!isRegistrationValid" :color="PRIMARY_COLOR"
                                                style="color: #ffffff" :loading="loading" @click="validate()">Create
