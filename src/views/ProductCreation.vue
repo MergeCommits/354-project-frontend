@@ -57,7 +57,7 @@
                             <v-col>
                                 <v-layout justify-end style="margin-right: 7%" pt-4>
                                     <v-btn class="no-highlight" style="margin-right: 5%; color: #fff; background-color: #777"
-                                           @click="returnConfirmation()">Cancel
+                                           @click="confirmBeforeGoBack()">Cancel
                                     </v-btn>
                                     <v-btn :disabled="!validProduct" :color="ACCENT_COLOR"
                                            style="color: #ffffff" :loading="loading" @click="validate()">Create
@@ -175,12 +175,6 @@
                 } else {
                     alert("There was an error creating the product listing.");
                     this.loading = false;
-                }
-            },
-            returnConfirmation() {
-                let confirmed = confirm("Are you sure you want to exit?");
-                if (confirmed) {
-                    this.goBack();
                 }
             }
         },

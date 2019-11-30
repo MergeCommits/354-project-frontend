@@ -31,6 +31,12 @@
                     this.$router.push("/home");
                 }
             },
+            confirmBeforeGoBack() {
+                let confirmed = confirm("Are you sure you want to exit?");
+                if (confirmed) {
+                    this.goBack();
+                }
+            },
             // Returns the route a given page should go to in order to logout and return to the same page.
             getLogoutRouter() {
                 return "/logout?redirect=" + this.$route.path.substr(1);

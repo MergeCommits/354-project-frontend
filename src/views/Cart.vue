@@ -1,13 +1,5 @@
 <template>
     <v-container v-if="!this.$store.state.loadingShoppingCart" fluid>
-        <v-row style="max-height: 1em; margin-top: 10px; margin-bottom: 25px">
-            <v-btn color="grey darken-2" text @click="goBack()">
-                <v-icon color="grey darken-2" style="margin-right: 10px">
-                    arrow_back
-                </v-icon>
-                GO back
-            </v-btn>
-        </v-row>
         <v-row style="padding-left: 15px; margin-left: 15%">
              <span style="font-size: 25px !important;  color:#616161; text-align: center"
                    class="title font-weight-medium">Shopping Cart</span>
