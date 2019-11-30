@@ -26,7 +26,7 @@
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title><router-link :to="'/' + item.product['categoryPermalink'] + '/' + item.product['permalink']">{{item.product.name}}</router-link></v-list-item-title>
-                                            <v-list-item-subtitle>${{item.product.price.amount}}</v-list-item-subtitle>
+                                            <v-list-item-subtitle>${{item.product.price}}</v-list-item-subtitle>
                                         </v-list-item-content>
 <!--                                        <v-text-field style="max-width: 80px"-->
 <!--                                                      v-model="quantity"-->
@@ -59,7 +59,7 @@
                                     <v-row v-bind:key="index" class="itemCheckoutBox">
                                         <v-col><span>{{item.product.name}} X {{item.quantity}}</span></v-col>
                                         <v-col>
-                                            <v-layout justify-end>${{Number(item.product.price.amount * item.quantity).toFixed(2)}}</v-layout>
+                                            <v-layout justify-end>${{Number(item.product.price * item.quantity).toFixed(2)}}</v-layout>
                                         </v-col>
                                     </v-row>
                                 </template>
@@ -279,7 +279,7 @@
                     let items = this.cartItems;
                     let cost = 0.0;
                     for (let i = 0; i < items.length; i++) {
-                        cost += Number(items[i].product["price"].amount) * Number(items[i].quantity);
+                        cost += Number(items[i].product["price"]) * Number(items[i].quantity);
                     }
 
                     return cost;

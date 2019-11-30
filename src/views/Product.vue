@@ -33,7 +33,7 @@
                                             <v-card style="width: 70%; min-width: 300px; padding: 10px; border-radius: 10px" elevation="5">
                                                 <v-layout style="height: 43px" justify-center>
                                                     <span class="headline font-weight-regular"
-                                                          style="font-size: 20px!important;">Your price <span>${{product.price.amount}}</span></span>
+                                                          style="font-size: 20px!important;">Your price <span>${{product.price}}</span></span>
                                                     <v-icon style="margin-top: -5px; margin-left: 5px" large
                                                             :color="ACCENT_COLOR">fas fa-meteor
                                                     </v-icon>

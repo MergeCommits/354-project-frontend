@@ -60,7 +60,7 @@
                 </v-col>
                 <v-col style="width: 45%; margin-right: -2%" v-if="areProductsReady">
                     <v-container fluid>
-                        <v-layout justify-center v-for="item in items" v-bind:key="item.name">
+                        <v-layout justify-center v-for="item in items" v-bind:key="item.permalink">
                             <v-card @mouseover="hoverItem = item" :color="itemCardColor(item)"
                                     hover
                                     :to="{ name: 'product', params: { categoryPermalink: hoverItem ? hoverItem.category.permalink : null,
@@ -82,7 +82,7 @@
                                         </v-layout>
                                         <v-layout pt-2>
                                                     <span class="headline font-weight-bold"
-                                                          style="font-size: 19px!important; color:#FF8F00">${{item.price.amount}}</span>
+                                                          style="font-size: 19px!important; color:#FF8F00">${{item.price}}</span>
                                         </v-layout>
                                         <v-layout align-end justify-end v-if="hoverItem && hoverItem.name === item.name"
                                                   style="margin-top: 1%; height:30px">
@@ -150,7 +150,7 @@
                                                         <span class="headline font-weight-regular"
                                                               style="font-size: 20px!important;">Price: </span>
                                                 <span class="headline font-weight-regular"
-                                                      style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price.amount}}</span>
+                                                      style="font-size: 20px!important;margin-left: 5px; color:#FF8F00"> ${{hoverItem.price}}</span>
                                             </v-layout>
                                             <v-layout pt-2>
                                                         <span class="headline font-weight-regular"
@@ -169,7 +169,7 @@
                                     <v-row>
                                         <v-layout justify-center pt-3>
                                     <span class="headline font-weight-light"
-                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price.amount}}</span></span>
+                                          style="font-size: 20px!important; margin-left: 5px">Your price <span>${{hoverItem.price}}</span></span>
                                             <v-icon style="margin-top: -5px; margin-left: 5px" large
                                                     :color="ACCENT_COLOR">fas fa-meteor
                                             </v-icon>
