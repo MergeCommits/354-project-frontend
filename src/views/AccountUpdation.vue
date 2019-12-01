@@ -322,7 +322,7 @@
                 this.$set(this.addressesLoading[index], 0, true);
 
                 for (const line in address) {
-                    if (!address[line]) address[line] = "";
+                    if (!address[line]) { address[line] = ""; }
                 }
 
                 if (!this.duplicateAddress(address)) {
@@ -426,8 +426,7 @@
                 if (addr && addr[index]) {
                     return (address.line1 !== addr[index].line1 || address.line2 !== (addr[index].line2 ? addr[index].line2 : "") || address.country !== addr[index].country
                         || address.state !== addr[index].state || address.city !== addr[index].city || address.postalCode !== addr[index].postalCode);
-                }
-                else {
+                } else {
                     return true;
                 }
             },
@@ -440,7 +439,9 @@
             },
             resetAddressData() {
                 this.addresses.forEach(address => {
-                    for (const line in address) address[line] = null;
+                    for (const line in address) {
+                        address[line] = null;
+                    }
                 })
             },
             duplicateAddress(pageAddress) {
