@@ -73,7 +73,6 @@
                             <v-text-field class="my-0 py-0" v-model="checkoutData.postalCode" label="Postal Code" :rules="rules" />
                         </v-col>
                     </v-row>
-                    <v-text-field v-model="checkoutData.phone" label="Phone number" :rules="rules" />
                     <v-row style="margin-left: 2%; margin-right: 2%; margin-bottom: 2%">
                         <v-btn class="white--text" large block :disabled="!this.validOrderForm" :color="ACCENT_COLOR" @click="validate()">Proceed to &nbsp;<v-icon large>fab fa-paypal</v-icon></v-btn>
                     </v-row>
@@ -96,7 +95,6 @@
             validOrderForm: true,
             transactionComplete: false,
             checkoutData: {
-                phone: null,
                 line1: null,
                 line2: "",
                 city: null,

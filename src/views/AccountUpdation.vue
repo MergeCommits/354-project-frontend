@@ -219,7 +219,6 @@
             first_name: null,
             last_name: null,
             email: null,
-            // phoneNumber: null,
             current_password: null,
             password: null,
             addresses: [
