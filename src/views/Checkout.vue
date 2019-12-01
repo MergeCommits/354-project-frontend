@@ -11,6 +11,8 @@
     </v-container>
     <v-layout v-else justify-center style="width: 100%; padding-left: 10%; padding-right: 10%">
         <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px; padding: 20px">
+            <p style="width: 100%; text-align: center; font-size: 18px">Pay with <v-icon large color="#303F9F">fab fa-cc-paypal</v-icon></p>
+            <v-divider />
             <template v-for="(item, index) in this.cartItems">
                 <v-row v-bind:key="index" style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
                     <v-col><span>{{item.product.name}} X {{item.quantity}}</span></v-col>
@@ -73,7 +75,7 @@
                     </v-row>
                     <v-text-field v-model="checkoutData.phone" label="Phone number" :rules="rules" />
                     <v-row style="margin-left: 2%; margin-right: 2%; margin-bottom: 2%">
-                        <v-btn class="white--text" large block :disabled="!this.validOrderForm" :color="ACCENT_COLOR" @click="validate()">Proceed to PayPal</v-btn>
+                        <v-btn class="white--text" large block :disabled="!this.validOrderForm" :color="ACCENT_COLOR" @click="validate()">Proceed to &nbsp;<v-icon large>fab fa-paypal</v-icon></v-btn>
                     </v-row>
                 </v-form>
             </v-row>
