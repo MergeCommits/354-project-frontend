@@ -1,5 +1,5 @@
 <template>
-    <v-container v-if="!this.$store.state.loadingShoppingCart" style="padding-left: 10%; padding-right: 10%" fluid>
+    <v-container v-if="!this.$store.state.loadingShoppingCart" fluid style="padding-left: 10%; padding-right: 10%">
         <v-row>
              <span style="font-size: 25px !important; color: #616161"
                    class="title font-weight-medium">Shopping Cart</span>
