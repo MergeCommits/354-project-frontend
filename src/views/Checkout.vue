@@ -41,7 +41,7 @@
                     <v-layout justify-end>Free</v-layout>
                 </v-col>
             </v-row>
-            <v-divider inset style="width: 50%; margin-top: 10px" />
+            <v-divider style="margin-top: 10px" />
             <v-row style="margin-left: 5%; margin-right: 5%">
                 <v-col><span class="title font-weight-regular">Total</span></v-col>
                 <v-col></v-col>
