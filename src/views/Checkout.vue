@@ -104,7 +104,6 @@
             validAddress: true,
             validPhone: true,
             checkoutData: {
-                fullName: null,
                 phone: null,
                 line1: null,
                 line2: "",
@@ -128,21 +127,21 @@
                     let phone = this.$refs.phoneForm.validate();
 
                     if (address && phone) {
-                        this.loading = true;
+                        this.$store.commit("startCartLoad");
                         this.validateAsync();
                     }
                 }
             },
             async validateAsync() {
-                this.$store.commit("startCartLoad");
-
-                let response = await Requests.checkoutAsync(this.jsonData);
+                this.checkoutData.fullName = this.getUserData("firstName") + " " + this.getUserData("lastName");
+                let response = await Requests.checkoutAsync(this.checkoutData);
                 if (!response.error) {
                     if (response.status !== this.HttpStatus.SUCCESS) {
                         alert(response.data["message"]);
                     }
                 } else {
                     alert("An error occurred while trying to checkout. Please try again in a moment.");
+                    this.$store.commit("stopCartLoad");
                 }
 
                 await this.updateShoppingCartAsync();
@@ -150,11 +149,6 @@
             }
         },
         computed: {
-            cartCount: {
-                get() {
-                    return this.$store.getters.cartItemCount;
-                }
-            },
             cartItems: {
                 get() {
                     if (this.cartCount < 1) {
