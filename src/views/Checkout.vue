@@ -2,8 +2,12 @@
     <v-container v-if="this.$store.state.loadingShoppingCart" style="text-align: center">
         <v-progress-circular size="100" indeterminate :color="PRIMARY_COLOR" />
     </v-container>
-    <v-container v-else-if="this.cartCount < 1" style="text-align: center">
+    <v-container v-else-if="this.cartCount < 1 && !this.transactionComplete" style="text-align: center">
         <p style="text-align: center">You have no items in your cart!</p>
+    </v-container>
+    <v-container v-else-if="this.transactionComplete" style="text-align: center">
+        <p style="text-align: center">Your transaction has been completed!</p>
+        <v-btn class="white--text" large block :color="ACCENT_COLOR" router to="/home">Return to Homepage</v-btn>
     </v-container>
     <v-layout v-else justify-center style="width: 100%; padding-left: 10%; padding-right: 10%">
         <v-card width="25em" min-height="13.5em" height="fit-content" style="border-radius: 20px; margin-top: 10px; padding: 20px">
@@ -47,7 +51,7 @@
             </v-row>
             <v-divider style="margin-top: 10px" />
             <v-row style="margin-left: 2%; margin-right: 2%; margin-top: 2%">
-                <v-form v-model="validOrderForm" lazy-validation>
+                <v-form ref="form" v-model="validOrderForm" lazy-validation>
                     <span class="font-weight-regular">Shipping Address</span>
                     <v-text-field class="my-0" v-model="checkoutData.line1" label="Line 1" :rules="rules" />
                     <v-text-field class="my-0 py-0" v-model="checkoutData.line2" label="Line 2"/>
@@ -88,6 +92,7 @@
         mixins: [Utilities],
         data: () => ({
             validOrderForm: true,
+            transactionComplete: false,
             checkoutData: {
                 phone: null,
                 line1: null,
@@ -112,19 +117,21 @@
             async validateAsync() {
                 this.checkoutData.fullName = this.getUserData("firstName") + " " + this.getUserData("lastName");
                 let response = await Requests.checkoutAsync(this.checkoutData);
-                if (!response.error) {
-                    if (response.status !== this.HttpStatus.SUCCESS) {
-                        alert(response.data["message"]);
-                    }
-                } else {
+                if (response.error) {
                     alert("An error occurred while trying to checkout. Please try again in a moment.");
-                    this.$store.commit("stopCartLoad");
+                } else {
+                    this.transactionComplete = true;
                 }
 
                 await this.updateShoppingCartAsync();
             }
         },
         computed: {
+            cartCount: {
+                get() {
+                    return this.$store.getters.cartItemCount;
+                }
+            },
             cartItems: {
                 get() {
                     if (this.cartCount < 1) {
