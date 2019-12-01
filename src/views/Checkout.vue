@@ -14,23 +14,23 @@
             <p style="width: 100%; text-align: center; font-size: 18px">Pay with <v-icon large color="#303F9F">fab fa-cc-paypal</v-icon></p>
             <v-divider />
             <template v-for="(item, index) in this.cartItems">
-                <v-row v-bind:key="index" style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
-                    <v-col><span>{{item.product.name}} X {{item.quantity}}</span></v-col>
-                    <v-col>
+                <v-row v-bind:key="index" style="margin-left: 5%; margin-right: 5%">
+                    <v-col style="padding-top: 0">
+                        <span>{{item.product.name}} X {{item.quantity}}</span>
+                    </v-col>
+                    <v-col style="padding-top: 0">
                         <v-layout justify-end>${{Number(item.product.price * item.quantity).toFixed(2)}}</v-layout>
                     </v-col>
                 </v-row>
             </template>
             <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
                 <v-col><span>Items ({{cartItems.length}})</span></v-col>
-                <v-col></v-col>
                 <v-col>
                     <v-layout justify-end>${{sumItemsCost.toFixed(2)}}</v-layout>
                 </v-col>
             </v-row>
             <v-row style="margin-left: 5%; margin-right: 5%; margin-top: 2%">
                 <v-col>Tax (15%)</v-col>
-                <v-col></v-col>
                 <v-col>
                     <v-layout justify-end>${{sumItemsTax.toFixed(2)}}</v-layout>
                 </v-col>
