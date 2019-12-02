@@ -30,7 +30,7 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="$router.push({ name: 'search', query: {category: category.name.toLowerCase()}});
+                        <v-btn @click="$router.push({ name: 'search', query: {category: category.permalink}});
                                         $store.state.categorySelected = category.name"
                                color="grey darken-2" small v-for="category in categories.slice(0,7)"
                                v-bind:key="category.id" text style="margin-right: 1%">

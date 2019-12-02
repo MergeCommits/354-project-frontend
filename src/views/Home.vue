@@ -27,7 +27,8 @@
                                     <v-row style="margin-top: 20px;">
                                         <v-layout justify-left style="margin-left: 5%">
                                             <v-btn outlined color="white"
-                                                   @click="selectedCategory = category; $router.push({ name: 'search'})">
+                                                   @click="selectedCategory = category; $store.state.categorySelected = category.name
+                                                   $router.push({ name: 'search', query: {category: category.permalink}})">
                                                 Shop now
                                                 <v-icon style="margin-left: 5px; font-size: 20px!important;">
                                                     arrow_forward
@@ -58,8 +59,8 @@
                                     v-bind:key="index"
                                     max-height="100px"
                                     max-width="190px" hover flat outlined
-                                    @click="selectedCategory = category; $store.state.categorySelected = category.name"
-                                    to="/search"
+                                    @click="selectedCategory = category; $store.state.categorySelected = category.name;
+                                    $router.push({ name: 'search', query: {category: category.permalink}})"
                                     style="margin-right: 3%; margin-top: -10px; border-radius: 10px;"
                                     class="animated fadeIn" v-if="categories.length > 0">
                                 <v-img class="white--text" height="150px" :src="category.imageUrl"
