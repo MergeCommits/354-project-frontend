@@ -16,7 +16,7 @@
                         <span style="margin-right: 5px">Popular</span>
                         <v-icon small>fab fa-hotjar</v-icon>
                     </v-btn>
-                    <v-btn class="animated fadeIn" v-if="$store.state.categorySelected !== null" dark
+                    <v-btn class="animated fadeIn" v-if="$store.state.categorySelected !== 'popular'" dark
                            :color="ACCENT_COLOR" depressed
                            style="margin-right: 1%; margin-left: 1%">
                         <span style="margin-right: 5px">{{$store.state.categorySelected}}</span>
@@ -30,7 +30,8 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="" color="grey darken-2" small v-for="category in categories.slice(0,7)"
+                        <v-btn @click="$router.push({ name: 'search'}); $store.state.categorySelected = category.name"
+                               color="grey darken-2" small v-for="category in categories.slice(0,7)"
                                v-bind:key="category.id" text style="margin-right: 1%">
                             <span style="margin-right: 5px">{{category.name}}</span>
                             <v-icon small>fab fa-hotjar</v-icon>
@@ -56,7 +57,7 @@
         }),
         computed: {
             buttonColor() {
-                return this.$store.state.categorySelected === null ? this.ACCENT_COLOR : 'grey darken-1'
+                return this.$store.state.categorySelected === 'popular' ? this.ACCENT_COLOR : 'grey darken-1'
             }
         },
         beforeMount: async function () {

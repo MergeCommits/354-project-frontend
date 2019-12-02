@@ -58,7 +58,8 @@
                                     v-bind:key="index"
                                     max-height="100px"
                                     max-width="190px" hover flat outlined
-                                    @click="selectedCategory = category; $router.push({ name: 'search'})"
+                                    @click="selectedCategory = category; $store.state.categorySelected = category.name"
+                                    to="/search"
                                     style="margin-right: 3%; margin-top: -10px; border-radius: 10px;"
                                     class="animated fadeIn" v-if="categories.length > 0">
                                 <v-img class="white--text" height="150px" :src="category.imageUrl"
