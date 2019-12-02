@@ -69,7 +69,7 @@ export default class Requests {
     }
 
     static async canReviewAsync(permalink) {
-        let call = new APICall(RequestType.GET, "reviews/reviewable/" + permalink, null, [this.HttpStatus.SUCCESS]);
+        let call = new APICall(RequestType.GET, "reviews/able/" + permalink, null, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
         return call;
     }

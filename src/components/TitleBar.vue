@@ -2,6 +2,7 @@
     <v-card style="padding: 10px; overflow: auto" flat outlined min-height="fit-content">
         <v-row style="max-height: 50px">
             <v-col>
+                <v-layout justify-start style="margin-top: -6px;">
                     <v-btn router to="/home" @click="$store.state.categorySelected = null; fab = false"
                            :color="buttonColor" dark depressed
                            style="margin-right: 10px">

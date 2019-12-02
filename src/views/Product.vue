@@ -1,7 +1,7 @@
 <template>
     <div>
         <titlebar></titlebar>
-        <v-container style="margin-top: -33px; min-height: 150em" fluid v-if="productValidated">
+        <v-container style="margin-top: -33px" fluid v-if="productValidated">
             <v-row style="height: 100%">
                 <v-layout justify-center fill-height pt-5 wrap>
                     <v-card flat outlined>
