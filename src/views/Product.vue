@@ -147,7 +147,8 @@
                     value: "value"
                 }
             ],
-            specData: []
+            specData: [],
+            canReview: false
         }),
         watch: {
             quantity(value) {
@@ -257,6 +258,13 @@
                             ];
 
                             this.productValidated = true;
+
+                            if (this.$store.state.isLoggedIn) {
+                                let reviewResponse = await Requests.canReviewAsync(this.product["permalink"]);
+                                this.canReview = !reviewResponse.error;
+                                alert(this.canReview);
+                            }
+
                             return;
                         }
                     }
