@@ -10,7 +10,7 @@
                         GO back
                     </v-btn>
 
-                    <v-btn router to="/home" @click="$store.state.categorySelected = null; fab = false"
+                    <v-btn @click="$store.state.categorySelected = 'popular'; fab = false; $router.push({ name: 'home'})"
                            :color="buttonColor" dark depressed
                            style="margin-right: 10px">
                         <span style="margin-right: 5px">Popular</span>
@@ -30,7 +30,8 @@
                                 <v-icon v-else style="margin-left: 5px">add</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn @click="$router.push({ name: 'search'}); $store.state.categorySelected = category.name"
+                        <v-btn @click="$router.push({ name: 'search', query: {category: category.name.toLowerCase()}});
+                                        $store.state.categorySelected = category.name"
                                color="grey darken-2" small v-for="category in categories.slice(0,7)"
                                v-bind:key="category.id" text style="margin-right: 1%">
                             <span style="margin-right: 5px">{{category.name}}</span>

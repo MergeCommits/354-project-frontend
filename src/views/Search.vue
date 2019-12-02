@@ -294,6 +294,11 @@
             addItemToCart(item) {
                 // TODO:
             }
+        },
+        watch: {
+            $route(to, from) {
+                this.getProducts();
+            }
         }
     }
 </script>
