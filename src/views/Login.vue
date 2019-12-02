@@ -69,6 +69,10 @@
                                               class="font-weight-light appLink">
                                              <router-link to="/register">Sign up for an account</router-link>
                                         </span>
+                                        <span class="font-weight-light appLink"
+                                              style="font-size: 13px;margin-left: 6%">
+                                            <router-link to="/register">Admin Account</router-link>
+                                        </span>
                                     </v-layout>
                                 </v-row>
                             </v-form>

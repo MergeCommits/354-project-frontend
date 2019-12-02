@@ -1,8 +1,8 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" persistent max-width="25%">
+        <v-dialog max-width="25%" persistent v-model="dialog">
             <v-card style="border-radius: 15px">
-                <v-card-title style="color: black" v-if="title" class="headline cyan darken-3">
+                <v-card-title class="headline cyan darken-3" style="color: black" v-if="title">
                     {{ title }}
                 </v-card-title>
 
@@ -15,23 +15,23 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
+                            :color="ACCENT_COLOR"
+                            @click="emitDecision(true)"
                             class="text-capitalize"
-                            style="color: white"
                             elevation="1"
                             max-width="49%"
-                            :color="ACCENT_COLOR"
-                            v-if="button1"
-                            @click="emitDecision(true)">
+                            style="color: white"
+                            v-if="button1">
                         {{ button1 }}
                     </v-btn>
                     <v-btn
-                            text
-                            outlined
+                            @click="emitDecision(false)"
                             class="text-capitalize"
                             elevation="1"
                             max-width="49%"
-                            v-if="button2"
-                            @click="emitDecision(false)">
+                            outlined
+                            text
+                            v-if="button2">
                         {{ button2 }}
                     </v-btn>
                 </v-card-actions>
@@ -46,8 +46,7 @@
     export default {
         name: "ConfirmationMessage",
         mixins: [Utilities],
-        data: () => ({
-        }),
+        data: () => ({}),
         props: {
             title: String,
             message: String,
