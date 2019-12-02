@@ -59,10 +59,9 @@
                 return this.$store.state.categorySelected === null ? this.ACCENT_COLOR : 'grey darken-1'
             }
         },
-        beforeMount: function () {
-            Requests.getCategories()
-                .then(response => this.categories = response.data.categories)
-                .catch(error => alert("Could not get product categories" + error));
+        beforeMount: async function () {
+            const categoriesRequest = await Requests.getCategories();
+            this.categories = categoriesRequest.data.categories;
         }
     }
 </script>
