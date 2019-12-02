@@ -93,10 +93,9 @@
             'titlebar': TitleBar,
         },
         mixins: [Utilities],
-        beforeMount: function () {
-            Requests.getCategories()
-                .then(response => this.categories = response.data.categories)
-                .catch(error => alert("Could not get product categories" + error));
+        beforeMount: async function () {
+            const categoriesRequest = await Requests.getCategories();
+            this.categories = categoriesRequest.data.categories;
         },
         data: () => ({
             categories: [],
