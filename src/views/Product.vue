@@ -99,9 +99,8 @@
                                 </v-col>
                             </v-row>
                         </v-container>
-<!--                        v-if="canReview"-->
                         <v-container style="padding: 20px">
-                            <v-form ref="form" v-model="validReview" :lazy-validation="true">
+                            <v-form v-if="canReview" ref="form" v-model="validReview" :lazy-validation="true">
                                 <v-textarea v-model="comment" required :rules="reviewRules" solo raised label="Review" />
                                 <v-layout justify-center>
                                     <v-rating v-model="rating" :color="PRIMARY_COLOR" background-color="grey"
@@ -116,6 +115,19 @@
                                            @click="submitReview()">Submit</v-btn>
                                 </v-layout>
                             </v-form>
+                            <v-divider style="margin-top: 20px" />
+                            <h2>Product Reviews:</h2>
+                            <template v-for="(review, index) in this.reviews">
+                                <v-card :key="index" style="min-height: 100px; margin-top: 20px; padding: 15px">
+                                    <strong>Username:</strong> {{review.username}}
+                                    <br />
+                                    <strong>Rating: <v-rating :color="ACCENT_COLOR" background-color="grey"
+                                                              readonly :value="review.score"
+                                                              full-icon="fa-meteor" empty-icon="fa-meteor" /></strong>
+                                    <br />
+                                    {{review.comment}}
+                                </v-card>
+                            </template>
                         </v-container>
                     </v-card>
                 </v-layout>
@@ -173,7 +185,8 @@
             reviewRules: [
                 value => !Utilities.isEmpty(value) || "Required."
             ],
-            submittingReview: false
+            submittingReview: false,
+            reviews: []
         }),
         watch: {
             quantity(value) {
@@ -315,6 +328,11 @@
                             if (this.$store.state.isLoggedIn) {
                                 let reviewResponse = await Requests.canReviewAsync(this.product["permalink"]);
                                 this.canReview = !reviewResponse.error;
+                            }
+
+                            let queryReviewsResponse = await Requests.queryProductReviewsAsync(this.product["permalink"]);
+                            if (!response.error) {
+                                this.reviews = queryReviewsResponse.data["message"];
                             }
 
                             return;
