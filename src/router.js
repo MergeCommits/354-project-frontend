@@ -1,30 +1,31 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 
-import Login from './views/Login';
+import Login from "./views/Login";
 import Logout from "./views/Logout";
-import Register from './views/AccountCreation';
-import Home from './views/Home';
-import Search from './views/Search';
+import Register from "./views/AccountCreation";
+import Home from "./views/Home";
+import Search from "./views/Search";
 import Settings from "./views/AccountUpdation";
 import Cart from "./views/Cart";
 import Product from "./views/Product";
 import ProductCreation from "./views/ProductCreation";
+import Checkout from "./views/Checkout";
 
 Vue.use(Router);
 
 let router = new Router({
-    mode: 'history',
+    mode: "history",
     base: process.env.BASE_URL,
     routes: [
         {
             // Redirect index page to login page as per requirements.
-            path: '/',
-            redirect: '/login'
+            path: "/",
+            redirect: "/login"
         },
         {
-            path: '/login',
-            name: 'login',
+            path: "/login",
+            name: "login",
             component: Login,
             meta: {
                 hideNavigation: true,
@@ -33,8 +34,8 @@ let router = new Router({
             }
         },
         {
-            path: '/logout',
-            name: 'logout',
+            path: "/logout",
+            name: "logout",
             component: Logout,
             meta: {
                 hideNavigation: true,
@@ -43,8 +44,8 @@ let router = new Router({
             }
         },
         {
-            path: '/register',
-            name: 'register',
+            path: "/register",
+            name: "register",
             component: Register,
             meta: {
                 hideNavigation: true,
@@ -53,8 +54,8 @@ let router = new Router({
             }
         },
         {
-            path: '/home',
-            name: 'home',
+            path: "/home",
+            name: "home",
             component: Home,
             meta: {
                 hideNavigation: false,
@@ -63,8 +64,8 @@ let router = new Router({
             }
         },
         {
-            path: '/:categoryPermalink/:productPermalink',
-            name: 'product',
+            path: "/:categoryPermalink/:productPermalink",
+            name: "product",
             component: Product,
             meta: {
                 hideNavigation: false,
@@ -74,8 +75,8 @@ let router = new Router({
             props: true
         },
         {
-            path: '/add-product',
-            name: 'add-product',
+            path: "/add-product",
+            name: "add-product",
             component: ProductCreation,
             meta: {
                 hideNavigation: true,
@@ -84,8 +85,8 @@ let router = new Router({
             }
         },
         {
-            path: '/search',
-            name: 'search',
+            path: "/search",
+            name: "search",
             component: Search,
             props: true,
             meta: {
@@ -95,8 +96,8 @@ let router = new Router({
             }
         },
         {
-            path: '/settings',
-            name: 'settings',
+            path: "/settings",
+            name: "settings",
             component: Settings,
             meta: {
                 hideNavigation: false,
@@ -105,12 +106,22 @@ let router = new Router({
             }
         },
         {
-            path: '/cart',
-            name: 'cart',
+            path: "/cart",
+            name: "cart",
             component: Cart,
             meta: {
                 hideNavigation: false,
                 loginRequired: false,
+                logoutRequired: false
+            }
+        },
+        {
+            path: "/checkout",
+            name: "checkout",
+            component: Checkout,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
                 logoutRequired: false
             }
         }
