@@ -99,6 +99,24 @@
                                 </v-col>
                             </v-row>
                         </v-container>
+<!--                        v-if="canReview"-->
+                        <v-container style="padding: 20px">
+                            <v-form ref="form" v-model="validReview" :lazy-validation="true">
+                                <v-textarea v-model="comment" required :rules="reviewRules" solo raised label="Review" />
+                                <v-layout justify-center>
+                                    <v-rating v-model="rating" :color="PRIMARY_COLOR" background-color="grey"
+                                              full-icon="fa-meteor" empty-icon="fa-meteor" />
+                                </v-layout>
+                                <v-layout justify-center>
+                                    <strong>Rating: {{rating}}</strong>
+                                </v-layout>
+                                <v-layout justify-end>
+                                    <v-btn :color="ACCENT_COLOR" style="color: white"
+                                           :loading="submittingReview" :disabled="!validReview"
+                                           @click="submitReview()">Submit</v-btn>
+                                </v-layout>
+                            </v-form>
+                        </v-container>
                     </v-card>
                 </v-layout>
             </v-row>
@@ -148,7 +166,14 @@
                 }
             ],
             specData: [],
-            canReview: false
+            canReview: false,
+            validReview: null,
+            comment: null,
+            rating: null,
+            reviewRules: [
+                value => !Utilities.isEmpty(value) || "Required."
+            ],
+            submittingReview: false
         }),
         watch: {
             quantity(value) {
@@ -188,6 +213,34 @@
 
                 await Requests.addItemToCartAsync(productData);
                 await this.updateShoppingCartAsync(); // This commits "stopCartLoad" to the store.
+            },
+            submitReview() {
+                if (this.$refs.form.validate()) {
+                    if (this.rating === null) {
+                        alert("A rating is required!");
+                        return;
+                    }
+                    this.submittingReview = true;
+                    this.reviewAsync();
+                }
+            },
+            async reviewAsync() {
+                let jsonData = {
+                    userEmail: this.getUserData("email"),
+                    productPermalink: this.product["permalink"],
+                    comment: this.comment,
+                    score: this.rating
+                };
+
+                let response = await Requests.submitReviewAsync(jsonData);
+                if (response.error) {
+                    alert("Something went wrong when posting your review. Please try again in a moment.")
+                } else {
+                    this.comment = null;
+                    this.rating = null;
+                }
+
+                this.submittingReview = false;
             }
         },
         computed: {
@@ -262,7 +315,6 @@
                             if (this.$store.state.isLoggedIn) {
                                 let reviewResponse = await Requests.canReviewAsync(this.product["permalink"]);
                                 this.canReview = !reviewResponse.error;
-                                alert(this.canReview);
                             }
 
                             return;
