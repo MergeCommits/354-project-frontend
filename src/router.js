@@ -11,6 +11,7 @@ import Cart from "./views/Cart";
 import Product from "./views/Product";
 import ProductCreation from "./views/ProductCreation";
 import Checkout from "./views/Checkout";
+import AdminManagement from "./views/AdminManagement";
 
 Vue.use(Router);
 
@@ -123,6 +124,17 @@ let router = new Router({
                 hideNavigation: false,
                 loginRequired: true,
                 logoutRequired: false
+            }
+        },
+        {
+            path: '/admin-manage-console',
+            name: 'admin-manage-console',
+            component: AdminManagement,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false,
+                isAdminRequired: true
             }
         }
 
