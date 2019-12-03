@@ -1,7 +1,7 @@
 <template>
     <div>
         <titlebar></titlebar>
-        <v-container style="margin-top: -33px; min-height: 150em" fluid v-if="productValidated">
+        <v-container style="margin-top: -33px" fluid v-if="productValidated">
             <v-row style="height: 100%">
                 <v-layout justify-center fill-height pt-5 wrap>
                     <v-card flat outlined>
@@ -99,6 +99,36 @@
                                 </v-col>
                             </v-row>
                         </v-container>
+                        <v-container style="padding: 20px">
+                            <v-form v-if="canReview" ref="form" v-model="validReview" :lazy-validation="true">
+                                <v-textarea v-model="comment" required :rules="reviewRules" solo raised label="Review" />
+                                <v-layout justify-center>
+                                    <v-rating v-model="rating" :color="PRIMARY_COLOR" background-color="grey"
+                                              full-icon="fa-meteor" empty-icon="fa-meteor" />
+                                </v-layout>
+                                <v-layout justify-center>
+                                    <strong>Rating: {{rating}}</strong>
+                                </v-layout>
+                                <v-layout justify-end>
+                                    <v-btn :color="ACCENT_COLOR" style="color: white"
+                                           :loading="submittingReview" :disabled="!validReview"
+                                           @click="submitReview()">Submit</v-btn>
+                                </v-layout>
+                            </v-form>
+                            <v-divider style="margin-top: 20px" />
+                            <h2>Product Reviews:</h2>
+                            <template v-for="(review, index) in this.reviews">
+                                <v-card :key="index" style="min-height: 100px; margin-top: 20px; padding: 15px">
+                                    <strong>Username:</strong> {{review.username}}
+                                    <br />
+                                    <strong>Rating: <v-rating :color="ACCENT_COLOR" background-color="grey"
+                                                              readonly :value="review.score"
+                                                              full-icon="fa-meteor" empty-icon="fa-meteor" /></strong>
+                                    <br />
+                                    {{review.comment}}
+                                </v-card>
+                            </template>
+                        </v-container>
                     </v-card>
                 </v-layout>
             </v-row>
@@ -147,7 +177,16 @@
                     value: "value"
                 }
             ],
-            specData: []
+            specData: [],
+            canReview: false,
+            validReview: null,
+            comment: null,
+            rating: null,
+            reviewRules: [
+                value => !Utilities.isEmpty(value) || "Required."
+            ],
+            submittingReview: false,
+            reviews: []
         }),
         watch: {
             quantity(value) {
@@ -187,6 +226,34 @@
 
                 await Requests.addItemToCartAsync(productData);
                 await this.updateShoppingCartAsync(); // This commits "stopCartLoad" to the store.
+            },
+            submitReview() {
+                if (this.$refs.form.validate()) {
+                    if (this.rating === null) {
+                        alert("A rating is required!");
+                        return;
+                    }
+                    this.submittingReview = true;
+                    this.reviewAsync();
+                }
+            },
+            async reviewAsync() {
+                let jsonData = {
+                    userEmail: this.getUserData("email"),
+                    productPermalink: this.product["permalink"],
+                    comment: this.comment,
+                    score: this.rating
+                };
+
+                let response = await Requests.submitReviewAsync(jsonData);
+                if (response.error) {
+                    alert("Something went wrong when posting your review. Please try again in a moment.")
+                } else {
+                    this.comment = null;
+                    this.rating = null;
+                }
+
+                this.submittingReview = false;
             }
         },
         computed: {
@@ -257,6 +324,17 @@
                             ];
 
                             this.productValidated = true;
+
+                            if (this.$store.state.isLoggedIn) {
+                                let reviewResponse = await Requests.canReviewAsync(this.product["permalink"]);
+                                this.canReview = !reviewResponse.error;
+                            }
+
+                            let queryReviewsResponse = await Requests.queryProductReviewsAsync(this.product["permalink"]);
+                            if (!response.error) {
+                                this.reviews = queryReviewsResponse.data["message"];
+                            }
+
                             return;
                         }
                     }
