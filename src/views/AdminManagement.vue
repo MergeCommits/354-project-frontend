@@ -31,7 +31,7 @@
                 <v-select v-model="currentItem"
                           :items="options"
                           style="max-width: 60%"
-                          :loading="loading"
+                          :disabled="loading"
                           placeholder="Select user">
                 </v-select>
             </v-row>
@@ -86,7 +86,7 @@
         name: 'AdminManagement',
         mixins: [Utilities],
         data: () => ({
-            loading: false,
+            loading: true,
             usersData: [],
             options: [],
             currentItem: null,
@@ -112,6 +112,7 @@
                     this.user.email = (this.user.email && this.user.email.trim === "") ? null : this.user.email;
                     this.password = (this.password && this.password.trim === "") ? null : this.password;
 
+                    this.loading = true;
                     this.patchUserAsync();
                 }
             },
@@ -119,11 +120,11 @@
                 const index = this.options.indexOf(this.currentItem);
                 let jsonPatch = {};
 
-                if (this.user.email && this.user.email !== this.usersData[index].email) {
+                if (this.user.email !== this.usersData[index].email) {
                     jsonPatch.email = this.user.email;
                 }
-                if (this.user.isAdmin && this.user.isAdmin !== this.usersData[index].isAdmin) {
-                    jsonPatch.isAdmin = this.user.isAdmin;
+                if (this.user.isAdmin !== this.usersData[index].isAdmin) {
+                    jsonPatch.is_admin = this.user.isAdmin;
                 }
                 if (this.password) {
                     jsonPatch.password = Utilities.methods.hashString(this.password);
@@ -145,6 +146,8 @@
                             this.options.push(this.usersData[i]["lastName"] + ", " + this.usersData[i]["firstName"] + " (" + this.usersData[i]["username"]+")")
                         }
                     }
+
+                    this.loading = false;
                 }
             }
         },
@@ -176,6 +179,8 @@
                 for (let i = 0; i < this.usersData.length; i++) {
                     this.options.push(this.usersData[i]["lastName"] + ", " + this.usersData[i]["firstName"] + " (" + this.usersData[i]["username"]+")")
                 }
+
+                this.loading = false;
             }
         },
     }

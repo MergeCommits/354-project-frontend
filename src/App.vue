@@ -53,7 +53,6 @@
                 } else if (currRoute.meta.isAdminRequired && !this.getUserData("isAdmin")) {
                     this.returnToRedirect();
                 }
-                }
             }
         },
         created: function () {
