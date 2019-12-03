@@ -137,7 +137,6 @@ let router = new Router({
                 isAdminRequired: true
             }
         }
-
     ]
 });
 
