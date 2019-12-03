@@ -9,11 +9,10 @@ export default new Vuex.Store({
         selfCheckComplete: false,
         isLoggedIn: false,
         currUser: null,
-
         loadingShoppingCart: true,
         shoppingCart: null,
 
-        categorySelected: null,
+        categorySelected: 'popular',
         inputItems: [],
         productsCount: null
     },
