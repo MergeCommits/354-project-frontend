@@ -89,7 +89,7 @@
                                     max-height="100px"
                                     max-width="190px" hover flat outlined
                                     @click="selectedCategory = category; $store.state.categorySelected = category.name;
-                                    $router.push({ name: 'search', query: {category: category.permalink}})"
+                                    $router.push({ name: 'search', query: {q: item.product.permalink}})"
                                     style="margin-right: 3%; margin-top: -10px; border-radius: 10px;"
                                     class="animated fadeIn" v-if="trendingItems.length > 0">
                                 <v-img class="white--text" height="150px" :src="item.product.category.imageUrl"
@@ -155,5 +155,4 @@
     }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
