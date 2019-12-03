@@ -3,13 +3,6 @@
         <v-row style="max-height: 50px">
             <v-col>
                 <v-layout justify-start style="margin-top: -6px;">
-                    <v-btn color="grey darken-2" text @click="goBack()">
-                        <v-icon color="grey darken-2" style="margin-right: 10px">
-                            arrow_back
-                        </v-icon>
-                        GO back
-                    </v-btn>
-
                     <v-btn router to="/home" @click="$store.state.categorySelected = null; fab = false"
                            :color="buttonColor" dark depressed
                            style="margin-right: 10px">

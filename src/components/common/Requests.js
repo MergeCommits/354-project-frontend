@@ -68,6 +68,24 @@ export default class Requests {
         return call;
     }
 
+    static async canReviewAsync(permalink) {
+        let call = new APICall(RequestType.GET, "reviews/able/" + permalink, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async submitReviewAsync(jsonData) {
+        let call = new APICall(RequestType.POST, "reviews", jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async queryProductReviewsAsync(permalink) {
+        let call = new APICall(RequestType.GET, "reviews/view/product/" + permalink, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
     static async createShoppingCartAsync() {
         let call = new APICall(RequestType.POST, "carts", null, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
