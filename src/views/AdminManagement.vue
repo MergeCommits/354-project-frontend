@@ -56,26 +56,6 @@
                 </v-layout>
             </v-form>
         </v-container>
-        <v-container fluid>
-            <v-row>
-                <v-spacer/>
-                <v-col>
-                    <v-layout justify-center="true" pt-4 style="width: 100%;">
-                        <v-btn justify-center style="color: #fff; background-color: #777" router to="/home">
-                            Back Home
-                        </v-btn>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-layout justify-center="true" pt-4 style="width: 100%;">
-                        <v-btn justify-center style="color: #fff; background-color: #777" router to="/admin-deposit">
-                            Deposit to Paypal
-                        </v-btn>
-                    </v-layout>
-                </v-col>
-                <v-spacer/>
-            </v-row>
-        </v-container>
     </div>
 </template>
 <script>
