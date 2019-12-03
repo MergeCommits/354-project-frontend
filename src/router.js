@@ -12,6 +12,7 @@ import Product from "./views/Product";
 import ProductCreation from "./views/ProductCreation";
 import Checkout from "./views/Checkout";
 import AdminManagement from "./views/AdminManagement";
+import AdminProfits from "./views/AdminProfits";
 
 Vue.use(Router);
 
@@ -135,6 +136,26 @@ let router = new Router({
                 loginRequired: true,
                 logoutRequired: false,
                 isAdminRequired: true
+            }
+        },
+        {
+            path: '/admin-deposit',
+            name: 'admin-deposit',
+            component: AdminDeposit,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false
+            }
+        },
+        {
+            path: '/admin-profits',
+            name: 'admin-profits',
+            component: AdminProfits,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false
             }
         }
     ]
