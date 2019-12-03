@@ -1,11 +1,13 @@
 <template>
     <v-container v-if="!this.$store.state.loadingShoppingCart" fluid style="padding-left: 10%; padding-right: 10%">
-        <v-row>
+        <v-row style="margin-top: 50px">
+            <v-spacer></v-spacer>
              <span style="font-size: 25px !important; color: #616161"
                    class="title font-weight-medium">Shopping Cart</span>
+            <v-spacer></v-spacer>
         </v-row>
         <v-row>
-            <v-container fluid>
+            <v-container fluid style="max-width: 500px; margin-top: 10px">
                 <v-row>
                     <v-card width="100%" height="fit-content" outlined style="border-radius: 10px; padding-left: 2%">
                         <v-list v-if="this.cartCount > 0" two-line>
@@ -35,7 +37,11 @@
             </v-container>
         </v-row>
         <v-row>
-            <v-btn large class="white--text" :color="ACCENT_COLOR" block router to="/checkout">Checkout</v-btn>
+            <v-col></v-col>
+            <v-col style="min-width: 510px">
+                <v-btn large class="white--text" :color="ACCENT_COLOR" block router to="/checkout">Checkout</v-btn>
+            </v-col>
+            <v-col></v-col>
         </v-row>
     </v-container>
     <v-container v-else style="text-align: center">
