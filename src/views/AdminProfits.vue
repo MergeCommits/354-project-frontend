@@ -63,21 +63,6 @@
                 </v-simple-table>
             </v-row>
         </v-container>
-        <v-container fluid>
-            <v-row>
-                <v-col>
-                    <v-layout justify-center pt-4 style="alignment: center; width: 100%">
-                        <v-btn justify-center router style="color: #fff; background-color: #777" to="/home">
-                            Back Home
-                        </v-btn>
-                    </v-layout>
-                </v-col>
-                <v-col>
-                    <v-text-field outlined label="Under-Construciton" disabled="true" :color="ACCENT_COLOR" v-model="fillerText">
-                    </v-text-field>
-                </v-col>
-            </v-row>
-        </v-container>
     </div>
 </template>
 <script>

@@ -164,5 +164,23 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async getRevenues(date1, date2) {
+        let call = new APICall(RequestType.GET, 'revenue' + '/' + date1 + '/' + date2, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async getSalesData(date1, date2) {
+        let call = new APICall(RequestType.GET, 'sales' + '/' + date1 + '/' + date2, null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async getSalesLeaders() {
+        let call = new APICall(RequestType.GET, 'sales/leaderboard', null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 

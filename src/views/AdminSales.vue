@@ -67,15 +67,6 @@
                 </v-simple-table>
             </v-row>
         </v-container>
-        <v-container fluid>
-            <v-col>
-                <v-layout justify-center pt-4 style="alignment: center; width: 100%">
-                    <v-btn justify-center router style="color: #fff; background-color: #777" to="/home">
-                        Back Home
-                    </v-btn>
-                </v-layout>
-            </v-col>
-        </v-container>
     </div>
 </template>
 <script>
