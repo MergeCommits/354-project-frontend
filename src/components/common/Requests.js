@@ -152,5 +152,17 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async getUsersInfosAsync() {
+        let call = new APICall(RequestType.GET, 'users', null, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
+
+    static async patchUsersInfo(jsonData, userName) {
+        let call = new APICall(RequestType.PATCH, 'users/update' + '/' + userName, jsonData, [this.HttpStatus.SUCCESS]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 
