@@ -158,5 +158,11 @@ export default class Requests {
         await call.performRequestAsync();
         return call;
     }
+
+    static async recoverAccount(email) {
+        let call = new APICall(RequestType.PATCH, "recover", JSON.stringify(email), [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        await call.performRequestAsync();
+        return call;
+    }
 }
 

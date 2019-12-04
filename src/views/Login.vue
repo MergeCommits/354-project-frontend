@@ -8,7 +8,8 @@
             </v-row>
             <v-row>
                 <v-layout justify-center>
-                    <v-card style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%" width="30%"
+                    <v-card v-if="!wantsToRecover" style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px"
+                            height="96%" width="30%"
                             min-width="300px">
                         <v-container pb-5>
                             <v-form ref="form" v-model="validLogin" :lazy-validation="lazyValidation">
@@ -61,9 +62,11 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-layout pt-3 justify-center style="margin-right: 9%; margin-left: 9%">
-                                        <span style="font-size: 13px;margin-left: 1%" class="font-weight-light appLink">
-                                               Can't login ?
+                                    <v-layout pt-3 justify-center
+                                              style="margin-right: 9%; margin-left: 9%; cursor: pointer">
+                                        <span style="font-size: 13px;margin-left: 1%" class="font-weight-light appLink"
+                                              @click="wantsToRecover=true">
+                                            Forgot password ?
                                         </span>
                                         <span style="font-size: 13px;margin-left: 6%"
                                               class="font-weight-light appLink">
@@ -72,6 +75,45 @@
                                     </v-layout>
                                 </v-row>
                             </v-form>
+                        </v-container>
+                    </v-card>
+                    <v-card v-else style="margin-top: 25px; margin-bottom: 3px; border-radius: 15px" height="96%"
+                            width="30%"
+                            min-width="300px">
+                        <v-container>
+                            <v-row>
+                                <v-spacer></v-spacer>
+                                <span style="font-size: 15px !important;  color:#616161"
+                                      class="title font-weight-medium">Recover your account</span>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                            <v-row style="margin-top: 20px">
+                                <v-spacer></v-spacer>
+                                <v-text-field v-model="recoveryEmail" autofocus outlined :color="ACCENT_COLOR" rounded
+                                              label="email">
+                                </v-text-field>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                            <v-row style="margin-top: 20px" @click="recoverAccount()">
+                                <v-spacer></v-spacer>
+                                <v-btn :color="ACCENT_COLOR" dark>Send a recovery email</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                            <v-row style="margin-top: 20px">
+                                <v-spacer></v-spacer>
+                                <span style="font-size: 13px; color: #616161" class="font-weight-medium">
+                                               OR
+                                        </span>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                            <v-row style="margin-top: 20px">
+                                <v-spacer></v-spacer>
+                                <v-btn @click="wantsToRecover=false" outlined color="grey darken-2" dark>
+                                    <v-icon color="grey darken-2" style="margin-right: 10px">arrow_back</v-icon>
+                                    Go Back
+                                </v-btn>
+                                <v-spacer></v-spacer>
+                            </v-row>
                         </v-container>
                     </v-card>
                 </v-layout>
@@ -88,6 +130,8 @@
         name: "Login",
         mixins: [Utilities],
         data: () => ({
+            wantsToRecover: false,
+            recoveryEmail: null,
             validLogin: true,
             lazyValidation: true,
             email: null,
@@ -113,6 +157,10 @@
             }
         },
         methods: {
+            async recoverAccount() {
+                const body = {email: this.recoveryEmail};
+                await Requests.recoverAccount(body);
+            },
             validate() {
                 if (this.$refs.form.validate()) {
                     this.loading = true;
