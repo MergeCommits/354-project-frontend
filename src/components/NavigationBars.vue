@@ -144,14 +144,6 @@
                         <v-list-item-title class="grey--text">Create Listing</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item v-if="this.$store.state.isLoggedIn && getUserData('isAdmin')" router to="/admin-manage-console">
-                    <v-list-item-action>
-                        <v-icon>fa-business-time</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="grey--text">Admin Analytics</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
             </v-list>
         </v-navigation-drawer>
     </div>
