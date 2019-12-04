@@ -143,10 +143,13 @@
 
                 return this.user.isAdmin !== this.usersData[index].isAdmin || this.user.email !== this.usersData[index].email ||
                     (this.password && this.password.trim() !== "");
+            },
+            email: function() {
+                return this.user.email;
             }
         },
         watch: {
-            user() {
+            email() {
                 this.emailError = null
             },
             currentItem(val) {
