@@ -153,6 +153,12 @@ export default class Requests {
         return call;
     }
 
+    static async getTrendingItems() {
+        let call = new APICall(RequestType.GET, "/trending", null, [this.HttpStatus.SUCCESS, this.HttpStatus.BAD_REQUEST]);
+        await call.performRequestAsync();
+        return call;
+    }
+
     static async getUsersInfosAsync() {
         let call = new APICall(RequestType.GET, 'users', null, [this.HttpStatus.SUCCESS]);
         await call.performRequestAsync();
