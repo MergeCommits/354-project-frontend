@@ -10,9 +10,15 @@
                         GO back
                     </v-btn>
 
-                    <v-btn @click="$store.state.categorySelected = 'popular'; fab = false; $router.push({ name: 'home'})"
-                           :color="buttonColor" dark depressed
+                    <v-btn @click="$store.state.categorySelected = 'popular'; fab = false; $router.push({ name: 'home', query: {popular:'false'}})"
+                           :color="homeButtonColor" dark depressed
                            style="margin-right: 10px">
+                        <span style="margin-right: 5px">Home</span>
+                        <v-icon>home</v-icon>
+                    </v-btn>
+                    <v-btn @click="$store.state.categorySelected = 'popular'; fab = false; $router.push({ name: 'home', query: {popular:'true'}})"
+                           :color="popularButtonColor"
+                           dark depressed style="margin-right: 10px">
                         <span style="margin-right: 5px">Popular</span>
                         <v-icon small>fab fa-hotjar</v-icon>
                     </v-btn>
@@ -57,8 +63,14 @@
             categories: []
         }),
         computed: {
-            buttonColor() {
-                return this.$store.state.categorySelected === 'popular' ? this.ACCENT_COLOR : 'grey darken-1'
+            popularButtonColor() {
+                return this.popular !== 1 && this.popular === 'true' ? this.ACCENT_COLOR : 'grey darken-1';
+            },
+            homeButtonColor() {
+                return this.popular !== 1 && this.popular === 'false' ? this.ACCENT_COLOR : 'grey darken-1';
+            },
+            popular() {
+                return this.$route.query.popular || 1
             }
         },
         beforeMount: async function () {
