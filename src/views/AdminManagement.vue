@@ -42,6 +42,7 @@
                 <v-text-field label="Email" :color="ACCENT_COLOR" outlined
                               :disabled="loading"
                               v-model="user.email"
+                              :error-messages="emailError"
                               :rules="emailRules"/>
                 <v-text-field v-model="password" outlined label="Password"
                               hint="You must use eight characters with at least one lowercase and uppercase letter, a number and a symbol."
@@ -72,6 +73,7 @@
             currentItem: null,
             valid: false,
             password: null,
+            emailError: null,
             user: {
                 isAdmin: null,
                 email: null,
@@ -97,38 +99,42 @@
                 }
             },
             async patchUserAsync() {
-                const index = this.options.indexOf(this.currentItem);
-                let jsonPatch = {};
+                this.emailError = await Requests.registrationHeadAsync({email: this.user.email}, "email");
 
-                if (this.user.email !== this.usersData[index].email) {
-                    jsonPatch.email = this.user.email;
-                }
-                if (this.user.isAdmin !== this.usersData[index].isAdmin) {
-                    jsonPatch.is_admin = this.user.isAdmin;
-                }
-                if (this.password) {
-                    jsonPatch.password = Utilities.methods.hashString(this.password);
-                }
+                if (this.emailError.length === 0) {
+                    const index = this.options.indexOf(this.currentItem);
+                    let jsonPatch = {};
 
-                let response = await Requests.patchUsersInfo(jsonPatch, this.user.username);
-
-                if (!response.error) {
-                    response = await Requests.getUsersInfosAsync();
-
-                    if (!response.error) {
-                        this.currentItem = null;
-                        this.usersData = [];
-                        this.options = [];
-                        this.password = null;
-                        this.usersData = response.data["users"];
-
-                        for (let i = 0; i < this.usersData.length; i++) {
-                            this.options.push(this.usersData[i]["lastName"] + ", " + this.usersData[i]["firstName"] + " (" + this.usersData[i]["username"]+")")
-                        }
+                    if (this.user.email !== this.usersData[index].email) {
+                        jsonPatch.email = this.user.email;
+                    }
+                    if (this.user.isAdmin !== this.usersData[index].isAdmin) {
+                        jsonPatch.is_admin = this.user.isAdmin;
+                    }
+                    if (this.password) {
+                        jsonPatch.password = Utilities.methods.hashString(this.password);
                     }
 
-                    this.loading = false;
+                    let response = await Requests.patchUsersInfo(jsonPatch, this.user.username);
+
+                    if (!response.error) {
+                        response = await Requests.getUsersInfosAsync();
+
+                        if (!response.error) {
+                            this.currentItem = null;
+                            this.usersData = [];
+                            this.options = [];
+                            this.password = null;
+                            this.usersData = response.data["users"];
+
+                            for (let i = 0; i < this.usersData.length; i++) {
+                                this.options.push(this.usersData[i]["lastName"] + ", " + this.usersData[i]["firstName"] + " (" + this.usersData[i]["username"] + ")")
+                            }
+                        }
+                    }
                 }
+
+                this.loading = false;
             }
         },
         computed: {
@@ -140,6 +146,9 @@
             }
         },
         watch: {
+            user() {
+                this.emailError = null
+            },
             currentItem(val) {
                 if (val) {
                     const index = this.options.indexOf(val);
