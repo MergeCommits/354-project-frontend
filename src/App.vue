@@ -50,6 +50,8 @@
                 } else if (currRoute.meta.logoutRequired && this.$store.state.isLoggedIn) {
                     // Just send them to the homepage or redirect.
                     this.returnToRedirect();
+                } else if (currRoute.meta.isAdminRequired && !this.getUserData("isAdmin")) {
+                    this.returnToRedirect();
                 }
             }
         },

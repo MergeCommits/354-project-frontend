@@ -11,6 +11,9 @@ import Cart from "./views/Cart";
 import Product from "./views/Product";
 import ProductCreation from "./views/ProductCreation";
 import Checkout from "./views/Checkout";
+import AdminManagement from "./views/AdminManagement";
+import AdminProfits from "./views/AdminProfits";
+import AdminSales from "./views/AdminSales";
 
 Vue.use(Router);
 
@@ -124,8 +127,40 @@ let router = new Router({
                 loginRequired: true,
                 logoutRequired: false
             }
+        },
+        {
+            path: '/admin-manage-console',
+            name: 'admin-manage-console',
+            component: AdminManagement,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false,
+                isAdminRequired: true
+            }
+        },
+        {
+            path: '/admin-sales',
+            name: 'admin-sales',
+            component: AdminSales,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false,
+                isAdminRequired: true
+            }
+        },
+        {
+            path: '/admin-profits',
+            name: 'admin-profits',
+            component: AdminProfits,
+            meta: {
+                hideNavigation: false,
+                loginRequired: true,
+                logoutRequired: false,
+                isAdminRequired: true
+            }
         }
-
     ]
 });
 
