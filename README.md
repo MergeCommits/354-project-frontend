@@ -3,6 +3,8 @@ This is the frontend portion of a term-long COMP354 project with the goal of bei
 
 Written using Vue.js with Vuetify components.
 
+[See backend portion here](https://github.com/QuaternionMark/354-project-backend).
+
 ## Project Collaborators
 
 ## License
