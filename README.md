@@ -1,4 +1,14 @@
-# frontend
+# Archive Readme
+This is the frontend portion of a term-long COMP354 project with the goal of being an E-Commerce website.
+
+Written using Vue.js with Vuetify components.
+
+## Project Collaborators
+
+## License
+Unless otherwise stated, the project's licensed under the zlib license. Please refer to the [LICENSE.md](LICENSE.md) file for more details.
+
+# Original Readme Below
 
 ## Project setup
 To install dependencies:
