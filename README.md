@@ -5,7 +5,19 @@ Written using Vue.js with Vuetify components.
 
 [See backend portion here](https://github.com/QuaternionMark/354-project-backend).
 
-## Project Collaborators
+## Project Members
+- Amrou Abdelhadi
+- Gheith Abi-Nader
+- Nagib Al-Bouery
+- Mahdi Chaari
+- Ghislain Clermont
+- Olivier Fradette-Roy
+- Mark Jarjour
+- Gia Khanh Nguyen
+- Guillaume Rochefort-Mathieu
+- Michael Rowe
+- Claire Shaw
+- Steven Smith
 
 ## License
 Unless otherwise stated, the project's licensed under the zlib license. Please refer to the [LICENSE.md](LICENSE.md) file for more details.
